@@ -1,4 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="MasterPage.master" AutoEventWireup="true" CodeFile="photograper.aspx.cs" Inherits="new_photograper" %>
+<!DOCTYPE HTML>
+<%@ Page Language="C#" MasterPageFile="MasterPage.master" AutoEventWireup="true" CodeFile="photograper.aspx.cs" Inherits="new_photograper" %>
 
 <asp:Content ID="headCon" ContentPlaceHolderID="headBox" Runat="Server">
 
@@ -6,3 +7,74 @@
 <asp:Content ID="bodyCon" ContentPlaceHolderID="bodyBox" Runat="Server">
 
 </asp:Content>
+<html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+</head>
+
+<div class="container">
+    <div class="col-md-3">
+    <form class="navbar-form" role="search">
+        <div class="input-group add-on">
+        <input class="form-control" placeholder="Search" name="search-term" id="search-term" type="text">
+        <div class="input-group-btn">
+            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+        </div>
+        </div>
+    </form>
+    </div>
+</div>
+<body>
+<!-- // END Search bar -->
+
+<!-- Sponsor information -->
+    <section class="content-block">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-6 pull-left">
+                    <div class="editContent">
+                        <h2>About the Sponsor</h2>
+                    </div>
+                    <div class="editContent">
+                        <p></p>
+                    </div>
+                    <!-- IMAGE -->
+                    <img class="img-responsive map-img" src="">
+                </div>
+
+                <div class="col-md-6 pull-left">
+                    <fieldset>
+                        <form role="form">
+                            <div class="form-group">
+                                <label for="inputName">Name</label>
+                                <input type="text" class="form-control" id="txtBusiness" placeholder="Sponsor name">
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail">Email</label>
+                                <input type="email" class="form-control" id="txtEmail" placeholder="Sponsor email">
+                            </div>
+                            <div class="form-group">
+                                <label for="textArea">Message</label>
+                                <textarea class="form-control" rows="3" id="txtMessage" placeholder="Message…"></textarea>
+                                <div class="editContent">
+                                </div>
+                            </div>
+
+                            <a href="#" class="btn btn-primary">Send Email</a>
+
+                        </form>
+                    </fieldset>
+                </div>
+
+            </div><!-- // row -->
+        </div><!-- // container -->
+
+    </section>
+    <!--// END Sponsor information -->
+
+
+
+
+    </body>
+</html>
