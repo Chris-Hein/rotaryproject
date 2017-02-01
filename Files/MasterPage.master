@@ -1,0 +1,58 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="theMaster" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>Rotary Club of Truro Yearbook</title>
+
+    <link rel="stylesheet" type="text/css" href="resources/styles.css" />
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <asp:ContentPlaceHolder id="headBox" runat="server">
+
+    </asp:ContentPlaceHolder>
+
+</head>
+<body>
+    
+    <!-- The Process 
+        Rotarian == Solicitor
+        Rotarian is sent details from admin on which sponsors to visit.
+        Rotarian goes out and targets a sponsor for an ad. Confirms details.
+        Sponsor agree. Admin (or rotarian?) must put new details into the database. (Yes, ad content, changes)
+        Photographer is sent details on the place and arrangement.
+        Photographer takes photo and uploads it. (id of photo must change - prob year_#id of sponsor)
+        Admin (or rotarian?) tweeks details (comment, place name, price) and sends email and invoice. Sponsor page is generated with this info
+        Sponsor checks ad on sponsor page. Sponsor edits if necessary and approves or disapproves.
+        IF DISAPPROVES 
+        sponsor informs admin of problems with ad. Simple admin edits can continue - new photo starts at photographer again. must delete old sponsor page and photo
+        IF APPROVES
+        Admin notified of approval. Database updated.
+    -->
+    
+    <div class="containter">
+
+        <!-- Club Banner - Title must be pulled dynamically -->
+        <div class="row" style="background-color: #b3262d;">
+            <div class="col-sm-3">
+                <img class="img-responsive" src="images/rotaryYearbookLogo.png" alt="rotaryLogo" id="img1" height="150" width="350" runat="server" />
+            </div>
+            <div class="col-sm-6" style="color: white; text-align: center; padding-top: 30px;">
+                    <h1 id="bannerTitle"></h1>
+            </div>
+        </div>
+
+        <br /> <!-- Spacing from border -->
+
+        <!-- Page container -->
+        <asp:ContentPlaceHolder id="bodyBox" runat="server">
+        
+        </asp:ContentPlaceHolder>
+
+    </div>
+</body>
+</html>

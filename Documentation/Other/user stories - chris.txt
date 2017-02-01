@@ -1,0 +1,73 @@
+client stories-------------------------------------------------------------------------------------
+
+
+NOTE: i'm referring to the client as a user not as in our client for the job
+
+- as a client I would like the option to reset/retrieve my password automatically via a link on the login page as a qol improvement (note this really applies to every type of account except maybe admins)
+
+- as a client I would like a simple profile system that allows me to set basic information at will such as my business name, contact info and perhaps would list some info relating to the services i've paid for previously. this would also be useful on the admin side of things to view info on previous/current clients
+
+- as a client I would like the ability to provide feedback on services (or the site itself) via the site in an easy to use manner (form system perhaps) to improve the site in the future
+
+- as a client I want an easy to use 'idiot proof' interface that is simple to understand and to use for someone who is 'computer illiterate'
+
+- as a client I would like the ability to contact the rotary club directly in a manner that ensures emails are not missed or lost and that there is a record I can point to and say 'I know you got my message' (eg: a simple internal mail system for clients/rotary only, tied to account, that allows user to send messages and receive messages from rotary club and know for a fact that they were/were not read)
+
+- as a client I would like a way to view the history of my business with the rotary club
+
+- as a client I would like there to be an automated record of any business dealings with the rotary club related to purchased ad space
+
+- as a client I would like the ability to be able to access and use the site efficiently on both a pc and mobile device (so, well designed, laid out and bootstrapped with responsive design in mind...)
+
+- as a client I would like the ability to view and change if needed my submitted image and related info prior to final submission to the rotary club
+
+- as a client I would like a way to easily visualize what kind of ad I am buying, perhaps as some kind of visual mockup displayed while choosing that shows the approximate size on page being purchased
+
+- as a client I would like the ability to add some degree of custom fields or custom information that might be necessary or important to my business
+
+photographer stories--------------------------------------------------------------------------------
+
+- as a photographer I would like the ability to contact a client directly if needed (say if there was a sudden change in plans for getting pictures taken or a meeting needed to be rescheduled) in a way that doesn't compromise the security of the users contact info (cough internal mail cough)
+
+- as a photographer I would like a way to keep track of what clients I will be working with and when, and what kind of ads they have purchased so that I can be better prepared for those taking the most suitable sizes of pictures for the client
+
+- as a photographer I would like all invoice, financial and business related things taken care of before it gets to the point of my involvement (so automated invoicing)
+
+admin stories----------------------------------------------------------------------------------------
+
+- as an admin I want to be able to reset passwords manually in an easy manner if it should be needed
+
+- as an admin I want the ability to manage and view current and past clients via a search, based on such things as contact info, name, business, whether or not they are an actively paying member, etc
+
+- as an admin I want a well designed and laid out admin interface, with easy to understand and use admin functions
+
+- as an admin I want different levels of access for site users such as regular rotary members, higher up staff, site admins, paying users, etc... that are also easily identifiable (colored usernames perhaps?)
+
+- as an admin I would like the ability to message users en masse regarding such things as important announcements, site issues, changes, etc...
+
+- as an admin I would like a system that allows for easy approval management of submitted images, etc.. from clients
+
+- as an admin I would like a way for the system to recognize bad email addresses from users, either at initial registration and/or on the admin side by, say, sending automated email to test the validity of the address (if sending failed system would know the email was no longer valid because it threw an invalid error server side)
+
+- as an admin I would like a simple way for users of all types to customize what each user views on their end (eg: you've already bought an ad? no need to pester you with displaying the 'buy an ad' info on your page)
+
+- as an admin I would like the ability to send a user actual emails (rather than just site based mail) based on the users contact info and via a the admin system, easily
+
+
+chairman (really the rotary club or higher ups) stories----------------------------------------------
+
+- as a chairman I would like the ability to send out new info en masse to current and past customers regarding things important to the club as a whole, announcements, offers, etc...
+
+- as a chairman I would like the site to be easily accessible, easy to use and as non technical as possible in its admin and client side
+
+- as a chairman I want the site to be scalable, in case we offer additional services or expand existing services in the future
+
+- as a chairman I want the site to be as cost effective as possible
+
+- as a chairman I want the site to be easy to understand from a development point of view and as easy as possible to work with, in case I hire someone to work on it in the future
+
+- as a chairman I would like the ability to advertise rotary club events and such on the site pages
+
+- as a chairmman I would like a site that reflects the other assets of the rotary club (in other words design wise, color scheme, images, etc.. are in line with the rotary club)
+
+- as a chairman I would like the ability to use the site to generate activity reports, financial reports, etc.. based on information from the site (how many paid users, types of ads being bought most often, etc..) that could be used on the corporate/business side of things
