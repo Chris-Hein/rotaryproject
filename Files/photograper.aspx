@@ -1,5 +1,6 @@
 
 <%@ Page Language="C#" AutoEventWireup="true" CodeFile="photograper.aspx.cs" Inherits="new_photograper" %>
+<!DOCTYPE html>
 
 <html>
 <head>
