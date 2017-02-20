@@ -3,30 +3,24 @@
 <asp:Content ID="headCon" ContentPlaceHolderID="headBox" Runat="Server">
     
 </asp:Content>
-<asp:Content ID="bodyCon" ContentPlaceHolderID="bodyBox" Runat="Server">
-    <!-- SEARCH BAR -->    
-    <div class="container">
-        <div class="col-md-3">
-        <form class="navbar-form" role="search">
-            <div class="input-group add-on">
-            <input class="form-control" placeholder="Search by Business Name" name="search-term" id="search-term" type="text">
-            <div class="input-group-btn">
-                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-            </div>
-            </div>
-        </form>
-        </div>
-    </div>
-    <!-- END SEARCH BAR --> 
-
+<asp:Content ID="bodyCon" ContentPlaceHolderID="bodyBox" Runat="Server">         
     <!-- Sponsor information -->
     <section class="content-block">
         <div class="container">
+            <!-- SEARCH BAR -->   
             <div class="row">
-
+                 <form class="navbar-form" role="search">
+                    <div class="input-group add-on">
+                        <input class="form-control" placeholder="Search by Business Name" name="search-term" id="search-term" type="text">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+                <!-- END SEARCH BAR --> 
                 <div class="col-md-6 pull-left">
                     <div class="editContent">
-                        <h2>About the Sponsor</h2>
+                        <h3>About the Sponsor:</h3>
                     </div>
                     <div class="editContent">
                         <p id="content">
@@ -39,12 +33,12 @@
                     </div>                    
                 </div>
 
-                <div class="col-md-6 pull-left">
+                <div class="col-md-6 pull-right">
                     <fieldset>
                         <!-- MESSAGE BOX -->
                         <form role="form">                           
                             <div class="form-group">
-                                <label for="textArea">Message</label>
+                                <label for="textArea" style="margin-top:2%">Message</label>
                                 <textarea class="form-control" rows="5" id="txtMessage" placeholder="Email Message. . . "></textarea>                                
                             </div>
 
