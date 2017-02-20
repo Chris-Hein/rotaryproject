@@ -39,7 +39,7 @@
                         <form role="form">                           
                             <div class="form-group">
                                 <label for="textArea" style="margin-top:2%">Message</label>
-                                <textarea class="form-control" rows="5" id="txtMessage" placeholder="Email Message. . . "></textarea>                                
+                                <textarea class="form-control" rows="5" cols="50" id="txtMessage" placeholder="Email Message. . . "></textarea>                                
                             </div>
 
                             <a href="#" id="btnSend" class="btn btn-primary" runat="server">Send Email</a>
