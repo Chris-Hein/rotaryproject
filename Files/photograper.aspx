@@ -7,6 +7,7 @@
     <!-- Sponsor information -->
     <section class="content-block">
         <div class="container">
+
             <!-- SEARCH BAR -->   
             <div class="row">
                  <form class="navbar-form" role="search">
@@ -17,13 +18,23 @@
                         </div>
                     </div>
                 </form>
-            </div>
+            </div><!-- END SEARCH BAR -->
+
             <div class="row">
-                <!-- END SEARCH BAR --> 
-                <div class="col-md-6 pull-left">
+                <div class="col-md-4">
+                    <h3>Sponsor Info:</h3>
+                </div>
+                <!--
+                <div class="col-md-8">
+                    <label for="textArea">Message</label>
+                </div> 
+                -->
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
                     <div class="editContent">
-                        <p id="content" style="margin-top:2%">
-                            <b style="font-size: 18px">Sponsor Info:</b><br /><br />
+                        <p id="content">
                             <b>Contact Name: </b> <span id="lblName" runat="server">John Smith</span><br />
                             <b>Business Name: </b> <span id="lblBus" runat="server">Business of business</span><br />
                             <b>Email: </b> <span id="lblEmail" runat="server">johnsmith@email.com</span><br />
@@ -33,31 +44,30 @@
                     </div>                    
                 </div>
 
-                <div class="col-md-6 pull-right">
-                    <fieldset>
-                        <!-- MESSAGE BOX -->
-                        <form role="form">                           
-                            <div class="form-group">
-                                <label for="textArea" style="margin-top:2%; font-size:18px;">Message:</label>
-                                <textarea class="form-control" rows="5" cols="50" id="txtMessage" placeholder="Email Message. . . "></textarea>                                
-                            </div>
-
-                            <a href="#" id="btnSend" class="btn btn-primary" runat="server">Send Email</a>
-                        </form>
-                    </fieldset>
+                <div class="col-md-8">
+                    <!-- MESSAGE BOX -->
+                    <form role="form">                           
+                        <div class="form-group">
+                            <textarea class="form-control" rows="3" id="txtMessage" placeholder="Email Message. . . "></textarea>                                
+                        </div>
+                        <input id="btnSend" type="image" src="images/sendemail.svg" alt="Send Email" ClientIDMode="Static" runat="server" value="Send Email"/>                        
+                    </form>
                 </div>
 
             </div><!-- // row -->
         </div><!-- // container -->
+
         <br />
+
         <div class="container">
             <div class="row">                
                 <div class="col-sm-10 col-sm-offset-1" style="text-align: center;">
                     <!-- pulling a static image for now -->
-                    <img src="images/placeholder.png" class="img-responsive" id="imgView" runat="server" />   
+                    <img src="images/placeholder.png" class="img-responsive" id="imgView" runat="server" />
+                    <br />   
                     <p id="imgContent">
                         <b>Front Row: </b> Name Name Name Name Name Name<br />
-                        <b>Middle Row: </b> Name Name Name Name Name Name<br />
+                        <b>Second Row: </b> Name Name Name Name Name Name<br />
                         <b>Back Row: </b> Name Name Name Name Name Name<br />
                         <b>Missing: </b> Name Name Name Name Name Name<br />
                     </p>
