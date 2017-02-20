@@ -29,10 +29,14 @@
                         <h2>About the Sponsor</h2>
                     </div>
                     <div class="editContent">
-                        <p></p>
-                    </div>
-                    <!-- IMAGE -->
-                    <img class="img-responsive map-img" src="">
+                        <p id="content">
+                            <b>Contact Name: </b> <span id="lblName" runat="server">John Smith</span><br />
+                            <b>Business Name: </b> <span id="lblBus" runat="server">Business of business</span><br />
+                            <b>Email: </b> <span id="lblEmail" runat="server">johnsmith@email.com</span><br />
+                            <b>Business address to display: </b><span id="lblBusAddress" runat="server">123 Fake Street</span><br/>
+                            <b>Phone # to display: </b><span id="lblPhone" runat="server">902-555-1234</span><br/>   
+                        </p>
+                    </div>                    
                 </div>
 
                 <div class="col-md-6 pull-left">
@@ -61,7 +65,20 @@
 
             </div><!-- // row -->
         </div><!-- // container -->
-
+        <br />
+        <div class="container">
+            <div class="row">                
+                <div class="col-sm-10 col-sm-offset-1" style="text-align: center;">
+                    <!-- pulling a static image for now -->
+                    <img src="images/placeholder.png" class="img-responsive" id="imgView" runat="server" />   
+                    <p id="imgContent">
+                        <b>Front Row: </b> Name Name Name Name Name Name<br />
+                        <b>Second Row: </b> Name Name Name Name Name Name<br />
+                        <b>Back Row: </b> Name Name Name Name Name Name<br />
+                    </p>
+                </div>
+            </div>
+        </div>
     </section>
     <!--// END Sponsor information -->
 
