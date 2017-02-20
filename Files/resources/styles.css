@@ -1,0 +1,60 @@
+html {
+    overflow-y: scroll;
+}
+
+body {
+}
+
+.name {
+    font-weight:bold;
+    font-size:16px;
+}
+
+.center {
+	text-align:center;
+}
+
+/* most monitors */
+@media (min-width:768px){
+	.tablet-cell-center {
+		text-align:;
+	}
+}
+
+/* anything below the above */
+@media (max-width:767px) {
+	.tablet-cell-center {
+		text-align:center;
+	}
+}
+
+/* bigger than phone size but below above */
+@media (min-width:469px) and (max-width:767px) {
+	
+}
+
+/* anything above phone size */
+@media (min-width:469px) {
+    .nocell {
+        display:;
+    }
+    .onlycell {
+        display:none;
+    }
+	.cell-center {
+		text-align:;
+	}
+}
+
+/* phone size */
+@media (max-width:468px) {
+    .nocell {
+        display:none;
+    }
+    .onlycell {
+        display:;
+    }
+	.cell-center {
+		text-align:center;
+	}
+}

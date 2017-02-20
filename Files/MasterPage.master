@@ -6,11 +6,10 @@
 <head runat="server">
     <title>Rotary Club of Truro Yearbook</title>
 
-    <link rel="stylesheet" type="text/css" href="resources/styles.css" />
-    <!-- Latest compiled and minified CSS -->
+    
+    <!-- Minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <!-- Latest compiled JavaScript -->
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="resources/styles.css" />
 
     <asp:ContentPlaceHolder id="headBox" runat="server">
 
@@ -38,12 +37,21 @@
 
         <!-- Club Banner - Title must be pulled dynamically -->
         <div class="row" style="background-color: #b3262d;">
-            <div class="col-sm-3">
-                <img class="img-responsive" src="images/rotaryYearbookLogo.png" alt="rotaryLogo" id="img1" height="150" width="350" runat="server" />
-            </div>
-            <div class="col-sm-6" style="color: white; text-align: center; padding-top: 30px;">
-                    <h1 id="bannerTitle"></h1>
-            </div>
+            <div class="nocell">
+                <div class="col-sm-3">
+                    <img class="img-responsive" src="images/rotaryYearbookLogo.png" alt="rotaryLogo" id="img1" height="75" width="175" runat="server" />
+                </div>
+                <!-- 
+                <div class="col-sm-6" style="color: white; text-align: center; padding-top: 15px;">
+                        <h1 id="bannerTitle"></h1>
+                </div> -->
+            </div> <!-- /nocell -->
+            <div class="onlycell">
+                <div class="col-sm-3">
+                    <img class="img-responsive" src="images/rotaryYearbookLogo.png" alt="rotaryLogo" id="img2" height="51" width="119" runat="server" />
+                </div>
+            </div> <!-- /onlycell -->
+
         </div>
 
         <br /> <!-- Spacing from border -->
@@ -53,6 +61,21 @@
         
         </asp:ContentPlaceHolder>
 
-    </div>
+    </div> <!-- /container -->
+    
+    <div class="container">
+        <div class="row cell-center">
+            <hr>
+            <footer>
+                <p>&copy; 2017 Rotary Club of Truro</p>
+                <p>Truro, Nova Scotia, Canada</p>
+            </footer>
+        </div>
+    </div> <!-- /container -->
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </body>
 </html>

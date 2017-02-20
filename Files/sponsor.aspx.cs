@@ -43,10 +43,10 @@ public partial class new_sponsor : System.Web.UI.Page {
         
 
         // event listeners
-        btnEdit.Click += new EventHandler(btnEdit_Click);
-        btnApply.Click += new EventHandler(btnApply_Click);
-        btnApprove.Click += new EventHandler(btnApprove_Click);
-        btnDeny.Click += new EventHandler(btnDeny_Click);
+        btnEdit.ServerClick += new ImageClickEventHandler(btnEdit_Click);
+        btnApply.ServerClick += new ImageClickEventHandler(btnApply_Click);
+        btnAccept.ServerClick += new ImageClickEventHandler(btnApprove_Click);
+        btnDeny.ServerClick += new ImageClickEventHandler(btnDeny_Click);
 
     }
 
@@ -78,33 +78,21 @@ public partial class new_sponsor : System.Web.UI.Page {
 
         // display and enable approve, edit and deny buttons
         divButtons.Visible = true;
-        btnApprove.Enabled = true;
-        btnEdit.Enabled = true;
-        btnDeny.Enabled = true;
 
         // hide and disable elements 
         txtBusName.Visible = false;
-        txtBusName.Enabled = false;
         txtBusAddress.Visible = false;
-        txtBusAddress.Enabled = false;
         txtPhone.Visible = false;
-        txtPhone.Enabled = false;
         txtEmail.Visible = false;
-        txtEmail.Enabled = false;
         divSize.Visible = false;
 
         txtFrontRow.Visible = false;
-        txtFrontRow.Enabled = false;
         txtMiddleRow.Visible = false;
-        txtMiddleRow.Enabled = false;
         txtBackRow.Visible = false;
-        txtBackRow.Enabled = false;
         txtMissing.Visible = false;
-        txtMissing.Enabled = false;
 
         // hide and disable apply button
         divApply.Visible = false;
-        btnApply.Enabled = false;
 
     }
 
@@ -124,32 +112,20 @@ public partial class new_sponsor : System.Web.UI.Page {
 
         // hide approve, edit and deny buttons
         divButtons.Visible = false;
-        btnApprove.Enabled = false;
-        btnEdit.Enabled = false;
-        btnDeny.Enabled = false;
 
         // display and enable elements 
         txtBusName.Visible = true;
-        txtBusName.Enabled = true;
         txtBusAddress.Visible = true;
-        txtBusAddress.Enabled = true;
         txtPhone.Visible = true;
-        txtPhone.Enabled = true;
         txtEmail.Visible = true;
-        txtEmail.Enabled = true;
 
         txtFrontRow.Visible = true;
-        txtFrontRow.Enabled = true;
         txtMiddleRow.Visible = true;
-        txtMiddleRow.Enabled = true;
         txtBackRow.Visible = true;
-        txtBackRow.Enabled = true;
         txtMissing.Visible = true;
-        txtMissing.Enabled = true;
 
         // display and enable apply button
         divApply.Visible = true;
-        btnApply.Enabled = true;
 
         // place label info in textbox - should be safe since we sanitize any input from the user
         txtBusName.Text = lblBusName.InnerText;
@@ -228,7 +204,6 @@ public partial class new_sponsor : System.Web.UI.Page {
 
         // hide and disable everything
         sponsorForm.Visible = false;
-        sponsorForm.Disabled = true;
 
         // show confirmation of approval
         divApprove.Visible = true;
@@ -241,7 +216,6 @@ public partial class new_sponsor : System.Web.UI.Page {
 
         // hide and disable everything
         sponsorForm.Visible = false;
-        sponsorForm.Disabled = true;
 
         // show confirmation of denial
         divDenied.Visible = true;
