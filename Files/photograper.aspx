@@ -1,7 +1,7 @@
 <%@ Page Language="C#" MasterPageFile="MasterPage.master" AutoEventWireup="true" CodeFile="photograper.aspx.cs" Inherits="new_photographer" %>
 
 <asp:Content ID="headCon" ContentPlaceHolderID="headBox" Runat="Server">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    
 </asp:Content>
 <asp:Content ID="bodyCon" ContentPlaceHolderID="bodyBox" Runat="Server">
     <!-- SEARCH BAR -->    
@@ -41,24 +41,14 @@
 
                 <div class="col-md-6 pull-left">
                     <fieldset>
-                        <form role="form">
-                            <div class="form-group">
-                                <label for="inputName">Name</label>
-                                <input type="text" class="form-control" id="txtBusiness" placeholder="Sponsor name">
-                            </div>
-                            <div class="form-group">
-                                <label for="inputEmail">Email</label>
-                                <input type="email" class="form-control" id="txtEmail" placeholder="Sponsor email">
-                            </div>
+                        <!-- MESSAGE BOX -->
+                        <form role="form">                           
                             <div class="form-group">
                                 <label for="textArea">Message</label>
-                                <textarea class="form-control" rows="3" id="txtMessage" placeholder="Message. . . "></textarea>
-                                <div class="editContent">
-                                </div>
+                                <textarea class="form-control" rows="5" id="txtMessage" placeholder="Email Message. . . "></textarea>                                
                             </div>
 
                             <a href="#" id="btnSend" class="btn btn-primary" runat="server">Send Email</a>
-
                         </form>
                     </fieldset>
                 </div>

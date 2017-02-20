@@ -9,7 +9,6 @@ using System.Text.RegularExpressions;
 public partial class new_photographer : System.Web.UI.Page {
 
     // regex variable - sanitizing inputs
-    private Regex regexBusName;
     private Regex regexMsg;
 
     // ---------------------------------------------------------------- initial startup
@@ -23,7 +22,6 @@ public partial class new_photographer : System.Web.UI.Page {
         Page.MaintainScrollPositionOnPostBack = true;
 
         // build regex objects for input validation
-        regexBusName = new Regex("^[\\w\\W\\'][\\w\\W\\s\\'\\-]+$");
         regexMsg = new Regex("^[\\w\\W\\'][\\w\\W\\s\\'\\-]+$");
     }
 
@@ -43,24 +41,10 @@ public partial class new_photographer : System.Web.UI.Page {
         //bool pass = true;
 
         //// regex check
-        //if (!regexBusName.IsMatch(txtBusiness.Text)) { pass = false; }        
-        //if (!validEmail(txtEmail.Text)) { pass = false; }
         //if (!regexMsg(txtMessage.text)) { pass = false; }
 
         //if (pass) {
-        //    // update and display all labels with the new text
-        //    lblBusName.InnerText = txtBusName.Text;
-        //    lblBusAddress.InnerText = txtBusAddress.Text;
-        //    lblPhone.InnerText = txtPhone.Text;
-        //    lblEmail.InnerText = txtEmail.Text;
 
-        //    lblFrontRow.InnerText = txtFrontRow.Text;
-        //    lblMiddleRow.InnerText = txtMiddleRow.Text;
-        //    lblBackRow.InnerText = txtBackRow.Text;
-        //    lblMissing.InnerText = txtMissing.Text;
-
-            
-            
         //} else {
         //    // regex check failed
 

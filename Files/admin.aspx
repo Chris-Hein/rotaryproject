@@ -7,7 +7,7 @@
 <%@ Import Namespace="System.Web.UI" %>
 
 <script runat="server">
-     MySqlConnection dbConnection;
+    MySqlConnection dbConnection;
     MySqlCommand dbCommand;
     MySqlDataReader dbReader;
     string sqlString;
