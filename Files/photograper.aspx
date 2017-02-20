@@ -17,13 +17,13 @@
                         </div>
                     </div>
                 </form>
+            </div>
+            <div class="row">
                 <!-- END SEARCH BAR --> 
                 <div class="col-md-6 pull-left">
                     <div class="editContent">
-                        <h3>About the Sponsor:</h3>
-                    </div>
-                    <div class="editContent">
-                        <p id="content">
+                        <p id="content" style="margin-top:2%">
+                            <b style="font-size: 18px">Sponsor Info:</b><br /><br />
                             <b>Contact Name: </b> <span id="lblName" runat="server">John Smith</span><br />
                             <b>Business Name: </b> <span id="lblBus" runat="server">Business of business</span><br />
                             <b>Email: </b> <span id="lblEmail" runat="server">johnsmith@email.com</span><br />
@@ -38,7 +38,7 @@
                         <!-- MESSAGE BOX -->
                         <form role="form">                           
                             <div class="form-group">
-                                <label for="textArea" style="margin-top:2%">Message</label>
+                                <label for="textArea" style="margin-top:2%; font-size:18px;">Message:</label>
                                 <textarea class="form-control" rows="5" cols="50" id="txtMessage" placeholder="Email Message. . . "></textarea>                                
                             </div>
 
@@ -57,7 +57,7 @@
                     <img src="images/placeholder.png" class="img-responsive" id="imgView" runat="server" />   
                     <p id="imgContent">
                         <b>Front Row: </b> Name Name Name Name Name Name<br />
-                        <b>Second Row: </b> Name Name Name Name Name Name<br />
+                        <b>Middle Row: </b> Name Name Name Name Name Name<br />
                         <b>Back Row: </b> Name Name Name Name Name Name<br />
                         <b>Missing: </b> Name Name Name Name Name Name<br />
                     </p>

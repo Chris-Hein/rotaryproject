@@ -16,7 +16,7 @@ public partial class new_photographer : System.Web.UI.Page {
     protected void PageLoad(object sender, EventArgs e) {
 
         // event listeners
-        btnSend.ServerClick += new EventHandler(btnSendClick);
+       // btnSend.ServerClick += new EventHandler(btnSendClick);
 
         // maintain page position after hitting edit and apply buttons
         Page.MaintainScrollPositionOnPostBack = true;
@@ -24,31 +24,24 @@ public partial class new_photographer : System.Web.UI.Page {
         // build regex objects for input validation
         regexMsg = new Regex("^[\\w\\W\\'][\\w\\W\\s\\'\\-]+$");
     }
+    
 
-    private bool validEmail(string email) {
-        // try to build the string as a valid email; returns true if valid
-        try {
-            System.Net.Mail.MailAddress m = new System.Net.Mail.MailAddress(email);
-            return true;
-        } catch (FormatException) {
-            return false;
-        }
+    private void getData() {
+        //pull data from DB
     }
 
-    private void btnSendClick(object sender, EventArgs e) {
+    //private void btnSendClick(object sender, EventArgs e) {
 
+    //    bool pass = true;
+    //    // regex check
+    //    if (!regexMsg(txtMessage.text)) { pass = false; }
 
-        //bool pass = true;
+    //    if (pass) {
 
-        //// regex check
-        //if (!regexMsg(txtMessage.text)) { pass = false; }
+    //    } else {
+    //        // regex check failed
 
-        //if (pass) {
-
-        //} else {
-        //    // regex check failed
-
-        //}
-    }
+    //    }
+    //}
 }
  
