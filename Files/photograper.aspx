@@ -1,4 +1,4 @@
-<%@ Page Language="C#" MasterPageFile="MasterPage.master" AutoEventWireup="true" CodeFile="photograper.aspx.cs" Inherits="new_photograper" %>
+<%@ Page Language="C#" MasterPageFile="MasterPage.master" AutoEventWireup="true" CodeFile="photograper.aspx.cs" Inherits="new_photographer" %>
 
 <asp:Content ID="headCon" ContentPlaceHolderID="headBox" Runat="Server">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -9,7 +9,7 @@
         <div class="col-md-3">
         <form class="navbar-form" role="search">
             <div class="input-group add-on">
-            <input class="form-control" placeholder="Search" name="search-term" id="search-term" type="text">
+            <input class="form-control" placeholder="Search by Business Name" name="search-term" id="search-term" type="text">
             <div class="input-group-btn">
                 <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
             </div>
@@ -33,8 +33,8 @@
                             <b>Contact Name: </b> <span id="lblName" runat="server">John Smith</span><br />
                             <b>Business Name: </b> <span id="lblBus" runat="server">Business of business</span><br />
                             <b>Email: </b> <span id="lblEmail" runat="server">johnsmith@email.com</span><br />
-                            <b>Business address to display: </b><span id="lblBusAddress" runat="server">123 Fake Street</span><br/>
-                            <b>Phone # to display: </b><span id="lblPhone" runat="server">902-555-1234</span><br/>   
+                            <b>Business address: </b><span id="lblAddress" runat="server">123 Fake Street</span><br/>
+                            <b>Phone: </b><span id="lblPhone" runat="server">902-555-1234</span><br/>
                         </p>
                     </div>                    
                 </div>
@@ -57,7 +57,7 @@
                                 </div>
                             </div>
 
-                            <a href="#" class="btn btn-primary">Send Email</a>
+                            <a href="#" id="btnSend" class="btn btn-primary" runat="server">Send Email</a>
 
                         </form>
                     </fieldset>
@@ -75,6 +75,7 @@
                         <b>Front Row: </b> Name Name Name Name Name Name<br />
                         <b>Second Row: </b> Name Name Name Name Name Name<br />
                         <b>Back Row: </b> Name Name Name Name Name Name<br />
+                        <b>Missing: </b> Name Name Name Name Name Name<br />
                     </p>
                 </div>
             </div>
