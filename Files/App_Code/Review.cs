@@ -80,4 +80,18 @@ public class Review {
             dbConnection.Close();
         }
     }
+
+    // Method to update the approval status of an ad via the ad invoice page
+    public void updateApprovalStatus(string businessemail, string approvalstatus) {
+        try {
+            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+            dbConnection.Open();
+            sqlString = "UPDATE adawaitingapproval SET approval_status = @approval_status WHERE business_email = '" + businessemail + "'";
+            dbCommand = new MySqlCommand(sqlString, dbConnection);
+            dbCommand.Parameters.AddWithValue("@approval_status", approvalstatus);
+            dbCommand.ExecuteNonQuery();
+        } finally {
+            dbConnection.Close();
+        }
+    }
 }

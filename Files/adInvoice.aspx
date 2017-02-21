@@ -23,6 +23,7 @@
         if (!Page.IsPostBack) {
             displayAdData();
             populateEmailDropdown();
+            populateApprovalDropdown();
         }
 
         review = new Review();
@@ -56,7 +57,8 @@
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "SELECT business_email FROM adawaitingapproval WHERE id > 0";
+            // Doesn't populate the dropdown (and thus allow the admin to send invoices) unless the ad has actually been approved first.
+            sqlString = "SELECT business_email FROM adawaitingapproval WHERE id > 0" + " AND approval_status = 'Approved'";
             dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
             dbDataSet = new DataSet();
             dbAdapter.Fill(dbDataSet, "adawaitingapproval");
@@ -70,6 +72,68 @@
         } finally {
             dbConnection.Close();
         }
+    }
+
+    protected void populateApprovalDropdown() {
+        try {
+            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+            dbConnection.Open();
+            sqlString = "SELECT business_email FROM adawaitingapproval WHERE id > 0" + " AND approval_status = 'Not Approved'";
+            dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
+            dbDataSet = new DataSet();
+            dbAdapter.Fill(dbDataSet, "adawaitingapproval");
+            // Executes the SQL
+            // Binds the photographer data to the dropdown so it can be displayed
+            drpApprovalList.DataSource = dbDataSet.Tables["adawaitingapproval"];
+            drpApprovalList.DataValueField = "business_email";
+            drpApprovalList.DataTextField = "business_email";
+            drpApprovalList.DataBind();
+            Cache["dbDataSet"] = dbDataSet;
+        } finally {
+            dbConnection.Close();
+        }
+    }
+
+    // Called when an ad is approved
+    protected void adApproved(Object src, EventArgs args) {
+        string message;
+        string email = review.getEmail(drpContactInfo.SelectedValue.ToString());
+
+        // Updates the database to set the approval status of the selected ad to approved. the ad is selected via the email address in the dropdown
+        review.updateApprovalStatus(drpApprovalList.SelectedValue.ToString(),"Approved");
+
+        // Then generate the approval email
+        message = "Hello " + review.getFirstName(drpContactInfo.SelectedValue.ToString()) + " " + review.getLastName(drpContactInfo.SelectedValue.ToString()) + " of " + review.getBusinessName(drpContactInfo.SelectedValue.ToString()) + ". This is an automated invoice message from the Rotary Club of Truro regarding your ad request. Your " + review.getAdSize(drpContactInfo.SelectedValue.ToString()) + " ad has been approved. You wil be receiving a payment invoice shortly.";
+        // Then send the email
+        //MailMessage o = new MailMessage("From", "To","Subject", "Body");
+        MailMessage o = new MailMessage("trurorotaryclub@hotmail.com", email,"Rotary Club of Truro Yearbook Ad Invoice", message);
+        //NetworkCredential netCred= new NetworkCredential("Sender Email","Sender Password");
+        NetworkCredential netCred= new NetworkCredential("trurorotaryclub@hotmail.com","password");
+        SmtpClient smtpobj= new SmtpClient("smtp.live.com", 587);
+        smtpobj.EnableSsl = true;
+        smtpobj.Credentials = netCred;
+        smtpobj.Send(o);
+        // Then reload the page to update
+        page_load();
+    }
+
+    // Called when an ad is rejected
+    protected void adRejected(Object src, EventArgs args) {
+        string message;
+        string email = review.getEmail(drpContactInfo.SelectedValue.ToString());
+
+        message = "Hello " + review.getFirstName(drpContactInfo.SelectedValue.ToString()) + " " + review.getLastName(drpContactInfo.SelectedValue.ToString()) + " of " + review.getBusinessName(drpContactInfo.SelectedValue.ToString()) + ". This is an automated invoice message from the Rotary Club of Truro regarding your ad request. Your " + review.getAdSize(drpContactInfo.SelectedValue.ToString()) + " ad has been rejected. Please contact the rotary club for further information";
+
+        //MailMessage o = new MailMessage("From", "To","Subject", "Body");
+        MailMessage o = new MailMessage("trurorotaryclub@hotmail.com", email,"Rotary Club of Truro Yearbook Ad Invoice", message);
+        //NetworkCredential netCred= new NetworkCredential("Sender Email","Sender Password");
+        NetworkCredential netCred= new NetworkCredential("trurorotaryclub@hotmail.com","password");
+        SmtpClient smtpobj= new SmtpClient("smtp.live.com", 587);
+        smtpobj.EnableSsl = true;
+        smtpobj.Credentials = netCred;
+        smtpobj.Send(o);
+
+        page_load();
     }
 
     // Method that generates the automated invoice
@@ -124,7 +188,7 @@
     protected void displayAdData() {
         // user and password have not yet been set up in the database, needs to be fixed to get this working, except for on my local phpmyadmin installation
         dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
-        sqlString = "SELECT * FROM adawaitingapproval WHERE id > 0";
+        sqlString = "SELECT * FROM adawaitingapproval WHERE id > 0" + " AND approval_status = 'Not Approved'";
         dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
         DataTable table = new DataTable();
         dbAdapter.Fill(table);
@@ -245,11 +309,11 @@
                     </ItemTemplate>
                 </asp:repeater>
                 <!--<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /> -->
-                <br /><br /><br /><br /><br />
+               <!-- <br /><br /><br /><br /><br /> -->
             </div>
             <div class="container col-sm-8 well" style="text-align:right;">
-                <!-- <asp:Button ID="btnApprove" Text="Approve" CssClass="btn btn-danger" runat="server" />
-                <asp:Button ID="btnReject" Text="Reject" CssClass="btn btn-danger" runat="server" /> -->
+                <!-- <asp:Button ID="btnApprove1" Text="Approve" CssClass="btn btn-danger" runat="server" />
+                <asp:Button ID="btnReject1" Text="Reject" CssClass="btn btn-danger" runat="server" /> -->
                 <asp:DropDownList ID="drpContactInfo" CssClass="form form-control" runat="server" />
             </div>
             <div class="container col-sm-4 well" style="text-align:right;">
@@ -259,8 +323,13 @@
                 <asp:TextBox ID="txtMessage" Text="Write your automatically generated message here and click send. Use the above dropdown to select the email address to send invoices and automated messages" CssClass="form form-control" Height="100" TextMode="MultiLine" runat="server" /><br />
                 <asp:Button ID="btnSendMessage" Text="Send Message" OnClick="sendAutomatedMessage" CssClass="btn btn-danger" runat="server" />
             </div>
-            <div id="testdiv"></div>
-        </div>
+            <div id="approvalPanel" class="container col-sm-6 well" style="text-align:right;">
+                <asp:DropDownList ID="drpApprovalList" CssClass="form form-control" runat="server" />
+            </div>
+            <div id="approvalPanel2" class="container col-sm-6 well" style="text-align:right;">
+                <asp:Button ID="btnAppove" Text="Approve" OnClick="adApproved" CssClass="btn btn-danger" runat="server" />
+                <asp:Button ID="btnReject" Text="Reject" OnClick="adRejected" CssClass="btn btn-danger" runat="server" />
+            </div>
     </div>
     </form>
 </asp:Content>
