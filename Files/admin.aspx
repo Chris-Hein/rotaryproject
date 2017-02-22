@@ -293,8 +293,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="headBox" Runat="Server">
     <title>Rotary Club Yearbook - Admin Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-     <!-- Latest compiled and minified CSS -->
-     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
      <!-- jQuery library -->
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
      <!-- Latest compiled JavaScript -->
@@ -308,184 +306,182 @@
          });
      </script>
 </asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="bodyBox" Runat="Server">
     <form runat="server">
-    <div class="container col-sm-12 well">
-        <div class="container col-sm-12 well">
-        <!--<asp:Image ImageUrl="/images/rotaryYearbookLogo_sm.png" AlternateText="imagelogo" runat="server" /> -->
-            <asp:Image ImageUrl="/images/YearbookLogo.png" AlternateText="imagelogo" height="100" width="500" runat="server" />
-    </div>
-       <!-- <div class="container col-sm-12 well"> -->
-            <div class="container col-sm-4 well" style="text-align:center;">
-                <asp:Label ID="lblUsername" Text="username" runat="server" />  
-            </div>
-            <div class="container col-sm-4 well" style="text-align:center;">
-                <asp:Label ID="lblPageTitle" Text="Rotary Club Yearbook Admin Page" runat="server" />  
-            </div>
-            <div class="container col-sm-4 well" style="text-align:center;">
-                <!--<asp:Label ID="lblLogout" Text="logout" runat="server" /> --> 
-                <asp:LinkButton ID="lnkLogout" Text="logout" runat="server" />
-            </div>
-       <!--</div>--> 
-        <div class="container col-sm-4 well" style="text-align:center;">
-            <asp:Label ID="lblExplan1" Text="Input search parameters and click search" runat="server" /><br /> 
-        </div>
-        <div class="container col-sm-7 well" style="text-align:center;">
-            <asp:TextBox ID="txtSearch" CssClass="form form-control" OnTextChanged="searchControl" runat="server" /> 
-        </div>
-        <div class="container col-sm-1 well" style="text-align:center;">
-            <asp:Button ID="btnSearch" Text="Search" OnClick="search" CssClass="btn btn-danger" runat="server" />
-        </div>
 
-        <div class="container col-sm-12 well" id="searchPanel" style="text-align:center;">
-            <asp:Label ID="lblExplamation" Text="Search bar output (will be hidden until search is executed)" runat="server" />
-            <asp:Repeater id="repSearch" runat="server">
-                <HeaderTemplate>
-                    <table class="table table-hover table-condensed">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Business Name</th>
-                                <th scope="col">First Name</th>
-                                <th scope="col">Last Name</th>
-                                <th scope="col">Business Phone</th>
-                                <th scope="col">Business Email</th>
-		                    </tr>
-                        </thead>
-                      <tbody>
-                      </HeaderTemplate>
+        <div class="container">
+            <div class="row well">
+                <div class="container col-sm-4" style="text-align:center;">
+                    <asp:Label ID="lblUsername" Text="username" runat="server" />  
+                </div>
+                <div class="container col-sm-4" style="text-align:center;">
+                    <asp:Label ID="lblPageTitle" Text="Rotary Club Yearbook Admin Page" runat="server" />  
+                </div>
+                <div class="container col-sm-4" style="text-align:center;">
+                    <asp:LinkButton ID="lnkLogout" Text="logout" runat="server" />
+                </div>
+            </div>
+
+            <div class="row well">
+                <div class="col-sm-4" style="text-align:center;">
+                    <asp:Label ID="lblExplan1" Text="Input search parameters and click search" runat="server" /><br /> 
+                </div>
+                <div class="col-sm-3"></div> <!-- for spacing -->
+                <div class="col-sm-4" style="text-align:center;">
+                    <asp:TextBox ID="txtSearch" CssClass="form form-control" OnTextChanged="searchControl" runat="server" /> 
+                </div>
+                <div class="col-sm-1" style="text-align:center;">
+                    <asp:Button ID="btnSearch" Text="Search" OnClick="search" CssClass="btn btn-danger" runat="server" />
+                </div>
+            </div>
+
+            <div id="searchPanel" class="row well hidden"> <!-- Search bar output -->
+                <div class="col-sm-12" style="text-align:center;"> 
+                    <asp:Repeater id="repSearch" runat="server">
+                        <HeaderTemplate>
+                            <table class="table table-hover table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Business Name</th>
+                                        <th scope="col">First Name</th>
+                                        <th scope="col">Last Name</th>
+                                        <th scope="col">Business Phone</th>
+                                        <th scope="col">Business Email</th>
+		                            </tr>
+                                </thead>
+                        </HeaderTemplate>
                         <ItemTemplate>
                             <tr>
-                                    <td><%# Eval("id") %></td>
-                                    <td><asp:LinkButton ID="lnkLoadBusData" Text='<%# Eval("business_name") %>' CommandArgument='<%#Eval("business_name")%>' OnCommand="businessSelected" Font-Underline="false" Font-Size="small" runat="server" /></td>
-                                    <td><%# Eval("first_name") %></td>
-                                    <td><%# Eval("last_name") %></td>
-                                    <td><%# Eval("business_phone") %></td>
-                                    <td><%# Eval("business_email") %></td>
-                                <br />
-		                     </tr>
-                            </ItemTemplate>
-                            <FooterTemplate>
-                          </tbody>
-                          </table>
-                    </FooterTemplate>
-              </asp:Repeater>
-        </div>
-        <div class="container col-sm-12 well" style="text-align:center;">
-            <asp:Label ID="lblExplanation2" Text="Main Data Display (better organized version of admin data page)" runat="server" />
-            <!--<br /> <br /> <br /> <br /> <br /><br /> <br /> <br /> <br /> <br /> -->
-            <asp:Repeater id="repMainDisplay" runat="server">
-                <HeaderTemplate>
-                    <table class="table table-hover table-condensed">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Business Name</th>
-                                <th scope="col">First Name</th>
-                                <th scope="col">Last Name</th>
-                                <th scope="col">Assigned Photographer</th>
-                                <th scope="col">Business Phone</th>
-                                <th scope="col">Ad Approved</th>
-                                <th scope="col">Has Paid</th>
+                                <td><%# Eval("id") %></td>
+                                <td><asp:LinkButton ID="lnkLoadBusData" Text='<%# Eval("business_name") %>' CommandArgument='<%#Eval("business_name")%>' OnCommand="businessSelected" Font-Underline="false" Font-Size="small" runat="server" /></td>
+                                <td><%# Eval("first_name") %></td>
+                                <td><%# Eval("last_name") %></td>
+                                <td><%# Eval("business_phone") %></td>
+                                <td><%# Eval("business_email") %></td>
+                            <br />
 		                    </tr>
-                        </thead>
-                      <tbody>
-                      </HeaderTemplate>
+                        </ItemTemplate>
+                        <FooterTemplate>
+                            </tbody>
+                            </table>
+                        </FooterTemplate>
+                    </asp:Repeater>
+                </div>
+            </div> <!-- Search bar output -->
+
+            <div class="row well"> <!-- main data display -->
+                <div class="col-sm-12" style="text-align:center;"> 
+                    <asp:Repeater id="repMainDisplay" runat="server">
+                        <HeaderTemplate>
+                            <table class="table table-hover table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Business Name</th>
+                                        <th scope="col">First Name</th>
+                                        <th scope="col">Last Name</th>
+                                        <th scope="col">Assigned Photographer</th>
+                                        <th scope="col">Business Phone</th>
+                                        <th scope="col">Ad Approved</th>
+                                        <th scope="col">Has Paid</th>
+		                            </tr>
+                                </thead>
+                                <tbody>
+                        </HeaderTemplate>
                         <ItemTemplate>
                             <tr>
-                                    <td><%# Eval("id") %></td>
-                                    <td><asp:LinkButton ID="lnkLoadBusData" Text='<%# Eval("business_name") %>' CommandArgument='<%#Eval("business_name")%>' OnCommand="businessSelected" Font-Underline="false" Font-Size="small" runat="server" /></td>
-                                    <td><%# Eval("first_name") %></td>
-                                    <td><%# Eval("last_name") %></td>
-                                    <td><%# Eval("assigned_photographer_name") %></td>
-                                    <td><%# Eval("business_phone") %></td>
-                                    <td><%# Eval("ad_approved") %></td>
-                                    <td><%# Eval("haspaid") %></td>
+                                <td><%# Eval("id") %></td>
+                                <td><asp:LinkButton ID="lnkLoadBusData" Text='<%# Eval("business_name") %>' CommandArgument='<%#Eval("business_name")%>' OnCommand="businessSelected" Font-Underline="false" Font-Size="small" runat="server" /></td>
+                                <td><%# Eval("first_name") %></td>
+                                <td><%# Eval("last_name") %></td>
+                                <td><%# Eval("assigned_photographer_name") %></td>
+                                <td><%# Eval("business_phone") %></td>
+                                <td><%# Eval("ad_approved") %></td>
+                                <td><%# Eval("haspaid") %></td>
                                 <br />
-		                     </tr>
-                            </ItemTemplate>
-                            <FooterTemplate>
-                          </tbody>
-                          </table>
-                    </FooterTemplate>
-              </asp:Repeater>
-           <!-- <div class="well" style="text-align:center"> -->
-            <ul class="pager" style="text-align:center">
-                <li><asp:HyperLink ID="lnkPrev" Font-Bold="true" Font-Underline="false" runat="server"><<</asp:HyperLink></li>
-                <li><asp:Label ID="lblPageInfo" runat="server" /></li>
-                <li><asp:HyperLink ID="lnkNext" Font-Bold="true" Font-Underline="false" runat="server">>></asp:HyperLink></li>
-            </ul><br />
-           <!-- </div> -->
+		                    </tr>
+                        </ItemTemplate>
+                        <FooterTemplate>
+                            </tbody>
+                            </table>
+                        </FooterTemplate>
+                    </asp:Repeater>
+                    <ul class="pager" style="text-align:center">
+                    <li><asp:HyperLink ID="lnkPrev" Font-Bold="true" Font-Underline="false" runat="server"><<</asp:HyperLink></li>
+                    <li><asp:Label ID="lblPageInfo" runat="server" /></li>
+                    <li><asp:HyperLink ID="lnkNext" Font-Bold="true" Font-Underline="false" runat="server">>></asp:HyperLink></li>
+                    </ul><br />
+                </div>
+            </div> <!-- main data display -->
 
+            <div class="row well"> <!-- Secondary Data Display -->
+                <div class="col-sm-12" style="text-align:left;">
+                    <asp:Label ID="lblID" CssClass="label label-danger" Text="User ID: " runat="server" />
+                    <asp:TextBox ID="txtID" CssClass="form-control" Enabled="false" runat="server" />
+                    <br />
+                    <asp:Label ID="lblBusinessName" CssClass="label label-danger" Text="Business Name: " runat="server" />
+                    <asp:TextBox ID="txtBusinessName" CssClass="form-control" runat="server" />
+                    <br />
+                    <asp:Label ID="lblBusinessEmail" CssClass="label label-danger" Text="Business E-Mail: " runat="server" />
+                    <asp:TextBox ID="txtBusinessEmail" CssClass="form-control" runat="server" />
+                    <br />
+                    <asp:Label ID="lblBusinessPhone" CssClass="label label-danger" Text="Business Phone: " runat="server" />
+                    <asp:TextBox ID="txtBusinessPhone" CssClass="form-control" runat="server" />
+                    <br />
+                    <asp:Label ID="lblBusinessAddress" CssClass="label label-danger" Text="Business Address: " runat="server" />
+                    <asp:TextBox ID="txtBusinessAddress" CssClass="form-control" runat="server" />
+                    <br />
+                    <asp:Label ID="lblFirstName" CssClass="label label-danger" Text="First Name: " runat="server" />
+                    <asp:TextBox ID="txtFirstName" CssClass="form-control" runat="server" />
+                    <br />
+                    <asp:Label ID="lblMiddleName" CssClass="label label-danger" Text="Middle Name: " runat="server" />
+                    <asp:TextBox ID="txtMiddleName" CssClass="form-control" runat="server" />
+                    <br />
+                    <asp:Label ID="lblLastName" CssClass="label label-danger" Text="Last Name: " runat="server" />
+                    <asp:TextBox ID="txtLastName" CssClass="form-control" runat="server" />
+                    <br />
+                    <asp:Label ID="lblAssignedPhotographer" CssClass="label label-danger" Text="Assigned Photographer: " runat="server" />
+                    <asp:TextBox ID="txtAssignedPhotographer" CssClass="form-control" runat="server" />
+                    <br />
+                    <asp:Label ID="lblAdSize" CssClass="label label-danger" Text="Ad Size: " runat="server" />
+                    <asp:TextBox ID="txtAdSize" CssClass="form-control" runat="server" />
+                    <br />
+                    <asp:Label ID="lblPaid" CssClass="label label-danger" Text="Paid: " runat="server" />
+                    <asp:TextBox ID="txtPaid" CssClass="form-control" runat="server" />
+                    <br />
+                    <asp:Label ID="lblOrdered" CssClass="label label-danger" Text="Ordered: " runat="server" />
+                    <asp:TextBox ID="txtOrdered" CssClass="form-control" runat="server" />
+                    <br />
+                    <asp:Label ID="lblAdApproved" CssClass="label label-danger" Text="Ad Approved: " runat="server" />
+                    <asp:TextBox ID="txtAdApproved" CssClass="form-control" runat="server" />
+                    <br />
+                    <asp:Label ID="lblPaymentMethod" CssClass="label label-danger" Text="Payment Method: " runat="server" />
+                    <asp:TextBox ID="txtPaymentMethod" CssClass="form-control" runat="server" />
+                    <br />
+                    <asp:Label ID="lblContacted" CssClass="label label-danger" Text="Contacted: " runat="server" />
+                    <asp:TextBox ID="txtContacted" CssClass="form-control" runat="server" />
+                    <br />
+                    <asp:Button ID="btnUpdate" CssClass="btn btn-danger" OnClick="updateBusiness" Text="Update" runat="server" />
+                    <br />                                
+                </div>
+            </div> <!-- Secondary Data Display -->
 
+            <div class="row well">
+                <div class="col-sm-4" style="text-align:center;">
+                    <asp:Label ID="lblAssignInstructions" Text="Assign a photographer to a business by selecting each in the drop downs and clicking the assign button" runat="server" />  <br /><br />
+                </div>
+                <div class="col-sm-7" style="text-align:center;">
+                    <asp:DropDownList ID="drpAssignPhotographer" CssClass="form-control" runat="server" /> 
+                    <asp:DropDownList ID="drpAssignBusiness" CssClass="form-control" runat="server" /> 
+                </div>
+                <div class="col-sm-1" style="text-align:center;">
+                    <asp:Button ID="btnAssign" Text="Assign" OnClick="assignPhotographer" CssClass="btn btn-danger" runat="server" /><br /><br />
+                </div>
+            </div> <!-- /row-->
 
-        </div>
-        <div class="container col-sm-12 well" style="text-align:left;">
-            <asp:Label ID="lblExplanation3" Text="Secondary Data Display (shows more detailed report when user is selected)" runat="server" /><br />
-            <asp:Label ID="lblID" CssClass="label label-danger" Text="User ID: " runat="server" />
-                            <asp:TextBox ID="txtID" CssClass="form-control" Enabled="false" runat="server" />
-                            <br />
-                            <asp:Label ID="lblBusinessName" CssClass="label label-danger" Text="Business Name: " runat="server" />
-                            <asp:TextBox ID="txtBusinessName" CssClass="form-control" runat="server" />
-                            <br />
-                            <asp:Label ID="lblBusinessEmail" CssClass="label label-danger" Text="Business E-Mail: " runat="server" />
-                            <asp:TextBox ID="txtBusinessEmail" CssClass="form-control" runat="server" />
-                            <br />
-                            <asp:Label ID="lblBusinessPhone" CssClass="label label-danger" Text="Business Phone: " runat="server" />
-                            <asp:TextBox ID="txtBusinessPhone" CssClass="form-control" runat="server" />
-                            <br />
-                            <asp:Label ID="lblBusinessAddress" CssClass="label label-danger" Text="Business Address: " runat="server" />
-                            <asp:TextBox ID="txtBusinessAddress" CssClass="form-control" runat="server" />
-                            <br />
-                            <asp:Label ID="lblFirstName" CssClass="label label-danger" Text="First Name: " runat="server" />
-                            <asp:TextBox ID="txtFirstName" CssClass="form-control" runat="server" />
-                            <br />
-                            <asp:Label ID="lblMiddleName" CssClass="label label-danger" Text="Middle Name: " runat="server" />
-                            <asp:TextBox ID="txtMiddleName" CssClass="form-control" runat="server" />
-                            <br />
-                            <asp:Label ID="lblLastName" CssClass="label label-danger" Text="Last Name: " runat="server" />
-                            <asp:TextBox ID="txtLastName" CssClass="form-control" runat="server" />
-                            <br />
-                            <asp:Label ID="lblAssignedPhotographer" CssClass="label label-danger" Text="Assigned Photographer: " runat="server" />
-                            <asp:TextBox ID="txtAssignedPhotographer" CssClass="form-control" runat="server" />
-                            <br />
-                            <asp:Label ID="lblAdSize" CssClass="label label-danger" Text="Ad Size: " runat="server" />
-                            <asp:TextBox ID="txtAdSize" CssClass="form-control" runat="server" />
-                            <br />
-                            <asp:Label ID="lblPaid" CssClass="label label-danger" Text="Paid: " runat="server" />
-                            <asp:TextBox ID="txtPaid" CssClass="form-control" runat="server" />
-                            <br />
-                            <asp:Label ID="lblOrdered" CssClass="label label-danger" Text="Ordered: " runat="server" />
-                            <asp:TextBox ID="txtOrdered" CssClass="form-control" runat="server" />
-                            <br />
-                            <asp:Label ID="lblAdApproved" CssClass="label label-danger" Text="Ad Approved: " runat="server" />
-                            <asp:TextBox ID="txtAdApproved" CssClass="form-control" runat="server" />
-                            <br />
-                            <asp:Label ID="lblPaymentMethod" CssClass="label label-danger" Text="Payment Method: " runat="server" />
-                            <asp:TextBox ID="txtPaymentMethod" CssClass="form-control" runat="server" />
-                            <br />
-                            <asp:Label ID="lblContacted" CssClass="label label-danger" Text="Contacted: " runat="server" />
-                            <asp:TextBox ID="txtContacted" CssClass="form-control" runat="server" />
-                            <br />
-                            <asp:Button ID="btnUpdate" CssClass="btn btn-danger" OnClick="updateBusiness" Text="Update" runat="server" />
-                            <br />
-            <!-- <br /> <br /> <br /> <br /> <br /><br /> <br /> <br /> <br /> <br /> -->                                   
-        </div>
-        <div class="container col-sm-4 well" style="text-align:center;">
-                <asp:Label ID="lblAssignInstructions" Text="Assign a photographer to a business by selecting each in the drop downs and clicking the assign button" runat="server" />  <br /><br />
-        </div>
-        <div class="container col-sm-7 well" style="text-align:center;">
-                <asp:DropDownList ID="drpAssignPhotographer" CssClass="form-control" runat="server" /> 
-                <asp:DropDownList ID="drpAssignBusiness" CssClass="form-control" runat="server" /> 
-        </div>
-        <div class="container col-sm-1 well" style="text-align:center;">
-                <asp:Button ID="btnAssign" Text="Assign" OnClick="assignPhotographer" CssClass="btn btn-danger" runat="server" /><br /><br />
-        </div>
-       </div>
-
-
-    
-
+        </div> <!-- /container -->
     </form>
-</asp:Content>
 
+</asp:Content>
