@@ -16,11 +16,13 @@ public class WebLogin {
     // private property variables
     private string _username;
     private string _password;
-    private bool _access;
+    private string _usertype;
+    private string _access;
 
     // list objects to hold username/password data
     private List<string> usernames;
     private List<string> passwords;
+    private List<string> usertypes;
 
     public WebLogin(string database, string username, string password, string tableName) {
 
@@ -28,6 +30,7 @@ public class WebLogin {
             // initialize the List objects
             usernames = new List<string>();
             passwords = new List<string>();
+            usertypes = new List<string>();
 
             // *! -------- may need to sanitize inputs -------- !*
 
@@ -39,7 +42,7 @@ public class WebLogin {
             dbConnection.Open();
 
             // setup SQL
-            string sqlString = "SELECT username,password FROM " + tableName;
+            string sqlString = "SELECT username,password,usertype FROM " + tableName;
             dbCommand = new MySqlCommand(sqlString, dbConnection);
 
             // get all the data!
@@ -49,13 +52,15 @@ public class WebLogin {
             while (dbReader.Read()) {
                 usernames.Add(dbReader["username"].ToString());
                 passwords.Add(dbReader["password"].ToString());
+                usertypes.Add(dbReader["usertype"].ToString());
             }
             dbReader.Close();
 
             // other initialization
             _username = "";
             _password = "";
-            _access = false;
+            _usertype = "";
+            _access = "no";
         } finally {
             dbConnection.Close();
         }
@@ -75,26 +80,28 @@ public class WebLogin {
         }
     }
 
-    public bool access {
+    public string access {
         get {
             return _access;
         }
     }
 
     // ---------------------------------------------------------------------------------- public method
-    public bool unlock() {
+    public string unlock() {
         // has the user already logged in?
-        if (usernames == null) return true;
+        if (usernames == null) return _usertype;
 
         // loop through all the usernames in List
-        _access = false;
+        _access = "no";
         for (int n = 0; n < usernames.Count; n++) {
             if ((_username == usernames[n]) && (_password == passwords[n])) {
                 // access granted!
-                _access = true;
+                _usertype = usertypes[n];
+                _access = _usertype;
                 // clear out lists for memory management
                 usernames = null;
                 passwords = null;
+                usertypes = null;
                 break;
             }
         }
