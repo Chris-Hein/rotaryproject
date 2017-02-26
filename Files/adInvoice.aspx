@@ -24,6 +24,7 @@
             displayAdData();
             populateEmailDropdown();
             populateApprovalDropdown();
+            populateUsernameDropdown();
         }
 
         review = new Review();
@@ -74,6 +75,27 @@
         }
     }
 
+    protected void populateUsernameDropdown() {
+        try {
+            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+            dbConnection.Open();
+            // Doesn't populate the dropdown (and thus allow the admin to send invoices) unless the ad has actually been approved first.
+            sqlString = "SELECT business_name FROM admin WHERE id > 0";
+            dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
+            dbDataSet = new DataSet();
+            dbAdapter.Fill(dbDataSet, "admin");
+            // Executes the SQL
+            // Binds the photographer data to the dropdown so it can be displayed
+            drpUsername.DataSource = dbDataSet.Tables["admin"];
+            drpUsername.DataValueField = "business_name";
+            drpUsername.DataTextField = "business_name";
+            drpUsername.DataBind();
+            Cache["dbDataSet"] = dbDataSet;
+        } finally {
+            dbConnection.Close();
+        }
+    }
+
     protected void populateApprovalDropdown() {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
@@ -91,6 +113,17 @@
             Cache["dbDataSet"] = dbDataSet;
         } finally {
             dbConnection.Close();
+        }
+    }
+
+    // Calls the password reset method
+    // Requires the value from the dropdown (the username) and the new password
+    protected void resetPassword(Object src, EventArgs args) {
+        if (txtPassword.Text == "") {
+            // Do nothing, disallows blank input as passwords
+        } else {
+            // Otherwise resets the password
+            review.resetUserPassword(drpUsername.SelectedValue.ToString(), Server.HtmlEncode(txtPassword.Text));
         }
     }
 
@@ -290,7 +323,7 @@
                 <li><asp:Label ID="lblPageInfo" runat="server" /></li>
                 <li><asp:HyperLink ID="lnkNext" Font-Bold="true" Font-Underline="false" runat="server">>></asp:HyperLink></li>
             </ul>
-            <br /><br />
+            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
         </div>
         <div class="container col-sm-6 well"> 
             <!-- <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /> -->
@@ -330,6 +363,16 @@
                 <asp:Button ID="btnAppove" Text="Approve" OnClick="adApproved" CssClass="btn btn-danger" runat="server" />
                 <asp:Button ID="btnReject" Text="Reject" OnClick="adRejected" CssClass="btn btn-danger" runat="server" />
             </div>
+            <div id="passwordPanel" class="container col-sm-12 well" style="text-align:right;">
+                <div id="approva" class="container col-sm-6 well" style="text-align:right;">
+                    <asp:DropDownList ID="drpUsername" CssClass="form form-control" runat="server" />
+                </div>
+                <div id="approva1" class="container col-sm-6 well" style="text-align:right;">
+                    <asp:TextBox ID="txtPassword" CssClass="form form-control" runat="server" />
+                </div>
+                <asp:Button ID="btnResetPassword" Text="Reset Password" CssClass="btn btn-danger" runat="server" />
+            </div>
+            
     </div>
     </form>
 </asp:Content>
