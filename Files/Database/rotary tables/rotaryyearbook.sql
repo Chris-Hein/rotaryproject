@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 02, 2017 at 06:44 PM
+-- Generation Time: Mar 02, 2017 at 07:51 PM
 -- Server version: 5.7.17-log
 -- PHP Version: 7.1.2
 
@@ -103,7 +103,7 @@ CREATE TABLE `mainrecords` (
   `sponsorPhone` varchar(20) DEFAULT NULL,
   `sponsorEmail` varchar(100) DEFAULT NULL,
   `solicitor` varchar(25) DEFAULT NULL,
-  `ordered` varchar(15) NOT NULL DEFAULT 'needs visit',
+  `orderStatus` varchar(15) NOT NULL DEFAULT 'needs visit',
   `adSize` varchar(25) DEFAULT NULL,
   `price` int(6) DEFAULT NULL,
   `paid` varchar(10) DEFAULT NULL,
@@ -116,7 +116,7 @@ CREATE TABLE `mainrecords` (
 -- Dumping data for table `mainrecords`
 --
 
-INSERT INTO `mainrecords` (`id`, `sponsorName`, `sponsorAddress`, `sponsorContact`, `sponsorPhone`, `sponsorEmail`, `solicitor`, `ordered`, `adSize`, `price`, `paid`, `datePaid`, `photographer`, `sponsorNotes`) VALUES
+INSERT INTO `mainrecords` (`id`, `sponsorName`, `sponsorAddress`, `sponsorContact`, `sponsorPhone`, `sponsorEmail`, `solicitor`, `orderStatus`, `adSize`, `price`, `paid`, `datePaid`, `photographer`, `sponsorNotes`) VALUES
 (1, 'Asbestos Miner\'s Guild', '43557 Underground Ave', 'Boris Stone', '9025550001', 'mail@asbestosrocks.ca', 'twoofclubs', 'needs visit', NULL, NULL, NULL, NULL, NULL, NULL),
 (2, 'Matt\'s Bistro', '47 Meat St', 'Matthew Cutter', '9025551234', 'mail@mattsmeat.ca', 'threeofclubs', 'yes', 'full page', 1725, 'no', NULL, NULL, 'Don\'t ask Matt about his meat.'),
 (3, 'Roadkill Animal Shelter', '127 Taxidermy Ln', 'Steve Skinnington', '902-555-4545', 'mail@rks.ca', 'fourofclubs', 'needs visit', NULL, NULL, NULL, NULL, NULL, NULL),
