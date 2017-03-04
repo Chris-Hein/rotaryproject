@@ -491,4 +491,18 @@ public class UpdateAdmin {
             dbConnection.Close();
         }
     }
+
+
+    public string getPhotoStatus(string id) {
+        try {
+            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+            dbConnection.Open();
+            sqlString = "SELECT approved FROM admin WHERE id > 0";
+            dbCommand = new MySqlCommand(sqlString, dbConnection);
+            // Uses executescalar because there is only one thing that needs to be returned
+            return dbCommand.ExecuteScalar().ToString();
+        } finally {
+            dbConnection.Close();
+        }
+    }
 }

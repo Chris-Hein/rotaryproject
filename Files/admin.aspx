@@ -78,7 +78,7 @@
             dbConnection.Open();
             sqlString = "SELECT sponsorName FROM mainRecords WHERE id > 0";
             dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
-            dbDataSet = new DataSet();            
+            dbDataSet = new DataSet();
             dbAdapter.Fill(dbDataSet, "admin");
             // Executes the SQL
             // Binds the sponsor data to the dropdown so it can be displayed
@@ -91,21 +91,6 @@
             dbConnection.Close();
         }
     }
-
-    protected void populateAdDetails() {
-        try {
-            dbConnection = new MySqlConnection("Database='rotaryyearbook';Data Source='localhost';User Id='useraccount';Password='userpassword'");
-            dbConnection.Open();
-            sqlString = "SELECT approved FROM addata WHERE id > 0";
-            dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
-            adDetailsDataSet = new DataSet();
-            dbAdapter.Fill(adDetailsDataSet, "adDetails");            
-            Cache["adDetailsDataSet"] = adDetailsDataSet;
-        } finally {
-            dbConnection.Close();
-        }
-    }
-
 
     // Handles assigning a photographer to a sponsor
     protected void assignPhotographer(Object src, EventArgs args) {
@@ -156,6 +141,7 @@
         txtPaymentMethod.Text = update.getPayType(selectedSponsor);
         txtContacted.Text = update.getContacted(selectedSponsor);
         txtAutoMsg.Text = update.getAutoMsg(selectedSponsor);
+        txtPhotoStatus.Text = update.getPhotoStatus(selectedSponsor);
     }
 
     // Displays the data based on a selected sponsor
@@ -406,7 +392,7 @@
                                         <td>Payment Method</td>
                                         <td>Invoiced</td>
                                         <td>Auto Msg Sent</td>
-                                        <td>Photo Status</td>
+                                        <td>Photo Approved</td>
 		                            </tr>
                                 </thead>
                                 <tbody>
