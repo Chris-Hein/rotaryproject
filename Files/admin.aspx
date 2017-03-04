@@ -133,14 +133,10 @@
         txtSponsorEmail.Text = update.getSponsorEmail(selectedSponsor);
         txtSponsorPhone.Text = update.getSponsorPhone(selectedSponsor);
         txtSponsorAddress.Text = update.getSponsorAddress(selectedSponsor);
-        txtFirstName.Text = update.getFirstName(selectedSponsor);
-        txtMiddleName.Text = update.getMiddleName(selectedSponsor);
-        txtLastName.Text = update.getLastName(selectedSponsor);
-        txtAssignedPhotographer.Text = update.getAssignedPhotographerName(selectedSponsor);
+        txtContactName.Text = update.getFirstName(selectedSponsor);
         txtAdSize.Text = update.getAdSize(selectedSponsor);
         txtPaid.Text = update.getHasPaid(selectedSponsor);
-        txtOrdered.Text = update.getOrdered(selectedSponsor);
-        txtAdApproved.Text = update.getAdApproved(selectedSponsor);
+        txtAdStatus.Text = update.getAdApproved(selectedSponsor);
         txtPaymentMethod.Text = update.getPayType(selectedSponsor);
         txtContacted.Text = update.getContacted(selectedSponsor);
     }
@@ -212,22 +208,14 @@
         update.updatePhone(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtSponsorPhone.Text)));
         // Updates business address
         update.updateAddress(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtSponsorAddress.Text)));
-        // Updates first name
-        update.updateFirstName(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtFirstName.Text)));
-        // Updates middle name
-        update.updateMiddleName(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtMiddleName.Text)));
-        // Updates last name
-        update.updateLastName(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtLastName.Text)));
-        // Updates assigned photographer
-        update.updateAssignedPhotographer(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtAssignedPhotographer.Text)));
+        // Updates contact name
+        update.updateFirstName(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtContactName.Text)));        
         // Updates ad size
         update.updateAdSize(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtAdSize.Text)));
         // Updates payment status
         update.updateHasPaid(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtPaid.Text)));
-        // Updates order status
-        update.updateOrdered(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtOrdered.Text)));
         // Updates approval status
-        update.updateAdApproved(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtAdApproved.Text)));
+        update.updateAdApproved(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtAdStatus.Text)));
         // Updates payment method
         update.updatePaymentType(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtPaymentMethod.Text)));
         // Updates whether user was contacted
@@ -411,7 +399,7 @@
             </div> <!-- main data display -->
 
             <div class="row well"> <!-- Secondary Data Display -->
-                <div class="col-sm-4" style="text-align:left;">                    
+                <div class="col-sm-6" style="text-align:left;">                    
                     <asp:Label ID="lblSponsorName" CssClass="label label-danger" Text="Sponsor Name: " runat="server" />
                     <asp:TextBox ID="txtSponsorName" CssClass="form-control" runat="server" />
                     <br />
@@ -424,45 +412,30 @@
                     <asp:Label ID="lblSponsorAddress" CssClass="label label-danger" Text="Sponsor Address: " runat="server" />
                     <asp:TextBox ID="txtSponsorAddress" CssClass="form-control" runat="server" />
                     <br />
+                    <asp:Label ID="lblContactName" CssClass="label label-danger" Text="Contact Name: " runat="server" />
+                    <asp:TextBox ID="txtContactName" CssClass="form-control" runat="server" />
+                    <br />                                        
                 </div>
-                <div class="col-sm-4" style="text-align:left;">
-                    <asp:Label ID="lblFirstName" CssClass="label label-danger" Text="First Name: " runat="server" />
-                    <asp:TextBox ID="txtFirstName" CssClass="form-control" runat="server" />
-                    <br />
-                    <asp:Label ID="lblMiddleName" CssClass="label label-danger" Text="Middle Name: " runat="server" />
-                    <asp:TextBox ID="txtMiddleName" CssClass="form-control" runat="server" />
-                    <br />
-                    <asp:Label ID="lblLastName" CssClass="label label-danger" Text="Last Name: " runat="server" />
-                    <asp:TextBox ID="txtLastName" CssClass="form-control" runat="server" />
-                    <br />
-                    <asp:Label ID="lblAssignedPhotographer" CssClass="label label-danger" Text="Assigned Photographer: " runat="server" />
-                    <asp:TextBox ID="txtAssignedPhotographer" CssClass="form-control" runat="server" />
-                    <br />
-                </div>
-                <div class="col-sm-4" style="text-align:left;">
+                <div class="col-sm-6" style="text-align:left;">
                     <asp:Label ID="lblAdSize" CssClass="label label-danger" Text="Ad Size: " runat="server" />
                     <asp:TextBox ID="txtAdSize" CssClass="form-control" runat="server" />
                     <br />
-                    <asp:Label ID="lblPaid" CssClass="label label-danger" Text="Paid: " runat="server" />
+                    <asp:Label ID="lblPaid" CssClass="label label-danger" Text="Payment Status: " runat="server" />
                     <asp:TextBox ID="txtPaid" CssClass="form-control" runat="server" />
                     <br />
-                    <asp:Label ID="lblOrdered" CssClass="label label-danger" Text="Ordered: " runat="server" />
-                    <asp:TextBox ID="txtOrdered" CssClass="form-control" runat="server" />
-                    <br />
-                    <asp:Label ID="lblAdApproved" CssClass="label label-danger" Text="Ad Approved: " runat="server" />
-                    <asp:TextBox ID="txtAdApproved" CssClass="form-control" runat="server" />
+                    <asp:Label ID="lblAdStatus" CssClass="label label-danger" Text="Ad Status: " runat="server" />
+                    <asp:TextBox ID="txtAdStatus" CssClass="form-control" runat="server" />
                     <br />
                     <asp:Label ID="lblPaymentMethod" CssClass="label label-danger" Text="Payment Method: " runat="server" />
                     <asp:TextBox ID="txtPaymentMethod" CssClass="form-control" runat="server" />
                     <br />
-                    <asp:Label ID="lblContacted" CssClass="label label-danger" Text="Contacted: " runat="server" />
+                    <asp:Label ID="lblContacted" CssClass="label label-danger" Text="Contact Status: " runat="server" />
                     <asp:TextBox ID="txtContacted" CssClass="form-control" runat="server" />
                     <br />
                 </div>
                     <asp:Button ID="btnUpdate" CssClass="btn btn-danger" OnClick="updateSponsor" Text="Update" runat="server" />
                     <br />                                
-                </div>
-            </div> <!-- Secondary Data Display -->
+                </div>  <!-- Secondary Data Display -->
 
             <div class="row well">
                 <div class="col-sm-4" style="text-align:center;">
