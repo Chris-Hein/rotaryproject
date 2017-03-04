@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 02, 2017 at 07:51 PM
+-- Generation Time: Mar 04, 2017 at 03:51 PM
 -- Server version: 5.7.17-log
 -- PHP Version: 7.1.2
 
@@ -108,6 +108,8 @@ CREATE TABLE `mainrecords` (
   `price` int(6) DEFAULT NULL,
   `paid` varchar(10) DEFAULT NULL,
   `datePaid` date DEFAULT NULL,
+  `invoiceSent` varchar(3) NOT NULL DEFAULT 'no',
+  `adminMsg` varchar(3) NOT NULL DEFAULT 'no',
   `photographer` varchar(25) DEFAULT NULL,
   `sponsorNotes` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -116,20 +118,20 @@ CREATE TABLE `mainrecords` (
 -- Dumping data for table `mainrecords`
 --
 
-INSERT INTO `mainrecords` (`id`, `sponsorName`, `sponsorAddress`, `sponsorContact`, `sponsorPhone`, `sponsorEmail`, `solicitor`, `orderStatus`, `adSize`, `price`, `paid`, `datePaid`, `photographer`, `sponsorNotes`) VALUES
-(1, 'Asbestos Miner\'s Guild', '43557 Underground Ave', 'Boris Stone', '9025550001', 'mail@asbestosrocks.ca', 'twoofclubs', 'needs visit', NULL, NULL, NULL, NULL, NULL, NULL),
-(2, 'Matt\'s Bistro', '47 Meat St', 'Matthew Cutter', '9025551234', 'mail@mattsmeat.ca', 'threeofclubs', 'yes', 'full page', 1725, 'no', NULL, NULL, 'Don\'t ask Matt about his meat.'),
-(3, 'Roadkill Animal Shelter', '127 Taxidermy Ln', 'Steve Skinnington', '902-555-4545', 'mail@rks.ca', 'fourofclubs', 'needs visit', NULL, NULL, NULL, NULL, NULL, NULL),
-(4, 'The Fun Police', '100 Jailhouse Crt', 'Sgt. Hardass', '902-555-5845', 'mail@funpolice.ca', 'twoofclubs', 'pending', NULL, NULL, NULL, NULL, NULL, 'Rotarian may be subjected to a humiliating search.'),
-(5, 'The Sandwich Master', '24 Baguette Bvd', 'Gerald Crunch', '902-555-3287', 'mail@sandwichmaster.ca', 'threeofclubs', 'yes', 'third of a page', 690, 'credit', '2017-02-27', 'jackofclubs', NULL),
-(6, 'Coffee Express', '1 Zip Ln', 'Danny Swift', '902-555-9666', 'mail@coffeeexpress.ca', 'twoofclubs', 'yes', 'sixth of a page', 415, 'cash', '2017-02-27', 'jackofclubs', 'Good coffee'),
-(7, 'Patches and Stitches', '5620 Fabric St', 'Cindy Weaver', '902-555-3456', 'mail@patchesstitches.ca', 'fourofclubs', 'yes', 'sixth of a page', 415, 'paypal', '2017-02-06', 'jackofclubs', NULL),
-(8, 'Cryptic Studios', '2112 Cyber St', 'Ctoggha', '902-555-0909', 'mail@mythos.ca', 'threeofclubs', 'yes', 'full page', 1725, 'no', NULL, 'jackofclubs', NULL),
-(9, 'Sheepdog Inc', '488 Mellowfield Dr', 'Ralph Sheepdog', '902-555-3640', NULL, 'twoofclubs', 'yes', 'two thirds of a page', 1150, 'cash', '2017-02-01', 'jackofclubs', NULL),
-(10, 'Beefy\'s Burgers', '86 Hamburger Ave', 'Jane Cowmangler', '902-555-2333', NULL, 'threeofclubs', 'yes', 'two thirds of a page', 1150, 'credit', '2017-01-04', 'jackofclubs', NULL),
-(11, 'The Chronically Horrid', '5555 News St', 'Bill Paper', '902-555-5445', 'mail@anewspaper.ca', 'fourofclubs', 'no', NULL, NULL, NULL, NULL, NULL, NULL),
-(12, 'Gas and Pass', '98 Diesel St', 'Gus Carson', '902-555-8888', 'mail@passgas.ca', 'fourofclubs', 'yes', 'third of a page', 690, 'yes', '2017-02-07', 'jackofclubs', NULL),
-(13, 'Hugh Bigshot', '100 Fancy Ave', 'Miss Grovel, secretary', '902-555-1111', 'press@hughbigshot.ca', 'threeofclubs', 'yes', 'full page', 1500, 'cash', '2017-02-01', 'jackofclubs', 'Will be difficult to fit ego into picture');
+INSERT INTO `mainrecords` (`id`, `sponsorName`, `sponsorAddress`, `sponsorContact`, `sponsorPhone`, `sponsorEmail`, `solicitor`, `orderStatus`, `adSize`, `price`, `paid`, `datePaid`, `invoiceSent`, `adminMsg`, `photographer`, `sponsorNotes`) VALUES
+(1, 'Asbestos Miner\'s Guild', '43557 Underground Ave', 'Boris Stone', '9025550001', 'mail@asbestosrocks.ca', 'twoofclubs', 'needs visit', NULL, NULL, NULL, NULL, 'no', 'no', NULL, NULL),
+(2, 'Matt\'s Bistro', '47 Meat St', 'Matthew Cutter', '9025551234', 'mail@mattsmeat.ca', 'threeofclubs', 'yes', 'full page', 1725, 'no', NULL, 'no', 'no', NULL, 'Don\'t ask Matt about his meat.'),
+(3, 'Roadkill Animal Shelter', '127 Taxidermy Ln', 'Steve Skinnington', '902-555-4545', 'mail@rks.ca', 'fourofclubs', 'needs visit', NULL, NULL, NULL, NULL, 'no', 'no', NULL, NULL),
+(4, 'The Fun Police', '100 Jailhouse Crt', 'Sgt. Hardass', '902-555-5845', 'mail@funpolice.ca', 'twoofclubs', 'pending', NULL, NULL, NULL, NULL, 'no', 'no', NULL, 'Rotarian may be subjected to a humiliating search.'),
+(5, 'The Sandwich Master', '24 Baguette Bvd', 'Gerald Crunch', '902-555-3287', 'mail@sandwichmaster.ca', 'threeofclubs', 'yes', 'third of a page', 690, 'credit', '2017-02-27', 'yes', 'yes', 'jackofclubs', NULL),
+(6, 'Coffee Express', '1 Zip Ln', 'Danny Swift', '902-555-9666', 'mail@coffeeexpress.ca', 'twoofclubs', 'yes', 'sixth of a page', 415, 'cash', '2017-02-27', 'yes', 'yes', 'jackofclubs', 'Good coffee'),
+(7, 'Patches and Stitches', '5620 Fabric St', 'Cindy Weaver', '902-555-3456', 'mail@patchesstitches.ca', 'fourofclubs', 'yes', 'sixth of a page', 415, 'paypal', '2017-02-06', 'yes', 'yes', 'jackofclubs', NULL),
+(8, 'Cryptic Studios', '2112 Cyber St', 'Ctoggha', '902-555-0909', 'mail@mythos.ca', 'threeofclubs', 'yes', 'full page', 1725, 'no', NULL, 'no', 'no', 'jackofclubs', NULL),
+(9, 'Sheepdog Inc', '488 Mellowfield Dr', 'Ralph Sheepdog', '902-555-3640', NULL, 'twoofclubs', 'yes', 'two thirds of a page', 1150, 'cash', '2017-02-01', 'yes', 'yes', 'jackofclubs', NULL),
+(10, 'Beefy\'s Burgers', '86 Hamburger Ave', 'Jane Cowmangler', '902-555-2333', NULL, 'threeofclubs', 'yes', 'two thirds of a page', 1150, 'credit', '2017-01-04', 'yes', 'yes', 'jackofclubs', NULL),
+(11, 'The Chronically Horrid', '5555 News St', 'Bill Paper', '902-555-5445', 'mail@anewspaper.ca', 'fourofclubs', 'no', NULL, NULL, NULL, NULL, 'no', 'no', NULL, NULL),
+(12, 'Gas and Pass', '98 Diesel St', 'Gus Carson', '902-555-8888', 'mail@passgas.ca', 'fourofclubs', 'yes', 'third of a page', 690, 'other', '2017-02-07', 'yes', 'yes', 'jackofclubs', NULL),
+(13, 'Hugh Bigshot', '100 Fancy Ave', 'Miss Grovel, secretary', '902-555-1111', 'press@hughbigshot.ca', 'threeofclubs', 'yes', 'full page', 1500, 'cash', '2017-02-01', 'yes', 'yes', 'jackofclubs', 'Will be difficult to fit ego into picture');
 
 --
 -- Indexes for dumped tables
