@@ -16,7 +16,7 @@
     // Used to handle updating fields
     UpdateAdmin update;
 
-    string selectedBusiness;
+    string selectedSponsor;
 
     protected void page_load() {
 
@@ -31,16 +31,16 @@
             //photographer = new ListItem("Assign Photographer Here");
             //drpAssignPhotographer.Items.Add(photographer);
 
-            //business = new ListItem("Assign Business Here");
-            //drpAssignBusiness.Items.Add(business);
+            //business = new ListItem("Assign Sponsor Here");
+            //drpAssignSponsor.Items.Add(business);
 
             // Populates the two dropdowns
-            populateBusinesses();
+            populateSponsors();
             populatePhotographers();
 
             btnSearch.Enabled = true;
             // Executes the paging code
-            //loadBusinessData();
+            //loadSponsorData();
             // Handles loading of the businesses basic data
             mainDisplayDataLoad();
         }
@@ -71,7 +71,7 @@
     }
 
     // Handles population of the business dropdown
-    protected void populateBusinesses() {
+    protected void populateSponsors() {
         try {
             dbConnection = new MySqlConnection("Database='rotaryyearbook';Data Source='localhost';User Id='useraccount';Password='userpassword'");
             dbConnection.Open();
@@ -81,10 +81,10 @@
             dbAdapter.Fill(dbDataSet, "admin");
             // Executes the SQL
             // Binds the business data to the dropdown so it can be displayed
-            drpAssignBusiness.DataSource = dbDataSet.Tables["admin"];
-            drpAssignBusiness.DataValueField = "SponsorName";
-            drpAssignBusiness.DataTextField = "SponsorName";
-            drpAssignBusiness.DataBind();
+            drpAssignSponsor.DataSource = dbDataSet.Tables["admin"];
+            drpAssignSponsor.DataValueField = "SponsorName";
+            drpAssignSponsor.DataTextField = "SponsorName";
+            drpAssignSponsor.DataBind();
             Cache["dbDataSet"] = dbDataSet;
         } finally {
             dbConnection.Close();
@@ -93,34 +93,34 @@
 
     // Handles assigning a photographer to a business
     protected void assignPhotographer(Object src, EventArgs args) {
-        update.updateAssignedBusinessName(drpAssignPhotographer.SelectedItem.Value.ToString(), drpAssignBusiness.SelectedItem.Value.ToString());
-        update.updateAssignedPhotographerName(drpAssignBusiness.SelectedItem.Value.ToString(), drpAssignPhotographer.SelectedItem.Value.ToString());
+        update.updateAssignedSponsorName(drpAssignPhotographer.SelectedItem.Value.ToString(), drpAssignSponsor.SelectedItem.Value.ToString());
+        update.updateAssignedPhotographerName(drpAssignSponsor.SelectedItem.Value.ToString(), drpAssignPhotographer.SelectedItem.Value.ToString());
     }
 
     // Handles admin selection of a user to view in greater detail
     protected void businessSelected (Object src, CommandEventArgs args) {
         // Uses the text of the command argument (which is the name of the business) to determine what data to load
-        Session["selectedBusiness"] = args.CommandArgument;
-        selectedBusiness = Session["selectedBusiness"].ToString();
-        loadBusinessData();
+        Session["selectedSponsor"] = args.CommandArgument;
+        selectedSponsor = Session["selectedSponsor"].ToString();
+        loadSponsorData();
     }
 
     // Handles display of in-depth data when user clicks the business name in the initial repeater
     // Uses custom paging bind the displayed data to the display repeater
-    protected void loadBusinessData () {
+    protected void loadSponsorData () {
         /*
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             dbCommand = new MySqlCommand("", dbConnection);
-            sqlString = "SELECT * FROM admin WHERE business_name = '" + selectedBusiness + "'";
+            sqlString = "SELECT * FROM admin WHERE business_name = '" + selectedSponsor + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             // Executes the SQL
             dbCommand.CommandText = sqlString;
             dbReader = dbCommand.ExecuteReader();
             // Binds the data to the repeater so it can be displayed
-            repSelectedBusiness.DataSource = dbReader;
-            repSelectedBusiness.DataBind();
+            repSelectedSponsor.DataSource = dbReader;
+            repSelectedSponsor.DataBind();
         } finally {
             dbConnection.Close();
         } */
@@ -128,22 +128,21 @@
         // Populates the expanded business data fields when a business is selected
         // Originally used a repeater, but that had to be rewritten because it made
         // the text fields out of scope (as they were in a repeater) so prevented
-        // updating the db via the field inputs
-        txtID.Text = Convert.ToString(update.getId(selectedBusiness));
-        txtBusinessName.Text = update.getBusinessName(selectedBusiness);
-        txtBusinessEmail.Text = update.getBusinessEmail(selectedBusiness);
-        txtBusinessPhone.Text = update.getBusinessPhone(selectedBusiness);
-        txtBusinessAddress.Text = update.getBusinessAddress(selectedBusiness);
-        txtFirstName.Text = update.getFirstName(selectedBusiness);
-        txtMiddleName.Text = update.getMiddleName(selectedBusiness);
-        txtLastName.Text = update.getLastName(selectedBusiness);
-        txtAssignedPhotographer.Text = update.getAssignedPhotographerName(selectedBusiness);
-        txtAdSize.Text = update.getAdSize(selectedBusiness);
-        txtPaid.Text = update.getHasPaid(selectedBusiness);
-        txtOrdered.Text = update.getOrdered(selectedBusiness);
-        txtAdApproved.Text = update.getAdApproved(selectedBusiness);
-        txtPaymentMethod.Text = update.getPayType(selectedBusiness);
-        txtContacted.Text = update.getContacted(selectedBusiness);
+        // updating the db via the field inputs        
+        txtSponsorName.Text = update.getSponsorName(selectedSponsor);
+        txtSponsorEmail.Text = update.getSponsorEmail(selectedSponsor);
+        txtSponsorPhone.Text = update.getSponsorPhone(selectedSponsor);
+        txtSponsorAddress.Text = update.getSponsorAddress(selectedSponsor);
+        txtFirstName.Text = update.getFirstName(selectedSponsor);
+        txtMiddleName.Text = update.getMiddleName(selectedSponsor);
+        txtLastName.Text = update.getLastName(selectedSponsor);
+        txtAssignedPhotographer.Text = update.getAssignedPhotographerName(selectedSponsor);
+        txtAdSize.Text = update.getAdSize(selectedSponsor);
+        txtPaid.Text = update.getHasPaid(selectedSponsor);
+        txtOrdered.Text = update.getOrdered(selectedSponsor);
+        txtAdApproved.Text = update.getAdApproved(selectedSponsor);
+        txtPaymentMethod.Text = update.getPayType(selectedSponsor);
+        txtContacted.Text = update.getContacted(selectedSponsor);
     }
 
     // Displays the data based on a selected business
@@ -193,46 +192,46 @@
     //if (result == DialogResult.Yes) {
     // Yes
     // Call the update function
-    //updateBusiness();
+    //updateSponsor();
     //} else if (result == DialogResult.No) {
     // No
     // Reloads the previous data to avoid accidental changes being made
-    //loadBusinessData();
+    //loadSponsorData();
     //}
 
 
     //}
 
     // Handles updating user details
-    protected void updateBusiness(Object src, EventArgs args) {
+    protected void updateSponsor(Object src, EventArgs args) {
         // Updates business name
-        update.updateBusinessName(Convert.ToString(txtID.Text), Convert.ToString(Server.HtmlEncode(txtBusinessName.Text)));
+        update.updateSponsorName(Convert.ToString(txtSponsorName.Text),Convert.ToString(Server.HtmlEncode(txtSponsorName.Text)));
         // Updates business email
-        update.updateBusinessEmail(Convert.ToString(txtID.Text), Convert.ToString(Server.HtmlEncode(txtBusinessEmail.Text)));
+        update.updateSponsorEmail(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtSponsorEmail.Text)));
         // Updates business phone
-        update.updatePhone(Convert.ToString(txtID.Text), Convert.ToString(Server.HtmlEncode(txtBusinessPhone.Text)));
+        update.updatePhone(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtSponsorPhone.Text)));
         // Updates business address
-        update.updateAddress(Convert.ToString(txtID.Text), Convert.ToString(Server.HtmlEncode(txtBusinessAddress.Text)));
+        update.updateAddress(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtSponsorAddress.Text)));
         // Updates first name
-        update.updateFirstName(Convert.ToString(txtID.Text), Convert.ToString(Server.HtmlEncode(txtFirstName.Text)));
+        update.updateFirstName(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtFirstName.Text)));
         // Updates middle name
-        update.updateMiddleName(Convert.ToString(txtID.Text), Convert.ToString(Server.HtmlEncode(txtMiddleName.Text)));
+        update.updateMiddleName(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtMiddleName.Text)));
         // Updates last name
-        update.updateLastName(Convert.ToString(txtID.Text), Convert.ToString(Server.HtmlEncode(txtLastName.Text)));
+        update.updateLastName(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtLastName.Text)));
         // Updates assigned photographer
-        update.updateAssignedPhotographer(Convert.ToString(txtID.Text), Convert.ToString(Server.HtmlEncode(txtAssignedPhotographer.Text)));
+        update.updateAssignedPhotographer(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtAssignedPhotographer.Text)));
         // Updates ad size
-        update.updateAdSize(Convert.ToString(txtID.Text), Convert.ToString(Server.HtmlEncode(txtAdSize.Text)));
+        update.updateAdSize(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtAdSize.Text)));
         // Updates payment status
-        update.updateHasPaid(Convert.ToString(txtID.Text), Convert.ToString(Server.HtmlEncode(txtPaid.Text)));
+        update.updateHasPaid(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtPaid.Text)));
         // Updates order status
-        update.updateOrdered(Convert.ToString(txtID.Text), Convert.ToString(Server.HtmlEncode(txtOrdered.Text)));
+        update.updateOrdered(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtOrdered.Text)));
         // Updates approval status
-        update.updateAdApproved(Convert.ToString(txtID.Text), Convert.ToString(Server.HtmlEncode(txtAdApproved.Text)));
+        update.updateAdApproved(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtAdApproved.Text)));
         // Updates payment method
-        update.updatePaymentType(Convert.ToString(txtID.Text), Convert.ToString(Server.HtmlEncode(txtPaymentMethod.Text)));
+        update.updatePaymentType(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtPaymentMethod.Text)));
         // Updates whether user was contacted
-        update.updateContacted(Convert.ToString(txtID.Text), Convert.ToString(Server.HtmlEncode(txtContacted.Text)));
+        update.updateContacted(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtContacted.Text)));
     }
 
     // Ensures the user is logged in to a valid account to be able to use the admin page
@@ -344,11 +343,11 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">ID</th>
-                                        <th scope="col">Business Name</th>
+                                        <th scope="col">Sponsor Name</th>
                                         <th scope="col">First Name</th>
                                         <th scope="col">Last Name</th>
-                                        <th scope="col">Business Phone</th>
-                                        <th scope="col">Business Email</th>
+                                        <th scope="col">Sponsor Phone</th>
+                                        <th scope="col">Sponsor Email</th>
 		                            </tr>
                                 </thead>
                         </HeaderTemplate>
@@ -412,19 +411,21 @@
             </div> <!-- main data display -->
 
             <div class="row well"> <!-- Secondary Data Display -->
-                <div class="col-sm-12" style="text-align:left;">                    
-                    <asp:Label ID="lblBusinessName" CssClass="label label-danger" Text="Business Name: " runat="server" />
-                    <asp:TextBox ID="txtBusinessName" CssClass="form-control" runat="server" />
+                <div class="col-sm-4" style="text-align:left;">                    
+                    <asp:Label ID="lblSponsorName" CssClass="label label-danger" Text="Sponsor Name: " runat="server" />
+                    <asp:TextBox ID="txtSponsorName" CssClass="form-control" runat="server" />
                     <br />
-                    <asp:Label ID="lblBusinessEmail" CssClass="label label-danger" Text="Business E-Mail: " runat="server" />
-                    <asp:TextBox ID="txtBusinessEmail" CssClass="form-control" runat="server" />
+                    <asp:Label ID="lblSponsorEmail" CssClass="label label-danger" Text="Sponsor E-Mail: " runat="server" />
+                    <asp:TextBox ID="txtSponsorEmail" CssClass="form-control" runat="server" />
                     <br />
-                    <asp:Label ID="lblBusinessPhone" CssClass="label label-danger" Text="Business Phone: " runat="server" />
-                    <asp:TextBox ID="txtBusinessPhone" CssClass="form-control" runat="server" />
+                    <asp:Label ID="lblSponsorPhone" CssClass="label label-danger" Text="Sponsor Phone: " runat="server" />
+                    <asp:TextBox ID="txtSponsorPhone" CssClass="form-control" runat="server" />
                     <br />
-                    <asp:Label ID="lblBusinessAddress" CssClass="label label-danger" Text="Business Address: " runat="server" />
-                    <asp:TextBox ID="txtBusinessAddress" CssClass="form-control" runat="server" />
+                    <asp:Label ID="lblSponsorAddress" CssClass="label label-danger" Text="Sponsor Address: " runat="server" />
+                    <asp:TextBox ID="txtSponsorAddress" CssClass="form-control" runat="server" />
                     <br />
+                </div>
+                <div class="col-sm-4" style="text-align:left;">
                     <asp:Label ID="lblFirstName" CssClass="label label-danger" Text="First Name: " runat="server" />
                     <asp:TextBox ID="txtFirstName" CssClass="form-control" runat="server" />
                     <br />
@@ -437,6 +438,8 @@
                     <asp:Label ID="lblAssignedPhotographer" CssClass="label label-danger" Text="Assigned Photographer: " runat="server" />
                     <asp:TextBox ID="txtAssignedPhotographer" CssClass="form-control" runat="server" />
                     <br />
+                </div>
+                <div class="col-sm-4" style="text-align:left;">
                     <asp:Label ID="lblAdSize" CssClass="label label-danger" Text="Ad Size: " runat="server" />
                     <asp:TextBox ID="txtAdSize" CssClass="form-control" runat="server" />
                     <br />
@@ -455,7 +458,8 @@
                     <asp:Label ID="lblContacted" CssClass="label label-danger" Text="Contacted: " runat="server" />
                     <asp:TextBox ID="txtContacted" CssClass="form-control" runat="server" />
                     <br />
-                    <asp:Button ID="btnUpdate" CssClass="btn btn-danger" OnClick="updateBusiness" Text="Update" runat="server" />
+                </div>
+                    <asp:Button ID="btnUpdate" CssClass="btn btn-danger" OnClick="updateSponsor" Text="Update" runat="server" />
                     <br />                                
                 </div>
             </div> <!-- Secondary Data Display -->
@@ -466,7 +470,7 @@
                 </div>
                 <div class="col-sm-7" style="text-align:center;">
                     <asp:DropDownList ID="drpAssignPhotographer" CssClass="form-control" runat="server" /> 
-                    <asp:DropDownList ID="drpAssignBusiness" CssClass="form-control" runat="server" /> 
+                    <asp:DropDownList ID="drpAssignSponsor" CssClass="form-control" runat="server" /> 
                 </div>
                 <div class="col-sm-1" style="text-align:center;">
                     <asp:Button ID="btnAssign" Text="Assign" OnClick="assignPhotographer" CssClass="btn btn-danger" runat="server" /><br /><br />

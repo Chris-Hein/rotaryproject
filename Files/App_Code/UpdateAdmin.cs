@@ -18,7 +18,7 @@ public class UpdateAdmin {
     }
 
     // Method to update the business name via the admin page
-    public void updateBusinessName(string id, string businessName) {
+    public void updateSponsorName(string id, string businessName) {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
@@ -32,7 +32,7 @@ public class UpdateAdmin {
     }
 
     // Method to update the business email via the admin page
-    public void updateBusinessEmail(string id, string businessEmail) {
+    public void updateSponsorEmail(string id, string businessEmail) {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
@@ -214,13 +214,13 @@ public class UpdateAdmin {
     }
 
     // Method to update the assigned business name via the admin page
-    public void updateAssignedBusinessName(string photographer, string assignedBusinessName) {
+    public void updateAssignedSponsorName(string photographer, string assignedSponsorName) {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE admin SET assigned_business_name = @assigned_business_name WHERE assigned_photographer_name = '" + photographer + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@assigned_business_name", assignedBusinessName);
+            dbCommand.Parameters.AddWithValue("@assigned_business_name", assignedSponsorName);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -257,7 +257,7 @@ public class UpdateAdmin {
         }
     }
 
-    public string getBusinessName(string id) {
+    public string getSponsorName(string id) {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
@@ -270,7 +270,7 @@ public class UpdateAdmin {
         }
     }
 
-    public string getBusinessEmail(string id){
+    public string getSponsorEmail(string id){
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
@@ -283,7 +283,7 @@ public class UpdateAdmin {
         }
     }
 
-    public string getBusinessPhone(string id) {
+    public string getSponsorPhone(string id) {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
@@ -296,7 +296,7 @@ public class UpdateAdmin {
         }
     }
 
-    public string getBusinessAddress(string id) {
+    public string getSponsorAddress(string id) {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
@@ -452,7 +452,7 @@ public class UpdateAdmin {
         }
     }
 
-    public string getBusinesses() {
+    public string getSponsores() {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
