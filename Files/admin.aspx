@@ -54,7 +54,7 @@
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "SELECT assigned_photographer_name FROM admin WHERE id > 0";
+            sqlString = "SELECT photographer FROM mainRecords WHERE id > 0";
             dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
             dbDataSet = new DataSet();
             dbAdapter.Fill(dbDataSet, "admin");
@@ -73,17 +73,17 @@
     // Handles population of the business dropdown
     protected void populateBusinesses() {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+            dbConnection = new MySqlConnection("Database='rotaryyearbook';Data Source='localhost';User Id='useraccount';Password='userpassword'");
             dbConnection.Open();
-            sqlString = "SELECT business_name FROM admin WHERE id > 0";
+            sqlString = "SELECT sponsorName FROM mainRecords WHERE id > 0";
             dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
             dbDataSet = new DataSet();
             dbAdapter.Fill(dbDataSet, "admin");
             // Executes the SQL
             // Binds the business data to the dropdown so it can be displayed
             drpAssignBusiness.DataSource = dbDataSet.Tables["admin"];
-            drpAssignBusiness.DataValueField = "business_name";
-            drpAssignBusiness.DataTextField = "business_name";
+            drpAssignBusiness.DataValueField = "SponsorName";
+            drpAssignBusiness.DataTextField = "SponsorName";
             drpAssignBusiness.DataBind();
             Cache["dbDataSet"] = dbDataSet;
         } finally {
@@ -150,7 +150,7 @@
     protected void mainDisplayDataLoad() {
         // user and password have not yet been set up in the database, needs to be fixed to get this working, except for on my local phpmyadmin installation
         dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
-        sqlString = "SELECT * FROM admin WHERE id > 0";
+        sqlString = "SELECT * FROM mainRecords WHERE id > 0";
         dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
         DataTable table = new DataTable();
         dbAdapter.Fill(table);
@@ -259,7 +259,7 @@
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             dbCommand = new MySqlCommand("", dbConnection);
-            sqlString = "SELECT * FROM admin WHERE business_name = '" + Convert.ToString(Server.HtmlEncode(txtSearch.Text)) + "'";
+            sqlString = "SELECT * FROM mainRecords WHERE sponsorName = '" + Convert.ToString(Server.HtmlEncode(txtSearch.Text)) + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             // Executes the SQL
             dbCommand.CommandText = sqlString;
@@ -355,11 +355,11 @@
                         <ItemTemplate>
                             <tr>
                                 <td><%# Eval("id") %></td>
-                                <td><asp:LinkButton ID="lnkLoadBusData" Text='<%# Eval("business_name") %>' CommandArgument='<%#Eval("business_name")%>' OnCommand="businessSelected" Font-Underline="false" Font-Size="small" runat="server" /></td>
+                                <td><asp:LinkButton ID="lnkLoadBusData" Text='<%# Eval("sponsorName") %>' CommandArgument='<%#Eval("sponsorName")%>' OnCommand="businessSelected" Font-Underline="false" Font-Size="small" runat="server" /></td>
                                 <td><%# Eval("first_name") %></td>
                                 <td><%# Eval("last_name") %></td>
-                                <td><%# Eval("business_phone") %></td>
-                                <td><%# Eval("business_email") %></td>
+                                <td><%# Eval("sponsorPhone") %></td>
+                                <td><%# Eval("sponsorEmail") %></td>
                             <br />
 		                    </tr>
                         </ItemTemplate>
@@ -393,13 +393,12 @@
                         <ItemTemplate>
                             <tr>
                                 <td><%# Eval("id") %></td>
-                                <td><asp:LinkButton ID="lnkLoadBusData" Text='<%# Eval("business_name") %>' CommandArgument='<%#Eval("business_name")%>' OnCommand="businessSelected" Font-Underline="false" Font-Size="small" runat="server" /></td>
+                                <td><asp:LinkButton ID="lnkLoadBusData" Text='<%# Eval("sponsorName") %>' CommandArgument='<%#Eval("sponsorName")%>' OnCommand="businessSelected" Font-Underline="false" Font-Size="small" runat="server" /></td>
                                 <td><%# Eval("first_name") %></td>
                                 <td><%# Eval("last_name") %></td>
-                                <td><%# Eval("assigned_photographer_name") %></td>
-                                <td><%# Eval("business_phone") %></td>
-                                <td><%# Eval("ad_approved") %></td>
-                                <td><%# Eval("haspaid") %></td>
+                                <td><%# Eval("photographer") %></td>
+                                <td><%# Eval("sponsorPhone") %></td>
+                                <td><%# Eval("paid") %></td>
                                 <br />
 		                    </tr>
                         </ItemTemplate>
