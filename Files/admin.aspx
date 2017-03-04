@@ -13,6 +13,7 @@
     string sqlString;
     MySqlDataAdapter dbAdapter;
     DataSet dbDataSet;
+    DataSet adDetailsDataSet;
     // Used to handle updating fields
     UpdateAdmin update;
 
@@ -77,7 +78,7 @@
             dbConnection.Open();
             sqlString = "SELECT sponsorName FROM mainRecords WHERE id > 0";
             dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
-            dbDataSet = new DataSet();
+            dbDataSet = new DataSet();            
             dbAdapter.Fill(dbDataSet, "admin");
             // Executes the SQL
             // Binds the sponsor data to the dropdown so it can be displayed
@@ -91,13 +92,28 @@
         }
     }
 
+    protected void populateAdDetails() {
+        try {
+            dbConnection = new MySqlConnection("Database='rotaryyearbook';Data Source='localhost';User Id='useraccount';Password='userpassword'");
+            dbConnection.Open();
+            sqlString = "SELECT approved FROM addata WHERE id > 0";
+            dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
+            adDetailsDataSet = new DataSet();
+            dbAdapter.Fill(adDetailsDataSet, "adDetails");            
+            Cache["adDetailsDataSet"] = adDetailsDataSet;
+        } finally {
+            dbConnection.Close();
+        }
+    }
+
+
     // Handles assigning a photographer to a sponsor
     protected void assignPhotographer(Object src, EventArgs args) {
         update.updateAssignedSponsorName(drpAssignPhotographer.SelectedItem.Value.ToString(), drpAssignSponsor.SelectedItem.Value.ToString());
         update.updateAssignedPhotographerName(drpAssignSponsor.SelectedItem.Value.ToString(), drpAssignPhotographer.SelectedItem.Value.ToString());
     }
 
-    // Handles admin selection of a user to view in greater detail
+    // Handles admin selection of a sponsor to view in greater detail
     protected void sponsorSelected (Object src, CommandEventArgs args) {
         // Uses the text of the command argument (which is the name of the sponsor) to determine what data to load
         Session["selectedSponsor"] = args.CommandArgument;
@@ -139,6 +155,7 @@
         txtAdStatus.Text = update.getAdApproved(selectedSponsor);
         txtPaymentMethod.Text = update.getPayType(selectedSponsor);
         txtContacted.Text = update.getContacted(selectedSponsor);
+        txtAutoMsg.Text = update.getAutoMsg(selectedSponsor);
     }
 
     // Displays the data based on a selected sponsor
@@ -209,7 +226,7 @@
         // Updates sponsor address
         update.updateAddress(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtSponsorAddress.Text)));
         // Updates contact name
-        update.updateContactName(Convert.ToString(txtContactName.Text), Convert.ToString(Server.HtmlEncode(txtContactName.Text)));        
+        update.updateContactName(Convert.ToString(txtContactName.Text), Convert.ToString(Server.HtmlEncode(txtContactName.Text)));
         // Updates ad size
         update.updateAdSize(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtAdSize.Text)));
         // Updates payment status
@@ -220,6 +237,12 @@
         update.updatePaymentType(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtPaymentMethod.Text)));
         // Updates whether user was contacted
         update.updateContacted(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtContacted.Text)));
+        // Updates where the sponsor has been invoiced or not
+        update.updateInvoice(Convert.ToString(txtInvoice.Text), Convert.ToString(Server.HtmlEncode(txtInvoice.Text)));
+        // Updates whether or not the sponsor was sent an Admin Auto Message
+        update.updateAutoMsg(Convert.ToString(txtAutoMsg.Text), Convert.ToString(Server.HtmlEncode(txtAutoMsg.Text)));
+        // Updates whether or not the photo has been approved
+        update.updatePhotoStatus(Convert.ToString(txtPhotoStatus.Text), Convert.ToString(Server.HtmlEncode(txtPhotoStatus.Text)));
     }
 
     // Ensures the user is logged in to a valid account to be able to use the admin page
@@ -257,14 +280,14 @@
         } finally {
             dbConnection.Close();
         }
-        
+
         // Handles showing and hiding the search panel
-     //   if (searchPanel.Style["display"] == "none") {
-       //     searchPanel.Style.Add("display", "block");
-       // } else {
+        //   if (searchPanel.Style["display"] == "none") {
+        //     searchPanel.Style.Add("display", "block");
+        // } else {
         //    searchPanel.Style.Add("display", "none");
 
-       // }
+        // }
     }
 
     // Toggles enabling of search button
@@ -353,9 +376,9 @@
                                 <td><%# Eval("orderStatus") %></td>
                                 <td><%# Eval("solicitor") %></td>
                                 <td><%# Eval("paid") %></td>
-                                <%--<td><%# Eval("invoice") %></td>
-                                <td><%# Eval("autoMessage") %></td>
-                                <td><%# Eval("photoStatus") %></td>--%>
+                                <td><%# Eval("invoiceSent") %></td>
+                                <td><%# Eval("adminMsg") %></td>
+                                <td><%# Eval("approved") %></td>
                             <br />
 		                    </tr>
                         </ItemTemplate>
@@ -382,7 +405,7 @@
                                         <td>Solicitor Name</td>
                                         <td>Payment Method</td>
                                         <td>Invoiced</td>
-                                        <td>Admin Auto Message Sent</td>
+                                        <td>Auto Msg Sent</td>
                                         <td>Photo Status</td>
 		                            </tr>
                                 </thead>
@@ -397,9 +420,9 @@
                                 <td><%# Eval("orderStatus") %></td>
                                 <td><%# Eval("solicitor") %></td>
                                 <td><%# Eval("paid") %></td>
-                                <%--<td><%# Eval("invoice") %></td>
-                                <td><%# Eval("autoMessage") %></td>
-                                <td><%# Eval("photoStatus") %></td>--%>
+                                <td><%# Eval("invoiceSent") %></td>
+                                <td><%# Eval("adminMsg") %></td>
+                                <td><%# Eval("approved") %></td>
                                 <br />
 		                    </tr>
                         </ItemTemplate>
@@ -433,6 +456,9 @@
                     <asp:Label ID="lblContactName" CssClass="label label-danger" Text="Contact Name: " runat="server" />
                     <asp:TextBox ID="txtContactName" CssClass="form-control" runat="server" />
                     <br />                                        
+                    <asp:Label ID="lblAutoMsg" CssClass="label label-danger" Text="Auto Message Sent: " runat="server" />
+                    <asp:TextBox ID="txtAutoMsg" CssClass="form-control" runat="server" />
+                    <br />                                        
                 </div>
                 <div class="col-sm-6" style="text-align:left;">
                     <asp:Label ID="lblAdSize" CssClass="label label-danger" Text="Ad Size: " runat="server" />
@@ -450,6 +476,11 @@
                     <asp:Label ID="lblContacted" CssClass="label label-danger" Text="Contact Status: " runat="server" />
                     <asp:TextBox ID="txtContacted" CssClass="form-control" runat="server" />
                     <br />
+                    <asp:Label ID="lblInvoice" CssClass="label label-danger" Text="Invoice: " runat="server" />
+                    <asp:TextBox ID="txtInvoice" CssClass="form-control" runat="server" />
+                    <br />
+                    <asp:Label ID="lblPhotoStatus" CssClass="label label-danger" Text="Photo Approved: " runat="server" />
+                    <asp:TextBox ID="txtPhotoStatus" CssClass="form-control" runat="server" />
                 </div>
                     <asp:Button ID="btnUpdate" CssClass="btn btn-danger" OnClick="updateSponsor" Text="Update" runat="server" />
                     <br />                                
