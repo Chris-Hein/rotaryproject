@@ -25,14 +25,14 @@
 
         if (!Page.IsPostBack) {
             // ListItem photographer;
-            // ListItem business;
+            // ListItem sponsor;
             // This is just dummy data for display purposes, needs to be replaced with data from the database
             // In the middle of writing a class to handle this, not finished with it yet
             //photographer = new ListItem("Assign Photographer Here");
             //drpAssignPhotographer.Items.Add(photographer);
 
-            //business = new ListItem("Assign Sponsor Here");
-            //drpAssignSponsor.Items.Add(business);
+            //sponsor = new ListItem("Assign Sponsor Here");
+            //drpAssignSponsor.Items.Add(sponsor);
 
             // Populates the two dropdowns
             populateSponsors();
@@ -41,7 +41,7 @@
             btnSearch.Enabled = true;
             // Executes the paging code
             //loadSponsorData();
-            // Handles loading of the businesses basic data
+            // Handles loading of the sponsor basic data
             mainDisplayDataLoad();
         }
 
@@ -70,7 +70,7 @@
         }
     }
 
-    // Handles population of the business dropdown
+    // Handles population of the sponsor dropdown
     protected void populateSponsors() {
         try {
             dbConnection = new MySqlConnection("Database='rotaryyearbook';Data Source='localhost';User Id='useraccount';Password='userpassword'");
@@ -80,7 +80,7 @@
             dbDataSet = new DataSet();
             dbAdapter.Fill(dbDataSet, "admin");
             // Executes the SQL
-            // Binds the business data to the dropdown so it can be displayed
+            // Binds the sponsor data to the dropdown so it can be displayed
             drpAssignSponsor.DataSource = dbDataSet.Tables["admin"];
             drpAssignSponsor.DataValueField = "SponsorName";
             drpAssignSponsor.DataTextField = "SponsorName";
@@ -91,21 +91,21 @@
         }
     }
 
-    // Handles assigning a photographer to a business
+    // Handles assigning a photographer to a sponsor
     protected void assignPhotographer(Object src, EventArgs args) {
         update.updateAssignedSponsorName(drpAssignPhotographer.SelectedItem.Value.ToString(), drpAssignSponsor.SelectedItem.Value.ToString());
         update.updateAssignedPhotographerName(drpAssignSponsor.SelectedItem.Value.ToString(), drpAssignPhotographer.SelectedItem.Value.ToString());
     }
 
     // Handles admin selection of a user to view in greater detail
-    protected void businessSelected (Object src, CommandEventArgs args) {
-        // Uses the text of the command argument (which is the name of the business) to determine what data to load
+    protected void sponsorSelected (Object src, CommandEventArgs args) {
+        // Uses the text of the command argument (which is the name of the sponsor) to determine what data to load
         Session["selectedSponsor"] = args.CommandArgument;
         selectedSponsor = Session["selectedSponsor"].ToString();
         loadSponsorData();
     }
 
-    // Handles display of in-depth data when user clicks the business name in the initial repeater
+    // Handles display of in-depth data when user clicks the sponsor name in the initial repeater
     // Uses custom paging bind the displayed data to the display repeater
     protected void loadSponsorData () {
         /*
@@ -113,7 +113,7 @@
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             dbCommand = new MySqlCommand("", dbConnection);
-            sqlString = "SELECT * FROM admin WHERE business_name = '" + selectedSponsor + "'";
+            sqlString = "SELECT * FROM admin WHERE sponsor_name = '" + selectedSponsor + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             // Executes the SQL
             dbCommand.CommandText = sqlString;
@@ -125,7 +125,7 @@
             dbConnection.Close();
         } */
 
-        // Populates the expanded business data fields when a business is selected
+        // Populates the expanded sponsor data fields when a sponsor is selected
         // Originally used a repeater, but that had to be rewritten because it made
         // the text fields out of scope (as they were in a repeater) so prevented
         // updating the db via the field inputs        
@@ -141,7 +141,7 @@
         txtContacted.Text = update.getContacted(selectedSponsor);
     }
 
-    // Displays the data based on a selected business
+    // Displays the data based on a selected sponsor
     protected void mainDisplayDataLoad() {
         // user and password have not yet been set up in the database, needs to be fixed to get this working, except for on my local phpmyadmin installation
         dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
@@ -200,16 +200,16 @@
 
     // Handles updating user details
     protected void updateSponsor(Object src, EventArgs args) {
-        // Updates business name
+        // Updates sponsor name
         update.updateSponsorName(Convert.ToString(txtSponsorName.Text),Convert.ToString(Server.HtmlEncode(txtSponsorName.Text)));
-        // Updates business email
+        // Updates sponsor email
         update.updateSponsorEmail(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtSponsorEmail.Text)));
-        // Updates business phone
+        // Updates sponsor phone
         update.updatePhone(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtSponsorPhone.Text)));
-        // Updates business address
+        // Updates sponsor address
         update.updateAddress(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtSponsorAddress.Text)));
         // Updates contact name
-        update.updateFirstName(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtContactName.Text)));        
+        update.updateContactName(Convert.ToString(txtContactName.Text), Convert.ToString(Server.HtmlEncode(txtContactName.Text)));        
         // Updates ad size
         update.updateAdSize(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtAdSize.Text)));
         // Updates payment status
@@ -240,7 +240,7 @@
     // }
     // }
 
-    // Handles search functionality (currently searches are based on business name)
+    // Handles search functionality (currently searches are based on sponsor name)
     protected void search(Object src, EventArgs args) {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
@@ -329,24 +329,33 @@
                         <HeaderTemplate>
                             <table class="table table-hover table-condensed">
                                 <thead>
-                                    <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Sponsor Name</th>
-                                        <th scope="col">First Name</th>
-                                        <th scope="col">Last Name</th>
-                                        <th scope="col">Sponsor Phone</th>
-                                        <th scope="col">Sponsor Email</th>
+                                    <tr style="font-weight:bold;">
+                                        <td>Sponsor Name</td>
+                                        <td>Sponsor Email</td>
+                                        <td>Contact Name</td>
+                                        <td>Sponsor Phone</td>
+                                        <td>Order Status</td>
+                                        <td>Solicitor Name</td>
+                                        <td>Payment Method</td>
+                                        <td>Invoiced</td>
+                                        <td>Admin Auto Message Sent</td>
+                                        <td>Photo Status</td>
 		                            </tr>
                                 </thead>
                         </HeaderTemplate>
                         <ItemTemplate>
                             <tr>
                                 <td><%# Eval("id") %></td>
-                                <td><asp:LinkButton ID="lnkLoadBusData" Text='<%# Eval("sponsorName") %>' CommandArgument='<%#Eval("sponsorName")%>' OnCommand="businessSelected" Font-Underline="false" Font-Size="small" runat="server" /></td>
-                                <td><%# Eval("first_name") %></td>
-                                <td><%# Eval("last_name") %></td>
+                                <td><asp:LinkButton ID="lnkLoadBusData" Text='<%# Eval("sponsorName") %>' CommandArgument='<%#Eval("sponsorName")%>' OnCommand="sponsorSelected" Font-Underline="false" Font-Size="small" runat="server" /></td>
+                               <td><%# Eval("sponsorEmail") %></td>
+                                <td><%# Eval("sponsorContact") %></td>
                                 <td><%# Eval("sponsorPhone") %></td>
-                                <td><%# Eval("sponsorEmail") %></td>
+                                <td><%# Eval("orderStatus") %></td>
+                                <td><%# Eval("solicitor") %></td>
+                                <td><%# Eval("paid") %></td>
+                                <%--<td><%# Eval("invoice") %></td>
+                                <td><%# Eval("autoMessage") %></td>
+                                <td><%# Eval("photoStatus") %></td>--%>
                             <br />
 		                    </tr>
                         </ItemTemplate>
@@ -364,24 +373,33 @@
                         <HeaderTemplate>
                             <table class="table table-hover table-condensed">
                                 <thead>
-                                    <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Sponsor Name</th>
-                                        <th scope="col">Sponsor Phone</th>
-                                        <th scope="col">Ad Status</th>
-                                        <th scope="col">Paid</th>
+                                    <tr style="font-weight:bold;">
+                                        <td>Sponsor Name</td>
+                                        <td>Sponsor Email</td>
+                                        <td>Contact Name</td>
+                                        <td>Sponsor Phone</td>
+                                        <td>Order Status</td>
+                                        <td>Solicitor Name</td>
+                                        <td>Payment Method</td>
+                                        <td>Invoiced</td>
+                                        <td>Admin Auto Message Sent</td>
+                                        <td>Photo Status</td>
 		                            </tr>
                                 </thead>
                                 <tbody>
                         </HeaderTemplate>
                         <ItemTemplate>
                             <tr>
-                                <td><%# Eval("id") %></td>
-                                <td><asp:LinkButton ID="lnkLoadBusData" Text='<%# Eval("sponsorName") %>' CommandArgument='<%#Eval("sponsorName")%>' OnCommand="businessSelected" Font-Underline="false" Font-Size="small" runat="server" /></td>
-                                <td><%# Eval("sponsorName") %></td>
-                                <td><%# Eval("photographer") %></td>
+                                <td><asp:LinkButton ID="lnkLoadBusData" Text='<%# Eval("sponsorName") %>' CommandArgument='<%#Eval("sponsorName")%>' OnCommand="sponsorSelected" Font-Underline="false" Font-Size="small" runat="server" /></td>
+                                <td><a href="mailto:#"><%# Eval("sponsorEmail") %></a></td>
+                                <td><%# Eval("sponsorContact") %></td>
                                 <td><%# Eval("sponsorPhone") %></td>
+                                <td><%# Eval("orderStatus") %></td>
+                                <td><%# Eval("solicitor") %></td>
                                 <td><%# Eval("paid") %></td>
+                                <%--<td><%# Eval("invoice") %></td>
+                                <td><%# Eval("autoMessage") %></td>
+                                <td><%# Eval("photoStatus") %></td>--%>
                                 <br />
 		                    </tr>
                         </ItemTemplate>
@@ -439,7 +457,7 @@
 
             <div class="row well">
                 <div class="col-sm-4" style="text-align:center;">
-                    <asp:Label ID="lblAssignInstructions" Text="Assign a photographer to a business by selecting each in the drop downs and clicking the assign button" runat="server" />  <br /><br />
+                    <asp:Label ID="lblAssignInstructions" Text="Assign a photographer to a sponsor by selecting each in the drop downs and clicking the assign button" runat="server" />  <br /><br />
                 </div>
                 <div class="col-sm-7" style="text-align:center;">
                     <asp:DropDownList ID="drpAssignPhotographer" CssClass="form-control" runat="server" /> 
