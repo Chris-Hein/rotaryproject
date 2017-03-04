@@ -63,7 +63,7 @@
             drpAssignPhotographer.DataSource = dbDataSet.Tables["admin"];
             drpAssignPhotographer.DataValueField = "assigned_photographer_name";
             drpAssignPhotographer.DataTextField = "assigned_photographer_name";
-            drpAssignPhotographer.DataBind();
+            //drpAssignPhotographer.DataBind();
             Cache["dbDataSet"] = dbDataSet;
         } finally {
             dbConnection.Close();
@@ -379,13 +379,10 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">ID</th>
-                                        <th scope="col">Business Name</th>
-                                        <th scope="col">First Name</th>
-                                        <th scope="col">Last Name</th>
-                                        <th scope="col">Assigned Photographer</th>
-                                        <th scope="col">Business Phone</th>
-                                        <th scope="col">Ad Approved</th>
-                                        <th scope="col">Has Paid</th>
+                                        <th scope="col">Sponsor Name</th>
+                                        <th scope="col">Sponsor Phone</th>
+                                        <th scope="col">Ad Status</th>
+                                        <th scope="col">Paid</th>
 		                            </tr>
                                 </thead>
                                 <tbody>
@@ -394,8 +391,7 @@
                             <tr>
                                 <td><%# Eval("id") %></td>
                                 <td><asp:LinkButton ID="lnkLoadBusData" Text='<%# Eval("sponsorName") %>' CommandArgument='<%#Eval("sponsorName")%>' OnCommand="businessSelected" Font-Underline="false" Font-Size="small" runat="server" /></td>
-                                <td><%# Eval("first_name") %></td>
-                                <td><%# Eval("last_name") %></td>
+                                <td><%# Eval("sponsorName") %></td>
                                 <td><%# Eval("photographer") %></td>
                                 <td><%# Eval("sponsorPhone") %></td>
                                 <td><%# Eval("paid") %></td>
@@ -416,10 +412,7 @@
             </div> <!-- main data display -->
 
             <div class="row well"> <!-- Secondary Data Display -->
-                <div class="col-sm-12" style="text-align:left;">
-                    <asp:Label ID="lblID" CssClass="label label-danger" Text="User ID: " runat="server" />
-                    <asp:TextBox ID="txtID" CssClass="form-control" Enabled="false" runat="server" />
-                    <br />
+                <div class="col-sm-12" style="text-align:left;">                    
                     <asp:Label ID="lblBusinessName" CssClass="label label-danger" Text="Business Name: " runat="server" />
                     <asp:TextBox ID="txtBusinessName" CssClass="form-control" runat="server" />
                     <br />
