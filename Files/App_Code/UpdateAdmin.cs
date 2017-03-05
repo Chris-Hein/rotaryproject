@@ -228,11 +228,11 @@ public class UpdateAdmin {
     }
 
     // Method to update the assigned business name via the admin page
-    public void updateAssignedSponsorName(string photographer, string assignedSponsorName) {
+    public void updateAssignedSponsorName(string sponsor, string assignedSponsorName) {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "UPDATE admin SET assigned_sponsorName = @assigned_sponsorName WHERE assigned_photographer_name = '" + photographer + "'";
+            sqlString = "UPDATE admin SET assigned_sponsorName = @assigned_sponsorName WHERE assigned_sponsor_name = '" + sponsor + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             dbCommand.Parameters.AddWithValue("@assigned_sponsorName", assignedSponsorName);
             dbCommand.ExecuteNonQuery();
@@ -241,14 +241,14 @@ public class UpdateAdmin {
         }
     }
 
-    // Method to update the assigned photographer via the admin page
-    public void updateAssignedPhotographerName(string business, string assignedPhotographerName) {
+    // Method to update the assigned solicitor via the admin page
+    public void updateAssignedSolicitorName(string solicitor, string assignedSolicitorName) {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "UPDATE admin SET assigned_photographer_name = @assigned_photographer_name WHERE sponsorName = '" + business + "'";
+            sqlString = "UPDATE admin SET assigned_solicitor_name = @assigned_solicitor_name WHERE assigned_sponsor_name = '" + solicitor + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@assigned_photographer_name", assignedPhotographerName);
+            dbCommand.Parameters.AddWithValue("@assigned_solicitor_name", assignedSolicitorName);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -362,11 +362,11 @@ public class UpdateAdmin {
         }
     }
 
-    public string getAssignedPhotographerName(string id) {
+    public string getAssignedSolicitorName(string id) {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "SELECT photographer FROM admin WHERE sponsorName = '" + id + "'";
+            sqlString = "SELECT solicitor FROM admin WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             // Uses executescalar because there is only one thing that needs to be returned
             return dbCommand.ExecuteScalar().ToString();
