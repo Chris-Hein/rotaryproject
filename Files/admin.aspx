@@ -52,8 +52,8 @@
             // Executes the SQL
             // Binds the solicitor data to the dropdown so it can be displayed
             drpAssignSolicitor.DataSource = dbDataSet.Tables["admin"];
-            drpAssignSolicitor.DataValueField = "assigned_solicitor_name";
-            drpAssignSolicitor.DataTextField = "assigned_solicitor_name";
+            drpAssignSolicitor.DataValueField = "solicitor";
+            drpAssignSolicitor.DataTextField = "solicitor";
             //drpAssignPhotographer.DataBind();
             Cache["dbDataSet"] = dbDataSet;
         } finally {
