@@ -25,16 +25,7 @@
         update = new UpdateAdmin();
 
         if (!Page.IsPostBack) {
-            // ListItem solicitor;
-            // ListItem sponsor;
-            // This is just dummy data for display purposes, needs to be replaced with data from the database
-            // In the middle of writing a class to handle this, not finished with it yet
-            //solicitor = new ListItem("Assign Photographer Here");
-            //drpAssignPhotographer.Items.Add(solicitor);
-
-            //sponsor = new ListItem("Assign Sponsor Here");
-            //drpAssignSponsor.Items.Add(sponsor);
-
+           
             // Populates the two dropdowns
             populateSponsors();
             populateSolicitor();
@@ -61,8 +52,8 @@
             // Executes the SQL
             // Binds the solicitor data to the dropdown so it can be displayed
             drpAssignSolicitor.DataSource = dbDataSet.Tables["admin"];
-            drpAssignSolicitor.DataValueField = "solicitorName";
-            drpAssignSolicitor.DataTextField = "solicitorName";
+            drpAssignSolicitor.DataValueField = "assigned_solicitor_name";
+            drpAssignSolicitor.DataTextField = "assigned_solicitor_name";
             //drpAssignPhotographer.DataBind();
             Cache["dbDataSet"] = dbDataSet;
         } finally {
@@ -140,6 +131,7 @@
         txtPaymentMethod.Text = update.getPayType(selectedSponsor);
         txtAutoMsg.Text = update.getAutoMsg(selectedSponsor);
         txtPhotoStatus.Text = update.getPhotoStatus(selectedSponsor);
+        drpAssignSolicitor.Text = update.getAssignedSolicitorName(selectedSponsor);
     }
 
     // Displays the data based on a selected sponsor
