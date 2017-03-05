@@ -94,4 +94,45 @@ public class Review {
             dbConnection.Close();
         }
     }
+
+    // Method to manually change a users password via the ad invoice page
+    public void resetUserPassword(string username, string password) {
+        try {
+            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+            dbConnection.Open();
+            sqlString = "UPDATE login SET password = @password WHERE username = '" + username + "'";
+            dbCommand = new MySqlCommand(sqlString, dbConnection);
+            dbCommand.Parameters.AddWithValue("@password", password);
+            dbCommand.ExecuteNonQuery();
+        } finally {
+            dbConnection.Close();
+        }
+    }
+
+    public string getMessageEmail(int id) {
+        try {
+            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+            dbConnection.Open();
+            sqlString = "SELECT captionEmail FROM addata WHERE id = '" + id + "'";
+            dbCommand = new MySqlCommand(sqlString, dbConnection);
+            // Uses executescalar because there is only one thing that needs to be returned
+            return dbCommand.ExecuteScalar().ToString();
+        } finally {
+            dbConnection.Close();
+        }
+    }
+
+    // Method to update the approved status of an ad via the invoice page
+    public void updateApprovedStatus(int id, string approvestatus) {
+        try {
+            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+            dbConnection.Open();
+            sqlString = "UPDATE addata SET approved = @approved WHERE id = '" + id + "'";
+            dbCommand = new MySqlCommand(sqlString, dbConnection);
+            dbCommand.Parameters.AddWithValue("@approved", approvestatus);
+            dbCommand.ExecuteNonQuery();
+        } finally {
+            dbConnection.Close();
+        }
+    }
 }

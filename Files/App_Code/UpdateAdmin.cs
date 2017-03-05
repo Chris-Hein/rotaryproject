@@ -464,4 +464,31 @@ public class UpdateAdmin {
             dbConnection.Close();
         }
     }
+
+    public string getCheckID(int id) {
+        try {
+            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+            dbConnection.Open();
+            sqlString = "SELECT captionEmail FROM addata WHERE id = '" + id + "'";
+            dbCommand = new MySqlCommand(sqlString, dbConnection);
+            // Uses executescalar because there is only one thing that needs to be returned
+            return dbCommand.ExecuteScalar().ToString();
+        } finally {
+            dbConnection.Close();
+        }
+    }
+
+    // Method to update the approved status of an ad via the invoice page
+    public void updateApprovedStatus(string id, string approvedstatus) {
+        try {
+            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+            dbConnection.Open();
+            sqlString = "UPDATE addata SET approved = @approved WHERE id = '" + id + "'";
+            dbCommand = new MySqlCommand(sqlString, dbConnection);
+            dbCommand.Parameters.AddWithValue("@approved", "approved");
+            dbCommand.ExecuteNonQuery();
+        } finally {
+            dbConnection.Close();
+        }
+    }
 }
