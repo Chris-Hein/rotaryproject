@@ -30,19 +30,19 @@
 
         <div id="sponsorInfo" class="container">
             <div class="row tablet-cell-center">
-                <b><span id="lblBusName" class="name">Business Name</span></b><br/>
+                <b><span id="lblBusName" class="name">Sponsor Name</span></b><br/>
                 <textarea id="txtBusName" MaxLength="200" class="form-control hidden"></textarea>
                 <br />
                 <div class="col-sm-4" style="padding:0px">
-                    <span id="lblBusAddress">Business Address</span>
+                    <span id="lblBusAddress">Sponsor Address</span>
                     <textarea id="txtBusAddress" MaxLength="200" class="form-control hidden"></textarea>
                 </div>
                 <div class="col-sm-4" style="padding:0px">
-                    <span id="lblPhone">Business Phone</span>
+                    <span id="lblPhone">Sponsor Phone</span>
                     <textarea id="txtPhone" MaxLength="50" class="form-control hidden"></textarea>
                 </div>
                 <div class="col-sm-4" style="padding:0px">
-                    <span id="lblEmail">Business Email</span>
+                    <span id="lblEmail">Sponsor Email</span>
                     <textarea id="txtEmail" MaxLength="100" class="form-control hidden"></textarea>
                 </div>
             </div> <!-- /row -->
