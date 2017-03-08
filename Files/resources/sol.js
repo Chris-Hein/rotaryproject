@@ -1,27 +1,10 @@
 ﻿(function() {
     "use strict";
 	
-	// loop variable
-	var n = 0;
-	
 	// page variables
-	var lblBusName = null;
-	var txtBusName = null;
-	var lblBusAddress = null;
-	var txtBusAddress = null;
-	var lblPhone = null;
-	var txtPhone = null;
-	var lblEmail = null;
-	var txtEmail = null;
-	var lblDescription = null;
-	var txtDescription = null;
-	var lblNotes = null;
-	var txtNotes = null;
-	
+	var sizeList = null;
 	var btnAgreed = null;
-	var btnEdit = null;
-	var btnDeclined = null;
-	var btnApply = null;
+	//var btnDeclined = null;
 	
     // inital loading event
     window.addEventListener("load", onInit);
@@ -38,83 +21,37 @@
 		// http://stackoverflow.com/questions/11986282/how-do-i-pass-asp-net-control-name-to-javascript-function
 		
 		// get references
-		lblBusName = document.getElementById("lblBusName");
-		txtBusName = document.getElementById("txtBusName");
-		lblBusAddress = document.getElementById("lblBusAddress");
-		txtBusAddress = document.getElementById("txtBusAddress");
-		lblPhone = document.getElementById("lblPhone");
-		txtPhone = document.getElementById("txtPhone");
-		lblEmail = document.getElementById("lblEmail");
-		txtEmail = document.getElementById("txtEmail");
-		lblDescription = document.getElementById("lblDescription");
-		txtDescription = document.getElementById("txtDescription");
-		lblNotes = document.getElementById("lblNotes");
-		txtNotes = document.getElementById("txtNotes");
-		
+		sizeList = document.getElementById("sizeList");
 		btnAgreed = document.getElementById("btnAgreed");
-		btnEdit = document.getElementById("btnEdit");
-		btnDeclined = document.getElementById("btnDeclined");
-		btnApply = document.getElementById("btnApply");
+		//btnDeclined = document.getElementById("btnDeclined");
 		
-		// grab data from database and display it
-		
-		
-		// add event listeners to the buttons
-		btnAgreed.addEventListener("mouseenter", hoverAgreed);
-		btnAgreed.addEventListener("mouseleave", hoverAgreed);
-		btnAgreed.addEventListener("click", onClick);
-		
-		btnEdit.addEventListener("mouseenter", hoverEdit);
-		btnEdit.addEventListener("mouseleave", hoverEdit);
-		btnEdit.addEventListener("click", onClick);
-		
-		btnDeclined.addEventListener("mouseenter", hoverDeclined);
-		btnDeclined.addEventListener("mouseleave", hoverDeclined);
-		btnDeclined.addEventListener("click", onClick);
-		
-		btnApply.addEventListener("mouseenter", hoverApply);
-		btnApply.addEventListener("mouseleave", hoverApply);
-		btnApply.addEventListener("click", onClick);
+        // add event listener to the dropdown
+        sizeList.addEventListener("change", sizeCheck)
+
+        // disable button and reset index on startup
+		btnAgreed.disabled = true;
+		sizeList.selectedIndex = 0;
 		
     }
+
+    function sizeCheck(e) {
+        console.log(e.target.selectedIndex);
+
+        // button check - disable if no size is selected
+        if (e.target.selectedIndex === 0) {
+            btnAgreed.disabled = true;
+        } else {
+            btnAgreed.disabled = false;
+        }
+
+    }
 	
-	function hoverAgreed(e) {
-		// which event?
-		if (e.type === "mouseenter") {
-			document.getElementById("btnAgreed").src = "images/agreed_hover.svg";
-		} else {
-			document.getElementById("btnAgreed").src = "images/agreed.svg";
-		}
-	}
-	
-	function hoverEdit(e) {
-		// which event?
-		if (e.type === "mouseenter") {
-			document.getElementById("btnEdit").src = "images/edit_hover.svg";
-		} else {
-			document.getElementById("btnEdit").src = "images/edit.svg";
-		}
-	}
-	
-	function hoverDeclined(e) {
-		// which event?
-		if (e.type === "mouseenter") {
-			document.getElementById("btnDeclined").src = "images/declined_hover.svg";
-		} else {
-			document.getElementById("btnDeclined").src = "images/declined.svg";
-		}
-	}
-	
-	function hoverApply(e) {
-		// which event?
-		if (e.type === "mouseenter") {
-			document.getElementById("btnApply").src = "images/apply_hover.svg";
-		} else {
-			document.getElementById("btnApply").src = "images/apply.svg";
-		}
-	}
-	
-	function onClick(e) {
+})();
+
+// old code
+
+/*
+    function onClick(e) {
 		// which button was clicked?
 		switch (e.target.id) {
 			case "btnAgreed":
@@ -178,5 +115,40 @@
 				break;
 		}
 	}
+
+	function hoverAgreed(e) {
+		// which event?
+		if (e.type === "mouseenter") {
+			document.getElementById("btnAgreed").src = "images/agreed_hover.svg";
+		} else {
+			document.getElementById("btnAgreed").src = "images/agreed.svg";
+		}
+	}
 	
-})();
+	function hoverEdit(e) {
+		// which event?
+		if (e.type === "mouseenter") {
+			document.getElementById("btnEdit").src = "images/edit_hover.svg";
+		} else {
+			document.getElementById("btnEdit").src = "images/edit.svg";
+		}
+	}
+	
+	function hoverDeclined(e) {
+		// which event?
+		if (e.type === "mouseenter") {
+			document.getElementById("btnDeclined").src = "images/declined_hover.svg";
+		} else {
+			document.getElementById("btnDeclined").src = "images/declined.svg";
+		}
+	}
+	
+	function hoverApply(e) {
+		// which event?
+		if (e.type === "mouseenter") {
+			document.getElementById("btnApply").src = "images/apply_hover.svg";
+		} else {
+			document.getElementById("btnApply").src = "images/apply.svg";
+		}
+	}
+	*/
