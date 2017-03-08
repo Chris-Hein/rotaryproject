@@ -14,7 +14,7 @@
                 <div class="row" style="margin-bottom: 20px;">
                     <div class="col-sm-10 col-sm-offset-1" style="text-align: center;">
                         <!-- pulling a static image for now -->
-                        <img src="images/photo/test.jpg" class="img-responsive" id="imgView" runat="server" />
+                        <img id="imgView" src="images/photo/test.jpg" class="img-responsive" ClientIDMode="Static" runat="server" />
                     </div>
                 </div>
             </div>
@@ -69,7 +69,7 @@
                 <!-- apply button -->
                 <div id="divApply" runat="server">
                     <div class="form-group col-sm-offset-5 col-sm-2" style="text-align: center;">
-                        <input id="btnApply" type="image" src="images/apply.svg" alt="Apply" ClientIDMode="Static" runat="server"/>
+                        <asp:Button id="btnApply" text="Apply" class="btn btn-warning" ClientIDMode="Static" runat="server"/>
                     </div>
                 </div>
 
@@ -79,17 +79,17 @@
             <div id="divButtons" class="row" runat="server">
                 <div class="col-sm-offset-3 col-sm-2" style="margin-top: 20px;">
                     <div class="alert alert-success" style="text-align: center;">
-                        <input id="btnAccept" type="image" src="images/accept.svg" alt="Accept" ClientIDMode="Static" runat="server"/>
+                        <asp:Button id="btnAccept" text="Accept" class="btn btn-success" ClientIDMode="Static" runat="server"/>
                     </div>
                 </div>
 			    <div class="col-sm-2" style="margin-top: 20px;">
                     <div class="alert alert-warning" style="text-align: center;">
-                        <input id="btnEdit" type="image" src="images/edit.svg" alt="Edit" ClientIDMode="Static" runat="server"/>
+                        <asp:Button id="btnEdit" text="Edit Details" class="btn btn-warning" ClientIDMode="Static" runat="server"/>
                     </div>
                 </div>
                 <div class="col-sm-2" style="margin-top: 20px;">
                     <div class="alert alert-danger" style="text-align: center;">
-                        <input id="btnDeny" type="image" src="images/deny.svg" alt="Deny" ClientIDMode="Static" runat="server"/>
+                        <asp:Button id="btnDeny" text="Deny" class="btn btn-danger" ClientIDMode="Static" runat="server"/>
                     </div>
                 </div>
             </div>

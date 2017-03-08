@@ -43,10 +43,10 @@ public partial class new_sponsor : System.Web.UI.Page {
         
 
         // event listeners
-        btnEdit.ServerClick += new ImageClickEventHandler(btnEdit_Click);
-        btnApply.ServerClick += new ImageClickEventHandler(btnApply_Click);
-        btnAccept.ServerClick += new ImageClickEventHandler(btnApprove_Click);
-        btnDeny.ServerClick += new ImageClickEventHandler(btnDeny_Click);
+        btnEdit.Click += new EventHandler(btnEdit_Click);
+        btnApply.Click += new EventHandler(btnApply_Click);
+        btnAccept.Click += new EventHandler(btnApprove_Click);
+        btnDeny.Click += new EventHandler(btnDeny_Click);
 
     }
 
