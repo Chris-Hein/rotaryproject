@@ -548,25 +548,25 @@
         </div> <!-- /container -->
 
         <div class="row well col-sm-12" style="text-align:center;"> <!-- Secondary Data Display -->
-                   <div class="row well col-sm-6" style="text-align:center;"> <!-- Secondary Data Display -->
-                        <asp:Button ID="btnSendInvoice" CssClass="btn btn-danger" OnClick="sendInvoice" Text="Send Invoice" Width="122" runat="server" /><br />
-                        <asp:Button ID="btnSendMessage" CssClass="btn btn-danger" OnClick="sendAutomatedMessage" Text="Send Message" runat="server" /><br />
-                        <br />
-                    </div>
-                    <div class="row well col-sm-6"> <!-- Secondary Data Display -->
-                        <asp:TextBox ID="txtMessage" Text="Write your automatically generated message here, check off which users you want to send an automated message to and click send." CssClass="form form-control" Height="100" TextMode="MultiLine" runat="server" />              
-                    </div>   
+            <div class="row well col-sm-6" style="text-align:center;"> <!-- Secondary Data Display -->
+                <asp:Button ID="btnSendInvoice" CssClass="btn btn-danger" OnClick="sendInvoice" Text="Send Invoice" Width="122" runat="server" /><br />
+                <asp:Button ID="btnSendMessage" CssClass="btn btn-danger" OnClick="sendAutomatedMessage" Text="Send Message" runat="server" /><br />
+                <br />
             </div>
+            <div class="row well col-sm-6"> <!-- Secondary Data Display -->
+                <asp:TextBox ID="txtMessage" Text="Write your automatically generated message here, check off which users you want to send an automated message to and click send." CssClass="form form-control" Height="100" TextMode="MultiLine" runat="server" />              
+            </div>   
+        </div>
 
         <div class="row well col-sm-12" style="text-align:center;">
-                <div id="approva" class="container col-sm-6 well" style="text-align:right;">
-                    <asp:DropDownList ID="drpUsername" CssClass="form form-control" runat="server" />
-                </div>
-                <div id="approva1" class="container col-sm-6 well" style="text-align:right;">
-                    <asp:TextBox ID="txtPassword" CssClass="form form-control" runat="server" />
-                </div>
-                <asp:Button ID="btnResetPassword" Text="Reset Password" OnClick="resetPassword" CssClass="btn btn-danger" runat="server" />
+            <div id="approva" class="container col-sm-6 well" style="text-align:right;">
+                <asp:DropDownList ID="drpUsername" CssClass="form form-control" runat="server" />
             </div>
+            <div id="approva1" class="container col-sm-6 well" style="text-align:right;">
+                <asp:TextBox ID="txtPassword" CssClass="form form-control" runat="server" />
+            </div>
+            <asp:Button ID="btnResetPassword" Text="Reset Password" OnClick="resetPassword" CssClass="btn btn-danger" runat="server" />
+        </div>
 
     </form>
 
