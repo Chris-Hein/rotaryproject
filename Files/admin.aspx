@@ -198,6 +198,27 @@
 
     //}
 
+    // Method to handle testing for a valid email address. Basically its checking for the @ symbol and a proper .com extension
+    // Note that it tests the validity of the structure of the email address as written, not whether the email itself is a real existing address
+    // That would be getting into network socket stuff and backend server stuff which is way beyond what was necessary and my knowledge to do at present
+    public static bool emailIsValid(string emailAddress) {
+        // If the string is not null and empty then check for email follow the format
+        return string.IsNullOrEmpty(emailAddress)?false : new Regex(@"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)@[a-z0-9][\w\.-]*[a-z0-9]\.[a-z][a-z\.]*[a-z]$", RegexOptions.IgnoreCase).IsMatch(emailAddress);
+    }
+
+    // Method to do the actual testing of the input email address
+    // Simple true or false, runs the email through the emailIsValid method to test against the regex
+    // Returns valid or invalid message based on whether it passes the regex
+    protected void testEmail(Object src, EventArgs args) {
+        bool test = emailIsValid(txtEmailTest.Text);
+
+        if (test == true) {
+            lblEmailTestFeedback.Text = "The input is a valid email address";
+        } else {
+            lblEmailTestFeedback.Text = "The input is not a valid email address";
+        }
+    }
+
     // Handles updating user details
     protected void updateSponsor(Object src, EventArgs args) {
         // Updates business name
@@ -209,7 +230,7 @@
         // Updates business address
         update.updateAddress(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtSponsorAddress.Text)));
         // Updates contact name
-        update.updateFirstName(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtContactName.Text)));        
+        update.updateFirstName(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtContactName.Text)));
         // Updates ad size
         update.updateAdSize(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtAdSize.Text)));
         // Updates payment status
@@ -257,14 +278,14 @@
         } finally {
             dbConnection.Close();
         }
-        
+
         // Handles showing and hiding the search panel
-     //   if (searchPanel.Style["display"] == "none") {
-       //     searchPanel.Style.Add("display", "block");
-       // } else {
+        //   if (searchPanel.Style["display"] == "none") {
+        //     searchPanel.Style.Add("display", "block");
+        // } else {
         //    searchPanel.Style.Add("display", "none");
 
-       // }
+        // }
     }
 
     // Toggles enabling of search button
@@ -437,6 +458,8 @@
                     <br />                                
                 </div>  <!-- Secondary Data Display -->
 
+
+
             <div class="row well">
                 <div class="col-sm-1" style="text-align:center;">
                     <asp:Button ID="btnAssign" Text="Assign" OnClick="assignPhotographer" CssClass="btn btn-danger" runat="server" /><br /><br />
@@ -445,12 +468,20 @@
                     <asp:DropDownList ID="drpAssignPhotographer" CssClass="form-control" runat="server" /> 
                     <asp:DropDownList ID="drpAssignSponsor" CssClass="form-control" runat="server" /> 
                 </div>
+
                 <div class="col-sm-4" style="text-align:center;">
                     <asp:Label ID="lblAssignInstructions" Text="Assign a photographer to a business by selecting each in the drop downs and clicking the assign button" runat="server" />  <br /><br />
                 </div>
             </div> <!-- /row-->
-
+            <div class="col-sm-6 row well">
+                <asp:Button ID="btnEmailTest" Text="Test Email" OnClick="testEmail" CssClass="btn btn-danger" runat="server" />
+                <asp:Label ID="lblEmailTestFeedback" Text="" runat="server" />
+            </div>
+            <div class="col-sm-6 row well">
+                <asp:TextBox ID="txtEmailTest" CssClass="form-control" runat="server" />
+            </div>
         </div> <!-- /container -->
+
     </form>
 
 </asp:Content>
