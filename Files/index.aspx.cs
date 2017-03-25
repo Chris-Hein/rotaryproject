@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Text.RegularExpressions;
 
 public partial class new_index : System.Web.UI.Page {
 
@@ -20,20 +14,21 @@ public partial class new_index : System.Web.UI.Page {
 
     protected void Page_Load(object sender, EventArgs e) {
 
-        // redirect if already logged in
-        if (Request.Cookies["card"] != null) {
-            sendAway();
-        }
-
         // weblogin object
         if (Session["login"] != null) {
-            login = (WebLogin) Session["login"];
+            login = (WebLogin)Session["login"];
+
+            // redirect if already logged in
+            if (login.unlock() != "no") {
+                sendAway();
+            }
+
         } else {
             // build object and then save in session
             login = new WebLogin("rotaryyearbook", "useraccount", "userpassword", "login");
             Session["login"] = login;
         }
-        
+
         // set event listeners
         btnSubmit.Click += new EventHandler(onSub);
 
@@ -43,7 +38,7 @@ public partial class new_index : System.Web.UI.Page {
 
     private void sendAway() {
         // where are we going?
-        switch (Request.Cookies["card"]["user"]) {
+        switch (login.access) {
             case "admin":
                 Response.Redirect("admin.aspx");
                 break;
@@ -72,25 +67,21 @@ public partial class new_index : System.Web.UI.Page {
     }
 
     private void onSub(object sender, EventArgs e) {
-
         // use login object to check against
         login.username = txtUsername.Value;
         login.password = txtPassword.Value;
         if (login.unlock() != "no") {
-            // write the cookie and then redirect
-            Response.Cookies["card"]["user"] = login.access;
-            Response.Cookies["card"].Expires = DateTime.Now.AddDays(1);
+            // rewrite session object and then send away
+            Session["login"] = login;
             sendAway();
         } else {
             // display error
             lblFeedback.InnerHtml = "Incorrect login, please try again...";
-
-            Console.Write(txtUsername.Value);
-            Console.Write(txtPassword.Value);
+            //Console.Write(txtUsername.Value);
+            //Console.Write(txtPassword.Value);
             // attempt counter
 
         }
-
-    } 
+    }
 
 }
