@@ -72,6 +72,9 @@ public class WebLogin {
         set {
             _username = value;
         }
+        get {
+            return _username;
+        }
     }
 
     public string password {
