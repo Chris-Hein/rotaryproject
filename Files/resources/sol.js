@@ -1,16 +1,51 @@
 ﻿(function() {
     "use strict";
 	
+    // retrieve data
+    var dropScript = "soldrop.ashx";
+    var script = "sol.ashx"
+    // XMLHttpRequest object
+    var xmlhttp = null;
+    // json data received from handler
+    var json = null;
+
 	// page variables
-	var sizeList = null;
-	var btnAgreed = null;
-	//var btnDeclined = null;
+    var sizeList = null;
+    var sponsorList = null;
+    //var btnAgreed = null;
+    //var btnPending = null;
+    //var btnDeclined = null;
+	var lblSponsor = null;
+	var lblContact = null;
+	var lblAddress = null;
+	var lblPhone = null;
+	var lblEmail = null;
+	var lblNotes = null;
 	
     // inital loading event
     window.addEventListener("load", onInit);
 	
 	// ------------------------------------------------------------ private methods
-	
+
+    function getData() {
+        // construct the JSON object to send to the handler
+		var sendJSON = {
+            "value": sponsorList[sponsorList.selectedIndex].value
+		}
+
+        // turn object into a string
+		var sendString = JSON.stringify(sendJSON);
+
+        // send string to the server handler
+		xmlhttp = new XMLHttpRequest();
+		xmlhttp.addEventListener("readystatechange", onResponse);
+		xmlhttp.open("POST", dropScript, true);
+        // tell the server what you're doing
+		xmlhttp.setRequestHeader("Content-type", "application/json");
+        // send it
+		xmlhttp.send(sendString);
+    }
+
 	// ------------------------------------------------------------ event handlers
 	
     function onInit() {
@@ -21,22 +56,47 @@
 		// http://stackoverflow.com/questions/11986282/how-do-i-pass-asp-net-control-name-to-javascript-function
 		
 		// get references
-		sizeList = document.getElementById("sizeList");
-		btnAgreed = document.getElementById("btnAgreed");
-		//btnDeclined = document.getElementById("btnDeclined");
+        sizeList = document.getElementById("sizeList");
+        sponsorList = document.getElementById("sponsorList");
+        //btnAgreed = document.getElementById("btnAgreed");
+        //btnPending = document.getElementById("btnPending");
+        //btnDeclined = document.getElementById("btnDeclined");
+		lblSponsor = document.getElementById("lblSponsor");
+		lblContact = document.getElementById("lblContact");
+		lblAddress = document.getElementById("lblAddress");
+		lblPhone = document.getElementById("lblPhone");
+		lblEmail = document.getElementById("lblEmail");
+		lblNotes = document.getElementById("lblNotes");
 		
-        // add event listener to the dropdown
-        sizeList.addEventListener("change", sizeCheck)
+        // add event listener to the dropdowns
+		sizeList.addEventListener("change", onSize);
+		sponsorList.addEventListener("change", onChange);
+
+        // add event listeners to the buttons
+		//btnAgreed.addEventListener("click", onChange);
+		//btnPending.addEventListener("click", onChange);
+		//btnDeclined.addEventListener("click", onChange);
 
         // disable button and reset index on startup
 		btnAgreed.disabled = true;
 		sizeList.selectedIndex = 0;
-		
+		sponsorList.selectedIndex = 0;
+		//console.log(sponsorList.selectedIndex);
+		//console.log(sponsorList.tabIndex);
+		//console.log(sponsorList[0]);
+		//console.log(sponsorList[0].value);
+		//console.log($("#sponsorList :selected"));
+
+        // reference to selected listItem in dropdown
+		//var listItem = $("#sampleList :selected");
+
+        // grab data from server to populate the screen
+		getData();
+
     }
 
-    function sizeCheck(e) {
-        console.log(e.target.selectedIndex);
-
+    function onSize(e) {
+        //console.log(e.target.selectedIndex);
         // button check - disable if no size is selected
         if (e.target.selectedIndex === 0) {
             btnAgreed.disabled = true;
@@ -45,110 +105,26 @@
         }
 
     }
+
+    function onChange(e) {
+        // change the interface
+        getData();
+    }
+
+    // ---------------------------------------------------------------- data response
+
+    function onResponse(e) {
+        if ((xmlhttp.readyState === 4) && (xmlhttp.status === 200)) {
+            // get the json data received
+            json = JSON.parse(xmlhttp.responseText);
+            // populate the screen
+            lblSponsor.innerHTML = sponsorList[sponsorList.selectedIndex].value;
+            lblContact.innerHTML = json.contact;
+            lblAddress.innerHTML = json.address;
+            lblPhone.innerHTML = json.phone;
+            lblEmail.innerHTML = json.email;
+            lblNotes.innerHTML = json.notes;
+        }
+    }
 	
 })();
-
-// old code
-
-/*
-    function onClick(e) {
-		// which button was clicked?
-		switch (e.target.id) {
-			case "btnAgreed":
-				// confirm message
-			
-				// send details
-				
-				break;
-			case "btnDeclined":
-				// confirm message
-				
-				// send details
-				
-				break;
-			case "btnEdit":
-				// switch to edit mode
-				// hide selection pane
-				document.getElementById("divSelection").style.display = 'none';
-				
-				// hide elements that aren't to be seen
-				// should be an equal number of textarea tags and span tags
-				var spans = document.getElementsByTagName("span");
-				var txts = document.getElementsByTagName("textarea");
-				
-				for (n=0;n<spans.length;n++) {
-					// move data from span tag to it's respective textarea
-					txts[n].innerHTML = spans[n].innerHTML; //textContent
-					// hide span, display textarea
-					spans[n].classList.add('hidden');
-					txts[n].classList.remove('hidden');
-				}
-				
-				// display apply button
-				document.getElementById("divApply").classList.remove('hidden');
-				
-				break;
-			case "btnApply":
-				// send/update details
-				
-				// switch back to standard mode
-				document.getElementById("divSelection").style.display = 'block';
-				
-				// hide elements that aren't to be seen
-				// should be an equal number of textarea tags and span tags
-				var spans = document.getElementsByTagName("span");
-				var txts = document.getElementsByTagName("textarea");
-				
-				for (n=0;n<spans.length;n++) {
-					// move data from textarea back to span tag
-					spans[n].innerHTML = txts[n].innerHTML; //textContent
-					// hide textareas, display spans
-					spans[n].classList.remove('hidden');
-					txts[n].classList.add('hidden');
-				}
-				
-				// hide apply button
-				document.getElementById("divApply").classList.add('hidden');
-				
-				// send data to database
-				
-				break;
-		}
-	}
-
-	function hoverAgreed(e) {
-		// which event?
-		if (e.type === "mouseenter") {
-			document.getElementById("btnAgreed").src = "images/agreed_hover.svg";
-		} else {
-			document.getElementById("btnAgreed").src = "images/agreed.svg";
-		}
-	}
-	
-	function hoverEdit(e) {
-		// which event?
-		if (e.type === "mouseenter") {
-			document.getElementById("btnEdit").src = "images/edit_hover.svg";
-		} else {
-			document.getElementById("btnEdit").src = "images/edit.svg";
-		}
-	}
-	
-	function hoverDeclined(e) {
-		// which event?
-		if (e.type === "mouseenter") {
-			document.getElementById("btnDeclined").src = "images/declined_hover.svg";
-		} else {
-			document.getElementById("btnDeclined").src = "images/declined.svg";
-		}
-	}
-	
-	function hoverApply(e) {
-		// which event?
-		if (e.type === "mouseenter") {
-			document.getElementById("btnApply").src = "images/apply_hover.svg";
-		} else {
-			document.getElementById("btnApply").src = "images/apply.svg";
-		}
-	}
-	*/
