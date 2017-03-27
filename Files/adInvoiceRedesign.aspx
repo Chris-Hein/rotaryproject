@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Rotary Club Yearbook - Ad Invoice Page" Language="C#" MasterPageFile="MasterPage.master" Debug="true" ClientTarget="uplevel" EnableEventValidation="false" validateRequest="false" EnableViewState="true" %>
+﻿<%@ Page Title="Rotary Club Yearbook 15th Edition - Ad Invoice Page" Language="C#" MasterPageFile="MasterPage.master" Debug="true" ClientTarget="uplevel" EnableEventValidation="false" validateRequest="false" EnableViewState="true" %>
 <%@ Import Namespace="MySql.Data.MySqlClient" %>
 <%@ Import Namespace="System.Data" %>
 <%@ Import Namespace="System.Windows.Forms" %>
@@ -104,6 +104,7 @@
     // Uses custom paging bind the displayed data to the display repeater
     protected void loadSponsorData () {
         /*
+        
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
@@ -403,10 +404,26 @@
         // does nothing atm
     }
 
+    // Handles selecting all of the checkboxes when the select all button is clicked for invoices
+    protected void selectAllInvoices(Object src, EventArgs args) {
+        foreach (RepeaterItem item in repMainDisplay.Items) {
+            CheckBox checkbox = (CheckBox)item.FindControl("chkSendInvoice");
+            checkbox.Checked = true;
+        }
+    }
+
+    // Handles selecting all of the checkboxes when the select all button is clicked for messages
+    protected void selectAllMessages(Object src, EventArgs args) {
+        foreach (RepeaterItem item in repMainDisplay.Items) {
+            CheckBox checkbox = (CheckBox)item.FindControl("chkSendMessage");
+            checkbox.Checked = true;
+        }
+    }
+
 </script>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="headBox" Runat="Server">
-    <title>Rotary Club Yearbook Ad Invoice Page</title>
+    <title>Rotary Club Yearbook 15th Edition Ad Invoice Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
      <!-- jQuery library -->
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -431,7 +448,7 @@
                     <asp:Label ID="lblUsername" Text="username" runat="server" />  
                 </div>
                 <div class="container col-sm-4" style="text-align:center;">
-                    <asp:Label ID="lblPageTitle" Text="Rotary Club Yearbook Ad Invoice Page" runat="server" />  
+                    <asp:Label ID="lblPageTitle" Text="Rotary Club Yearbook 15th Edition Ad Invoice Page" runat="server" />  
                 </div>
                 <div class="container col-sm-4" style="text-align:center;">
                     <asp:LinkButton ID="lnkLogout" Text="logout" runat="server" />
@@ -551,7 +568,9 @@
                     <li><asp:HyperLink ID="lnkPrev" Font-Bold="true" Font-Underline="false" runat="server"><<</asp:HyperLink></li>
                     <li><asp:Label ID="lblPageInfo" runat="server" /></li>
                     <li><asp:HyperLink ID="lnkNext" Font-Bold="true" Font-Underline="false" runat="server">>></asp:HyperLink></li>
-                    </ul><br />
+                    </ul><br /><br />
+                    <asp:Button ID="btnSelectAInvoices" CssClass="btn btn-danger" OnClick="selectAllInvoices" Text="Select All Inv" Width="122" runat="server" />
+                    <asp:Button ID="btnSelectAllMessages" CssClass="btn btn-danger" OnClick="selectAllMessages" Text="Select All Msg" Width="122" runat="server" />
 
                 </div>
 

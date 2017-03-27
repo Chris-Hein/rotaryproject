@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Administrator" Language="C#" MasterPageFile="MasterPage.master" Debug="true" ClientTarget="uplevel" EnableEventValidation="false" validateRequest="false" EnableViewState="true" %>
+﻿<%@ Page Title="Rotary Club Yearbook 15th Edition - Admin Page" Language="C#" MasterPageFile="MasterPage.master" Debug="true" ClientTarget="uplevel" EnableEventValidation="false" validateRequest="false" EnableViewState="true" %>
 <%@ Import Namespace="MySql.Data.MySqlClient" %>
 <%@ Import Namespace="System.Data" %>
 <%@ Import Namespace="System.Windows.Forms" %>
@@ -43,6 +43,7 @@
             //loadSponsorData();
             // Handles loading of the businesses basic data
             mainDisplayDataLoad();
+            loadAdPrices();
         }
 
         // Constructing update object
@@ -108,44 +109,40 @@
     // Handles display of in-depth data when user clicks the business name in the initial repeater
     // Uses custom paging bind the displayed data to the display repeater
     protected void loadSponsorData () {
-        /*
-        try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
-            dbConnection.Open();
-            dbCommand = new MySqlCommand("", dbConnection);
-            sqlString = "SELECT * FROM admin WHERE business_name = '" + selectedSponsor + "'";
-            dbCommand = new MySqlCommand(sqlString, dbConnection);
-            // Executes the SQL
-            dbCommand.CommandText = sqlString;
-            dbReader = dbCommand.ExecuteReader();
-            // Binds the data to the repeater so it can be displayed
-            repSelectedSponsor.DataSource = dbReader;
-            repSelectedSponsor.DataBind();
-        } finally {
-            dbConnection.Close();
-        } */
+
+        txtSponsorName.Text = update.setSponsorName(selectedSponsor.ToString());
+        txtSponsorEmail.Text = update.setSponsorEmail(selectedSponsor.ToString());
+        txtSponsorPhone.Text = update.setSponsorPhone(selectedSponsor.ToString());
+        txtSponsorAddress.Text = update.setSponsorAddress(selectedSponsor.ToString());
+        txtContactName.Text = update.setSponsorContact(selectedSponsor.ToString());
+        txtAdSize.Text = update.setAdSize(selectedSponsor.ToString());
+        txtPaid.Text = update.setPaymentStatus(selectedSponsor.ToString());
+        txtAdStatus.Text = update.setAdStatus(selectedSponsor.ToString());
+        txtPaymentMethod.Text = update.setPaymentMethod(selectedSponsor.ToString());
+        txtContacted.Text = update.setContactStatus(selectedSponsor.ToString());
+
 
         // Populates the expanded business data fields when a business is selected
         // Originally used a repeater, but that had to be rewritten because it made
         // the text fields out of scope (as they were in a repeater) so prevented
         // updating the db via the field inputs        
-        txtSponsorName.Text = update.getSponsorName(selectedSponsor);
-        txtSponsorEmail.Text = update.getSponsorEmail(selectedSponsor);
-        txtSponsorPhone.Text = update.getSponsorPhone(selectedSponsor);
-        txtSponsorAddress.Text = update.getSponsorAddress(selectedSponsor);
-        txtContactName.Text = update.getFirstName(selectedSponsor);
-        txtAdSize.Text = update.getAdSize(selectedSponsor);
-        txtPaid.Text = update.getHasPaid(selectedSponsor);
-        txtAdStatus.Text = update.getAdApproved(selectedSponsor);
-        txtPaymentMethod.Text = update.getPayType(selectedSponsor);
-        txtContacted.Text = update.getContacted(selectedSponsor);
+        // txtSponsorName.Text = update.getSponsorName(selectedSponsor);
+        // txtSponsorEmail.Text = update.getSponsorEmail(selectedSponsor);
+        // txtSponsorPhone.Text = update.getSponsorPhone(selectedSponsor);
+        // txtSponsorAddress.Text = update.getSponsorAddress(selectedSponsor);
+        // txtContactName.Text = update.getFirstName(selectedSponsor);
+        // txtAdSize.Text = update.getAdSize(selectedSponsor);
+        // txtPaid.Text = update.getHasPaid(selectedSponsor);
+        // txtAdStatus.Text = update.getAdApproved(selectedSponsor);
+        // txtPaymentMethod.Text = update.getPayType(selectedSponsor);
+        // txtContacted.Text = update.getContacted(selectedSponsor);
     }
 
     // Displays the data based on a selected business
     protected void mainDisplayDataLoad() {
         // user and password have not yet been set up in the database, needs to be fixed to get this working, except for on my local phpmyadmin installation
         dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
-        sqlString = "SELECT * FROM mainRecords WHERE id > 0";
+        sqlString = "SELECT * FROM mainrecords WHERE id > 0";
         dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
         DataTable table = new DataTable();
         dbAdapter.Fill(table);
@@ -222,25 +219,41 @@
     // Handles updating user details
     protected void updateSponsor(Object src, EventArgs args) {
         // Updates business name
-        update.updateSponsorName(Convert.ToString(txtSponsorName.Text),Convert.ToString(Server.HtmlEncode(txtSponsorName.Text)));
+        update.upSponsorName(Convert.ToString(selectedSponsor),Convert.ToString(Server.HtmlEncode(txtSponsorName.Text)));
         // Updates business email
-        update.updateSponsorEmail(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtSponsorEmail.Text)));
+        update.upSponsorEmail(Convert.ToString(selectedSponsor), Convert.ToString(Server.HtmlEncode(txtSponsorEmail.Text)));
         // Updates business phone
-        update.updatePhone(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtSponsorPhone.Text)));
+        update.upSponsorPhone(Convert.ToString(selectedSponsor), Convert.ToString(Server.HtmlEncode(txtSponsorPhone.Text)));
         // Updates business address
-        update.updateAddress(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtSponsorAddress.Text)));
+        update.upSponsorAddress(Convert.ToString(selectedSponsor), Convert.ToString(Server.HtmlEncode(txtSponsorAddress.Text)));
         // Updates contact name
-        update.updateFirstName(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtContactName.Text)));
+        update.upSponsorContact(Convert.ToString(selectedSponsor), Convert.ToString(Server.HtmlEncode(txtContactName.Text)));
         // Updates ad size
-        update.updateAdSize(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtAdSize.Text)));
+        update.upAdSize(Convert.ToString(selectedSponsor), Convert.ToString(Server.HtmlEncode(txtAdSize.Text)));
         // Updates payment status
-        update.updateHasPaid(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtPaid.Text)));
+        update.upPaymentStatus(Convert.ToString(selectedSponsor), Convert.ToString(Server.HtmlEncode(txtPaid.Text)));
         // Updates approval status
-        update.updateAdApproved(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtAdStatus.Text)));
+        update.upAdStatus(Convert.ToString(selectedSponsor), Convert.ToString(Server.HtmlEncode(txtAdStatus.Text)));
         // Updates payment method
-        update.updatePaymentType(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtPaymentMethod.Text)));
+        update.upPaymentMethod(Convert.ToString(selectedSponsor), Convert.ToString(Server.HtmlEncode(txtPaymentMethod.Text)));
         // Updates whether user was contacted
-        update.updateContacted(Convert.ToString(txtSponsorName.Text), Convert.ToString(Server.HtmlEncode(txtContacted.Text)));
+        update.upContactStatus(Convert.ToString(selectedSponsor), Convert.ToString(Server.HtmlEncode(txtContacted.Text)));
+    }
+
+    protected void loadAdPrices() {
+        // Displays the current prices for ads so they can be changed
+        txtOneSixthPrice.Text = update.get16AdPrice(Convert.ToString(1));
+        txtOneThirdPrice.Text = update.get13AdPrice(Convert.ToString(1));
+        txtTwoThirdPrice.Text = update.get23AdPrice(Convert.ToString(1));
+        txtFullPrice.Text = update.getFullAdPrice(Convert.ToString(1));
+    }
+
+    protected void updateAdPrices (Object src, EventArgs args) {
+        update.up16adPrice(Convert.ToString(1), Convert.ToString(Server.HtmlEncode(txtOneSixthPrice.Text)));
+        update.up13adPrice(Convert.ToString(1), Convert.ToString(Server.HtmlEncode(txtOneThirdPrice.Text)));
+        update.up23adPrice(Convert.ToString(1), Convert.ToString(Server.HtmlEncode(txtTwoThirdPrice.Text)));
+        update.upFulladPrice(Convert.ToString(1), Convert.ToString(Server.HtmlEncode(txtFullPrice.Text)));
+        page_load();
     }
 
     // Ensures the user is logged in to a valid account to be able to use the admin page
@@ -267,7 +280,7 @@
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             dbCommand = new MySqlCommand("", dbConnection);
-            sqlString = "SELECT * FROM mainRecords WHERE sponsorName = '" + Convert.ToString(Server.HtmlEncode(txtSearch.Text)) + "'";
+            sqlString = "SELECT * FROM mainrecords WHERE sponsorName = '" + Convert.ToString(Server.HtmlEncode(txtSearch.Text)) + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             // Executes the SQL
             dbCommand.CommandText = sqlString;
@@ -299,7 +312,7 @@
 </script>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="headBox" Runat="Server">
-    <title>Rotary Club Yearbook - Admin Page</title>
+    <title>Rotary Club Yearbook 15th Edition - Admin Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
      <!-- jQuery library -->
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -324,7 +337,7 @@
                     <asp:Label ID="lblUsername" Text="username" runat="server" />  
                 </div>
                 <div class="container col-sm-4" style="text-align:center;">
-                    <asp:Label ID="lblPageTitle" Text="Rotary Club Yearbook Admin Page" runat="server" />  
+                    <asp:Label ID="lblPageTitle" Text="Rotary Club Yearbook 15th Edition - Admin Page" runat="server" />  
                 </div>
                 <div class="container col-sm-4" style="text-align:center;">
                     <asp:LinkButton ID="lnkLogout" Text="logout" runat="server" />
@@ -353,10 +366,11 @@
                                     <tr>
                                         <th scope="col">ID</th>
                                         <th scope="col">Sponsor Name</th>
-                                        <th scope="col">First Name</th>
-                                        <th scope="col">Last Name</th>
-                                        <th scope="col">Sponsor Phone</th>
-                                        <th scope="col">Sponsor Email</th>
+                                        <th scope="col">Sponsor Contact</th>
+                                        <th scope="col">Phone</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Paid</th>
+                                        <th scope="col">Photographer</th>
 		                            </tr>
                                 </thead>
                         </HeaderTemplate>
@@ -364,10 +378,11 @@
                             <tr>
                                 <td><%# Eval("id") %></td>
                                 <td><asp:LinkButton ID="lnkLoadBusData" Text='<%# Eval("sponsorName") %>' CommandArgument='<%#Eval("sponsorName")%>' OnCommand="businessSelected" Font-Underline="false" Font-Size="small" runat="server" /></td>
-                                <td><%# Eval("first_name") %></td>
-                                <td><%# Eval("last_name") %></td>
+                                <td><%# Eval("sponsorContact") %></td>
                                 <td><%# Eval("sponsorPhone") %></td>
                                 <td><%# Eval("sponsorEmail") %></td>
+                                <td><%# Eval("paid") %></td>
+                                <td><%# Eval("photographer") %></td>
                             <br />
 		                    </tr>
                         </ItemTemplate>
@@ -388,9 +403,11 @@
                                     <tr>
                                         <th scope="col">ID</th>
                                         <th scope="col">Sponsor Name</th>
-                                        <th scope="col">Sponsor Phone</th>
-                                        <th scope="col">Ad Status</th>
+                                        <th scope="col">Sponsor Contact</th>
+                                        <th scope="col">Phone</th>
+                                        <th scope="col">Email</th>
                                         <th scope="col">Paid</th>
+                                        <th scope="col">Photographer</th>
 		                            </tr>
                                 </thead>
                                 <tbody>
@@ -399,10 +416,11 @@
                             <tr>
                                 <td><%# Eval("id") %></td>
                                 <td><asp:LinkButton ID="lnkLoadBusData" Text='<%# Eval("sponsorName") %>' CommandArgument='<%#Eval("sponsorName")%>' OnCommand="businessSelected" Font-Underline="false" Font-Size="small" runat="server" /></td>
-                                <td><%# Eval("sponsorName") %></td>
-                                <td><%# Eval("photographer") %></td>
+                                <td><%# Eval("sponsorContact") %></td>
                                 <td><%# Eval("sponsorPhone") %></td>
+                                <td><%# Eval("sponsorEmail") %></td>
                                 <td><%# Eval("paid") %></td>
+                                <td><%# Eval("photographer") %></td>
                                 <br />
 		                    </tr>
                         </ItemTemplate>
@@ -472,7 +490,29 @@
                 <div class="col-sm-4" style="text-align:center;">
                     <asp:Label ID="lblAssignInstructions" Text="Assign a photographer to a business by selecting each in the drop downs and clicking the assign button" runat="server" />  <br /><br />
                 </div>
+                <!-- -->
+                
+
             </div> <!-- /row-->
+            <div class="row well">
+            
+                <div class="col-sm-8" style="text-align:left;">
+                    <asp:Label ID="lblAd1" CssClass="label label-danger" Text="1/6 Page: " runat="server" />
+                    <asp:TextBox ID="txtOneSixthPrice" CssClass="form-control" runat="server" /><br />
+                    <asp:Label ID="lblAd2" CssClass="label label-danger" Text="1/3 Page: " runat="server" />
+                    <asp:TextBox ID="txtOneThirdPrice" CssClass="form-control" runat="server" /><br />
+                    <asp:Label ID="lblAd3" CssClass="label label-danger" Text="2/3 Page: " runat="server" />
+                    <asp:TextBox ID="txtTwoThirdPrice" CssClass="form-control" runat="server" /><br />
+                    <asp:Label ID="lblAd4" CssClass="label label-danger" Text="Full Page: " runat="server" />
+                    <asp:TextBox ID="txtFullPrice" CssClass="form-control" runat="server" /> <br /><br />
+                    <asp:Button ID="btnUpdateAdPrices" Text="Set Ad Price" OnClick="updateAdPrices" CssClass="btn btn-danger" runat="server" /><br />
+                </div>
+
+                <div class="col-sm-4" style="text-align:right;">
+                    <asp:Label ID="Label1" Text="Here you can view and set the current price of each ad size" runat="server" />  <br /><br />
+                </div>
+                </div>
+
             <div class="col-sm-6 row well">
                 <asp:Button ID="btnEmailTest" Text="Test Email" OnClick="testEmail" CssClass="btn btn-danger" runat="server" />
                 <asp:Label ID="lblEmailTestFeedback" Text="" runat="server" />

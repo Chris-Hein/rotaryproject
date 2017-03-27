@@ -7,6 +7,8 @@ using System.Web.UI.WebControls;
 using System.Text.RegularExpressions;
 using System.Data;
 using System.Data.SqlClient;
+using System.Net.Mail;
+using System.Net;
 
 public partial class new_photographer : System.Web.UI.Page {
 
@@ -130,6 +132,28 @@ public partial class new_photographer : System.Web.UI.Page {
     //        // regex check failed
 
     //    }
+    }
+
+    // As per my last part of sprint 4, I added this method to handle notifying the club via email when an image is updated (which would be on the photographers end)
+    // The method is coded, tested and ready to call, simply called imageUpdated() on an action and the email will be generated and sent automatically
+    // I didn't know how rehberg wanted the specifics of the page to function so I just implemented the method and didn't call it anywhere
+    private void imageUpdated(Object sender, EventArgs e) {
+        string message;
+        // email is the address its sent to, currently sends to the account sending the email, simply replace the email listed in the email variable (or hardcode it) when we decide who specifically gets the update email
+        // Doesn't really apply to this usage but note that the target email can have issues with thinking the recipient email is null if there are multiple emails that aren't fed in from via a string. Its a weird issue
+        // that seems to be related to the way the mail class itself was coded
+        string email = "rotariansample@hotmail.com";
+        // Sets the body of the message to whatver text is in the text box
+        message = "This is an automated message to inform the club that a sponsor has updated one of their ad images";
+
+        //MailMessage o = new MailMessage("From", "To","Subject", "Body");
+        MailMessage o = new MailMessage("rotariansample@hotmail.com", email, "Automated Message from the Rotary Club of Truro - an image has been updated", message);
+        //NetworkCredential netCred= new NetworkCredential("Sender Email","Sender Password");
+        NetworkCredential netCred = new NetworkCredential("rotariansample@hotmail.com", "It$tudents");
+        SmtpClient smtpobj = new SmtpClient("smtp.live.com", 587);
+        smtpobj.EnableSsl = true;
+        smtpobj.Credentials = netCred;
+        smtpobj.Send(o);
     }
 }
  
