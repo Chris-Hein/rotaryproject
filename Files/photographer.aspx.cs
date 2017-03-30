@@ -21,6 +21,7 @@ public partial class new_photographer : System.Web.UI.Page {
     DataSet dbDataSet;
     string sqlString;
     DataView dbDataView;
+    UpdateAdmin update;
 
     //DB variables
     private string contact_name;
@@ -30,35 +31,21 @@ public partial class new_photographer : System.Web.UI.Page {
     private string phone;
     private string image;
 
+    //front variables
+    // RadioButton complete = document.getElementById('complete').value;
+    // RadioButton showall = document.getElementById('showall').value;
+    // RadioButton pending = document.getElementById('pending').value;
+
     // ---------------------------------------------------------------- initial startup
 
     protected void PageLoad(object sender, EventArgs e) {
-        try {
-            // Create DataSet and fill with Products table
-            dbConnection = new SqlConnection("Database=rotaryyearbook.sql; Data Source=localhost; User Id=useraccount; Password=userpassword");
-            dbConnection.Open();
-            sqlString = "SELECT * FROM adawaitingapproval ORDER BY business_name DESC";
-            dbCommand = new SqlCommand(sqlString, dbConnection);
-
-            dbAdapter = new SqlDataAdapter(sqlString, dbConnection);
-            dbDataSet = new DataSet();
-            dbAdapter.Fill(dbDataSet, "adawaitingapproval");
-
-            sqlString = "SELECT * FROM adawaitingapproval";
-            dbCommand.CommandText = sqlString;
-            Cache["dbDataSet"] = dbDataSet;
-        } catch (Exception c) {
-            Response.Write("AN ERROR HAS OCCURED: <br/>");
-            Response.Write(c.Message);
-        } finally {
-            dbConnection.Close();
-        }
+        update = new UpdateAdmin();    
         //DB variables
-        string contact_name = dbDataSet.Tables[0].Rows[0]["first_name" + " " + "last_name"].ToString();
-        string business_name = dbDataSet.Tables[0].Rows[0]["business_name"].ToString();
-        string business_email = dbDataSet.Tables[0].Rows[0]["business_email"].ToString();        
-        string business_address = dbDataSet.Tables[0].Rows[0]["business_address"].ToString();
-        string phone = dbDataSet.Tables[0].Rows[0]["phone"].ToString();
+        string contact_name = dbDataSet.Tables[0].Rows[0]["sponsorContact"].ToString();
+        string business_name = dbDataSet.Tables[0].Rows[0]["SponsorName"].ToString();
+        string business_email = dbDataSet.Tables[0].Rows[0]["sponsorEmail"].ToString();        
+        string business_address = dbDataSet.Tables[0].Rows[0]["sponsorAddress"].ToString();
+        string phone = dbDataSet.Tables[0].Rows[0]["sponsorPhone"].ToString();
         string image = dbDataSet.Tables[0].Rows[0]["image"].ToString();
 
         // event listeners
@@ -70,17 +57,111 @@ public partial class new_photographer : System.Web.UI.Page {
 
         // build regex objects for input validation
         regexMsg = new Regex("^[\\w\\W\\'][\\w\\W\\s\\'\\-]+$");
+        populateDropDown();
+    }
+
+    protected void populateDropDown() {
+       
+    //     if (showall.Checked()){
+    //         try {
+    //             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+    //             dbConnection.Open();
+    //             sqlString = "SELECT * FROM mainRecords WHERE id > 0";
+    //             dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
+    //             dbDataSet = new DataSet();
+    //             dbAdapter.Fill(dbDataSet, "sponsor");
+    //             // Executes the SQL
+    //             // Binds the photographer data to the dropdown so it can be displayed
+    //             drpSponsorList.DataSource = dbDataSet.Tables["sponsor"];
+    //             drpSponsorList.DataValueField = "business_name";
+    //             drpSponsorList.DataTextField = "business_name";
+    //             //drpAssignPhotographer.DataBind();
+    //             Cache["dbDataSet"] = dbDataSet;
+    //         } finally {
+    //             dbConnection.Close();
+    //         }
+    //    }
+    //     if (pending.Checked()){
+    //         try {
+    //             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+    //             dbConnection.Open();
+    //             sqlString = "SELECT * FROM mainRecords WHERE id > 0";
+    //             dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
+    //             dbDataSet = new DataSet();
+    //             dbAdapter.Fill(dbDataSet, "sponsor");
+    //             // Executes the SQL
+    //             // Binds the photographer data to the dropdown so it can be displayed
+    //             drpSponsorList.DataSource = dbDataSet.Tables["sponsor"];
+    //             drpSponsorList.DataValueField = "business_name";
+    //             drpSponsorList.DataTextField = "business_name";
+    //             //drpAssignPhotographer.DataBind();
+    //             Cache["dbDataSet"] = dbDataSet;
+    //         } finally {
+    //             dbConnection.Close();
+    //         }
+    //    }
+    //     if (complete.Checked()){
+    //         try {
+    //             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+    //             dbConnection.Open();
+    //             sqlString = "SELECT * FROM mainRecords WHERE id > 0";
+    //             dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
+    //             dbDataSet = new DataSet();
+    //             dbAdapter.Fill(dbDataSet, "sponsor");
+    //             // Executes the SQL
+    //             // Binds the photographer data to the dropdown so it can be displayed
+    //             drpSponsorList.DataSource = dbDataSet.Tables["sponsor"];
+    //             drpSponsorList.DataValueField = "business_name";
+    //             drpSponsorList.DataTextField = "business_name";
+    //             //drpAssignPhotographer.DataBind();
+    //             Cache["dbDataSet"] = dbDataSet;
+    //         } finally {
+    //             dbConnection.Close();
+    //         }
+     //  }
+        
+            try {
+                dbConnection = new SqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+                dbConnection.Open();
+                sqlString = "SELECT sponsorName FROM mainRecords WHERE id > 0";
+                dbAdapter = new SqlDataAdapter(sqlString, dbConnection);
+                dbDataSet = new DataSet();
+                dbAdapter.Fill(dbDataSet, "admin");
+                // Executes the SQL
+                // Binds the photographer data to the dropdown so it can be displayed
+                drpSponsorList.DataSource = dbDataSet.Tables["admin"];
+                drpSponsorList.DataValueField = "business_name";
+                drpSponsorList.DataTextField = "business_name";
+                drpSponsorList.DataBind();
+                Cache["dbDataSet"] = dbDataSet;
+            } finally {
+                dbConnection.Close();
+            }       
+
+        loadSponsorData();
+    }
+
+  
+    // Handles display of in-depth data when user clicks the business name in the initial repeater
+    // Uses custom paging bind the displayed data to the display repeater
+    protected void loadSponsorData () {
+
+        lblBus.InnerHtml = update.getSponsorName(drpSponsorList.ToString());
+        lblEmail.InnerHtml = update.getSponsorEmail(drpSponsorList.ToString());
+        lblPhone.InnerHtml = update.getSponsorPhone(drpSponsorList.ToString());
+        lblAddress.InnerHtml = update.getSponsorAddress(drpSponsorList.ToString());
+        lblName.InnerHtml = update.getSponsorContact(drpSponsorList.ToString());        
     }
 
     private void search(object sender, EventArgs e) {
         //getData();      
-        if (txtSearch.Value != "") {
+        
             dbConnection.Open();
             int i = 0;
-            SqlCommand cmd0 = new SqlCommand("SELECT business_name FROM adawaitingapproval WHERE business_name ='" + txtSearch.Value + "'", dbConnection);
+            SqlCommand cmd0 = new SqlCommand("SELECT sponsorName FROM addata WHERE sponsorName ='" + drpSponsorList.SelectedItem.Value.ToString() + "'", dbConnection);
             i = int.Parse(cmd0.ExecuteScalar().ToString());
             if (i > 0) {
-                SqlCommand cmd1 = new SqlCommand("SELECT notice FROM adawaitingapproval WHERE business_name ='" + txtSearch.Value + "'", dbConnection);
+                SqlCommand cmd1 = new SqlCommand("SELECT approved FROM addata WHERE sponsorName ='" + drpSponsorList.SelectedItem.Value.ToString() + "'", dbConnection);
                 string name = cmd1.ExecuteScalar().ToString();
                 lblName.InnerHtml = contact_name;
                 lblBus.InnerHtml = business_name;
@@ -93,7 +174,7 @@ public partial class new_photographer : System.Web.UI.Page {
                 //lblError.Visible = true;
                 dbConnection.Close();
             }
-        }
+        
 
     }
 

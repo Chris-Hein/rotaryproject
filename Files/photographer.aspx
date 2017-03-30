@@ -8,13 +8,25 @@
     <section class="content-block">
         <div class="container">
 
-            <!-- SEARCH BAR -->   
+            <!--========================= SEARCH BAR =============================-->   
             <div class="row">
-                 <form class="navbar-form" role="search">
+                 <form class="navbar-form" role="search" runat="server">
                     <div class="input-group add-on">                       
-                        <input id="txtSearch" runat="server" class="form-control" placeholder="Search by Business Name" type="text"/>
+                        <asp:DropDownList id="drpSponsorList" runat="server" class="form-control"/>
                         <div class="input-group-btn">
                             <button id="btnSearch" class="btn btn-default" type="submit" runat="server"><i class="glyphicon glyphicon-search"></i></button>
+                            <!-- =======================RADIO BUTTONS========================-->
+                            <div class="btn-group" data-toggle="buttons">
+                                <label class="btn btn-danger active">
+                                    <input type="radio" name="showall" id="pending" autocomplete="off" runat="server" checked> Show All
+                                </label>
+                                <label class="btn btn-danger">
+                                    <input type="radio" name="pending" id="edit" runat="server" autocomplete="off"> Pending
+                                </label>
+                                <label class="btn btn-danger">
+                                    <input type="radio" name="complete" id="complete" runat="server" autocomplete="off"> Complete
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -33,7 +45,7 @@
 
             <div class="row">
                 <div class="col-md-4">
-                    <div class="editContent">
+                    <div class="editContent" id="editContent">
                         <p id="content">
                             <b>Contact Name: </b> <span id="lblName" runat="server">John Smith</span><br />
                             <b>Business Name: </b> <span id="lblBus" runat="server">Business of business</span><br />
@@ -76,5 +88,6 @@
         </div>
     </section>
     <!--// END Sponsor information -->
+    <script src="resources/photographer.js" type="text/javascript"></script>
 
 </asp:Content>

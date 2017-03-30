@@ -53,7 +53,7 @@
     // Handles population of the photographer dropdown
     protected void populatePhotographers() {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id='useraccount';Password='userpassword'");
             dbConnection.Open();
             sqlString = "SELECT photographer FROM mainRecords WHERE id > 0";
             dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
@@ -83,8 +83,8 @@
             // Executes the SQL
             // Binds the business data to the dropdown so it can be displayed
             drpAssignSponsor.DataSource = dbDataSet.Tables["admin"];
-            drpAssignSponsor.DataValueField = "SponsorName";
-            drpAssignSponsor.DataTextField = "SponsorName";
+            drpAssignSponsor.DataValueField = "business_name";
+            drpAssignSponsor.DataTextField = "business_name";
             drpAssignSponsor.DataBind();
             Cache["dbDataSet"] = dbDataSet;
         } finally {
