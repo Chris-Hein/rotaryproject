@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 04, 2017 at 03:51 PM
+-- Generation Time: Mar 30, 2017 at 02:09 PM
 -- Server version: 5.7.17-log
 -- PHP Version: 7.1.2
 
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `addata` (
   `id` int(255) NOT NULL,
-  `approved` varchar(3) NOT NULL DEFAULT 'no',
+  `approved` varchar(3) DEFAULT NULL,
   `sponsorName` text NOT NULL,
   `captionAddress` text,
   `captionPhone` varchar(15) DEFAULT NULL,
@@ -47,13 +47,33 @@ CREATE TABLE `addata` (
 INSERT INTO `addata` (`id`, `approved`, `sponsorName`, `captionAddress`, `captionPhone`, `captionEmail`, `captionFront`, `captionMiddle`, `captionBack`, `image`, `adNotes`) VALUES
 (1, 'no', 'Coffee Express', NULL, NULL, NULL, 'It\'s coffee!!', NULL, NULL, 'coffee1.jpg', 'Beans do not fill the screen'),
 (2, 'yes', 'Sheepdog Inc.', NULL, NULL, NULL, NULL, 'Ralph', NULL, 'sheepdog.jpg', NULL),
-(3, 'no', 'Matt\'s Bistro', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(4, 'no', 'Patches and Stitches', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(5, 'no', 'Cryptic Studios', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(3, NULL, 'Matt\'s Bistro', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(4, NULL, 'Patches and Stitches', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(5, NULL, 'Cryptic Studios', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 'yes', 'Beefy\'s Burgers', NULL, NULL, NULL, NULL, NULL, 'Burger burger', 'burger.jpg', NULL),
-(7, 'no', 'The Sandwich Master', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(8, 'no', 'Gas and Pass', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(9, 'yes', 'Hugh Bigshot', NULL, NULL, NULL, 'Hugh Bigshot', NULL, NULL, 'bigshot.png', NULL);
+(7, NULL, 'The Sandwich Master', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(8, NULL, 'Gas and Pass', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(9, 'no', 'Hugh Bigshot', NULL, NULL, NULL, 'Hugh Bigshot', NULL, NULL, 'bigshot.png', 'Looking for black-and-white photo.');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `adprices`
+--
+
+CREATE TABLE `adprices` (
+  `sixth` int(11) NOT NULL DEFAULT '0',
+  `third` int(11) NOT NULL DEFAULT '0',
+  `half` int(11) NOT NULL DEFAULT '0',
+  `full` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `adprices`
+--
+
+INSERT INTO `adprices` (`sixth`, `third`, `half`, `full`) VALUES
+(415, 690, 1150, 1725);
 
 -- --------------------------------------------------------
 
