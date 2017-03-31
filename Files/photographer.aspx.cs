@@ -121,29 +121,27 @@ public partial class new_photographer : System.Web.UI.Page {
      //  }
         
             try {
-                dbConnection = new SqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+                dbConnection = new SqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id='useraccount';Password='userpassword'");
                 dbConnection.Open();
-                sqlString = "SELECT sponsorName FROM mainRecords WHERE id > 0";
+                sqlString = "SELECT sponsorName FROM mainRecords WHERE id > 0 ORDER BY ASC";
                 dbAdapter = new SqlDataAdapter(sqlString, dbConnection);
                 dbDataSet = new DataSet();
                 dbAdapter.Fill(dbDataSet, "admin");
                 // Executes the SQL
                 // Binds the photographer data to the dropdown so it can be displayed
                 drpSponsorList.DataSource = dbDataSet.Tables["admin"];
-                drpSponsorList.DataValueField = "business_name";
-                drpSponsorList.DataTextField = "business_name";
+                drpSponsorList.DataValueField = "sponsorName";
+                drpSponsorList.DataTextField = "sponsorName";
                 drpSponsorList.DataBind();
                 Cache["dbDataSet"] = dbDataSet;
             } finally {
                 dbConnection.Close();
             }       
-
+        drpSponsorList.Text = "test";
         loadSponsorData();
     }
 
-  
-    // Handles display of in-depth data when user clicks the business name in the initial repeater
-    // Uses custom paging bind the displayed data to the display repeater
+    //loads the drop down data
     protected void loadSponsorData () {
 
         lblBus.InnerHtml = update.getSponsorName(drpSponsorList.ToString());

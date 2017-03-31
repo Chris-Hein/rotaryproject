@@ -83,8 +83,8 @@
             // Executes the SQL
             // Binds the business data to the dropdown so it can be displayed
             drpAssignSponsor.DataSource = dbDataSet.Tables["admin"];
-            drpAssignSponsor.DataValueField = "business_name";
-            drpAssignSponsor.DataTextField = "business_name";
+            drpAssignSponsor.DataValueField = "sponsorName";
+            drpAssignSponsor.DataTextField = "sponsorName";
             drpAssignSponsor.DataBind();
             Cache["dbDataSet"] = dbDataSet;
         } finally {

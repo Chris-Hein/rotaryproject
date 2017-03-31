@@ -18,13 +18,13 @@ public class UpdateAdmin {
     }
 
     // Method to update the business name via the admin page
-    public void updateSponsorName(string id, string businessName) {
+    public void updateSponsorName(string id, string sponsorName) {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "UPDATE admin SET business_name = @business_name WHERE id = '" + id + "'";
+            sqlString = "UPDATE mainrecords SET sponsorName = @sponsorName WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@business_name", businessName);
+            dbCommand.Parameters.AddWithValue("@sponsorName", sponsorName);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -32,13 +32,13 @@ public class UpdateAdmin {
     }
 
     // Method to update the business email via the admin page
-    public void updateSponsorEmail(string id, string businessEmail) {
+    public void updateSponsorEmail(string id, string sponsorEmail) {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "UPDATE admin SET business_email = @business_email WHERE id = '" + id + "'";
+            sqlString = "UPDATE mainRecords SET sponsorEmail = @sponsorEmail WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@business_email", businessEmail);
+            dbCommand.Parameters.AddWithValue("@sponsorEmail", businessEmail);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -46,13 +46,13 @@ public class UpdateAdmin {
     }
 
     // Method to update the business phone via the admin page
-    public void updatePhone(string id, string businessPhone) {
+    public void updatePhone(string id, string sponsorPhone) {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "UPDATE admin SET business_phone = @business_phone WHERE id = '" + id + "'";
+            sqlString = "UPDATE mainrecords SET sponsorPhone = @sponsorPhone WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@business_phone", businessPhone);
+            dbCommand.Parameters.AddWithValue("@sponsorPhone", sponsorPhone);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -60,13 +60,13 @@ public class UpdateAdmin {
     }
 
     // Method to update the business address via the admin page
-    public void updateAddress(string id, string businessAddress) {
+    public void updateAddress(string id, string sponsorAddress) {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "UPDATE admin SET business_address = @business_address WHERE id = '" + id + "'";
+            sqlString = "UPDATE mainrecords SET sponsorAddress = @sponsorAddress WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@business_address", businessAddress);
+            dbCommand.Parameters.AddWithValue("@sponsorAddress", sponsorAddress);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -116,13 +116,13 @@ public class UpdateAdmin {
     }
 
     // Method to update the assigned photographer name via the admin page
-    public void updateAssignedPhotographer(string id, string assignedPhotographer) {
+    public void updateAssignedPhotographer(string id, string photographer) {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "UPDATE admin SET assigned_photographer_name = @assigned_photographer_name WHERE id = '" + id + "'";
+            sqlString = "UPDATE mainrecords SET photographer = @photographer WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@assigned_photographer_name", assignedPhotographer);
+            dbCommand.Parameters.AddWithValue("@photographer", photographer);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -134,9 +134,9 @@ public class UpdateAdmin {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "UPDATE admin SET ad_size = @ad_size WHERE id = '" + id + "'";
+            sqlString = "UPDATE mainrecords SET adSize = @adSize WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@ad_size", adSize);
+            dbCommand.Parameters.AddWithValue("@aSize", adSize);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -148,9 +148,9 @@ public class UpdateAdmin {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "UPDATE admin SET haspaid = @haspaid WHERE id = '" + id + "'";
+            sqlString = "UPDATE mainrecords SET paid = @paid WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@haspaid", hasPaid);
+            dbCommand.Parameters.AddWithValue("@paid", hasPaid);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -162,7 +162,7 @@ public class UpdateAdmin {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "UPDATE admin SET ordered = @ordered WHERE id = '" + id + "'";
+            sqlString = "UPDATE mainrecords SET orderStatus = @ordered WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             dbCommand.Parameters.AddWithValue("@ordered", ordered);
             dbCommand.ExecuteNonQuery();
@@ -176,7 +176,7 @@ public class UpdateAdmin {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "UPDATE admin SET ad_approved = @ad_approved WHERE id = '" + id + "'";
+            sqlString = "UPDATE addata SET approved = @ad_approved WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             dbCommand.Parameters.AddWithValue("@ad_approved", adapproved);
             dbCommand.ExecuteNonQuery();
@@ -190,7 +190,7 @@ public class UpdateAdmin {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "UPDATE admin SET pay_type = @pay_type WHERE id = '" + id + "'";
+            sqlString = "UPDATE mainrecords SET paymentMethod = @pay_type WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             dbCommand.Parameters.AddWithValue("@pay_type", paymentType);
             dbCommand.ExecuteNonQuery();
@@ -218,7 +218,7 @@ public class UpdateAdmin {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "UPDATE admin SET assigned_business_name = @assigned_business_name WHERE assigned_photographer_name = '" + photographer + "'";
+            sqlString = "UPDATE mainrecords SET assigned_business_name = @assigned_business_name WHERE assigned_photographer_name = '" + photographer + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             dbCommand.Parameters.AddWithValue("@assigned_business_name", assignedSponsorName);
             dbCommand.ExecuteNonQuery();
@@ -232,9 +232,9 @@ public class UpdateAdmin {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "UPDATE admin SET assigned_photographer_name = @assigned_photographer_name WHERE business_name = '" + business + "'";
+            sqlString = "UPDATE mainrecords SET photographer = @photographer WHERE sponsorName = '" + business + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@assigned_photographer_name", assignedPhotographerName);
+            dbCommand.Parameters.AddWithValue("@photographer", assignedPhotographerName);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -248,7 +248,7 @@ public class UpdateAdmin {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "SELECT id FROM admin WHERE business_name = '" + id + "'";
+            sqlString = "SELECT id FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             // Uses executescalar because there is only one thing that needs to be returned
             return dbCommand.ExecuteScalar().ToString();
@@ -261,7 +261,7 @@ public class UpdateAdmin {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "SELECT business_name FROM admin WHERE business_name = '" + id + "'";
+            sqlString = "SELECT sponsorName FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             // Uses executescalar because there is only one thing that needs to be returned
             return dbCommand.ExecuteScalar().ToString();
@@ -274,7 +274,7 @@ public class UpdateAdmin {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "SELECT business_email FROM admin WHERE business_name = '" + id + "'";
+            sqlString = "SELECT sponsorEmail FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             // Uses executescalar because there is only one thing that needs to be returned
             return dbCommand.ExecuteScalar().ToString();
@@ -287,7 +287,7 @@ public class UpdateAdmin {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "SELECT business_phone FROM admin WHERE business_name = '" + id + "'";
+            sqlString = "SELECT sponsorPhone FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             // Uses executescalar because there is only one thing that needs to be returned
             return dbCommand.ExecuteScalar().ToString();
@@ -300,7 +300,7 @@ public class UpdateAdmin {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "SELECT business_address FROM admin WHERE business_name = '" + id + "'";
+            sqlString = "SELECT sponsorAddress FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             // Uses executescalar because there is only one thing that needs to be returned
             return dbCommand.ExecuteScalar().ToString();
@@ -352,7 +352,7 @@ public class UpdateAdmin {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "SELECT assigned_photographer_name FROM admin WHERE business_name = '" + id + "'";
+            sqlString = "SELECT photographer FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             // Uses executescalar because there is only one thing that needs to be returned
             return dbCommand.ExecuteScalar().ToString();
@@ -365,7 +365,7 @@ public class UpdateAdmin {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "SELECT ad_size FROM admin WHERE business_name = '" + id + "'";
+            sqlString = "SELECT adSize FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             // Uses executescalar because there is only one thing that needs to be returned
             return dbCommand.ExecuteScalar().ToString();
@@ -378,7 +378,7 @@ public class UpdateAdmin {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "SELECT haspaid FROM admin WHERE business_name = '" + id + "'";
+            sqlString = "SELECT paid FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             // Uses executescalar because there is only one thing that needs to be returned
             return dbCommand.ExecuteScalar().ToString();
@@ -391,7 +391,7 @@ public class UpdateAdmin {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "SELECT ordered FROM admin WHERE business_name = '" + id + "'";
+            sqlString = "SELECT order FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             // Uses executescalar because there is only one thing that needs to be returned
             return dbCommand.ExecuteScalar().ToString();
@@ -404,7 +404,7 @@ public class UpdateAdmin {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "SELECT ad_approved FROM admin WHERE business_name = '" + id + "'";
+            sqlString = "SELECT approved FROM addara WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             // Uses executescalar because there is only one thing that needs to be returned
             return dbCommand.ExecuteScalar().ToString();
@@ -417,7 +417,7 @@ public class UpdateAdmin {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "SELECT pay_type FROM admin WHERE business_name = '" + id + "'";
+            sqlString = "SELECT paymentMethod FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             // Uses executescalar because there is only one thing that needs to be returned
             return dbCommand.ExecuteScalar().ToString();
@@ -430,7 +430,7 @@ public class UpdateAdmin {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "SELECT contacted FROM admin WHERE business_name = '" + id + "'";
+            sqlString = "SELECT orderStatus FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             // Uses executescalar because there is only one thing that needs to be returned
             return dbCommand.ExecuteScalar().ToString();
@@ -443,7 +443,7 @@ public class UpdateAdmin {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "SELECT sponsorContact FROM admin WHERE business_name = '" + id + "'";
+            sqlString = "SELECT sponsorContact FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             // Uses executescalar because there is only one thing that needs to be returned
             return dbCommand.ExecuteScalar().ToString();
@@ -457,7 +457,7 @@ public class UpdateAdmin {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "SELECT assigned_photographer_name FROM admin WHERE id > 0";
+            sqlString = "SELECT photographer FROM mainrecords WHERE id > 0";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             // Uses executescalar because there is only one thing that needs to be returned
             return dbCommand.ExecuteScalar().ToString();
@@ -466,11 +466,11 @@ public class UpdateAdmin {
         }
     }
 
-    public string getSponsores() {
+    public string getSponsors() {
         try {
             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "SELECT business_name FROM admin WHERE id > 0";
+            sqlString = "SELECT sponsorName FROM mainrecords WHERE id > 0";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
             // Uses executescalar because there is only one thing that needs to be returned
             return dbCommand.ExecuteScalar().ToString();
