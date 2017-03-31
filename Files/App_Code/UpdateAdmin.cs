@@ -38,7 +38,7 @@ public class UpdateAdmin {
             dbConnection.Open();
             sqlString = "UPDATE mainRecords SET sponsorEmail = @sponsorEmail WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@sponsorEmail", businessEmail);
+            dbCommand.Parameters.AddWithValue("@sponsorEmail", sponsorEmail);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
