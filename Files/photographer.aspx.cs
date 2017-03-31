@@ -39,6 +39,8 @@ public partial class new_photographer : System.Web.UI.Page {
     // ---------------------------------------------------------------- initial startup
 
     protected void PageLoad(object sender, EventArgs e) {
+        lblName.InnerHtml="TEST!";
+        drpSponsorList.SelectedIndex = 0;        
         update = new UpdateAdmin();    
         //DB variables
         string contact_name = dbDataSet.Tables[0].Rows[0]["sponsorContact"].ToString();
@@ -57,87 +59,36 @@ public partial class new_photographer : System.Web.UI.Page {
 
         // build regex objects for input validation
         regexMsg = new Regex("^[\\w\\W\\'][\\w\\W\\s\\'\\-]+$");
+        drpSponsorList.Items.Add("test");
         populateDropDown();
+
+        if (!Page.IsPostBack) {
+            drpSponsorList.Items.Add("test");
+        
+        }
     }
 
     protected void populateDropDown() {
-       
-    //     if (showall.Checked()){
-    //         try {
-    //             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
-    //             dbConnection.Open();
-    //             sqlString = "SELECT * FROM mainRecords WHERE id > 0";
-    //             dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
-    //             dbDataSet = new DataSet();
-    //             dbAdapter.Fill(dbDataSet, "sponsor");
-    //             // Executes the SQL
-    //             // Binds the photographer data to the dropdown so it can be displayed
-    //             drpSponsorList.DataSource = dbDataSet.Tables["sponsor"];
-    //             drpSponsorList.DataValueField = "business_name";
-    //             drpSponsorList.DataTextField = "business_name";
-    //             //drpAssignPhotographer.DataBind();
-    //             Cache["dbDataSet"] = dbDataSet;
-    //         } finally {
-    //             dbConnection.Close();
-    //         }
-    //    }
-    //     if (pending.Checked()){
-    //         try {
-    //             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
-    //             dbConnection.Open();
-    //             sqlString = "SELECT * FROM mainRecords WHERE id > 0";
-    //             dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
-    //             dbDataSet = new DataSet();
-    //             dbAdapter.Fill(dbDataSet, "sponsor");
-    //             // Executes the SQL
-    //             // Binds the photographer data to the dropdown so it can be displayed
-    //             drpSponsorList.DataSource = dbDataSet.Tables["sponsor"];
-    //             drpSponsorList.DataValueField = "business_name";
-    //             drpSponsorList.DataTextField = "business_name";
-    //             //drpAssignPhotographer.DataBind();
-    //             Cache["dbDataSet"] = dbDataSet;
-    //         } finally {
-    //             dbConnection.Close();
-    //         }
-    //    }
-    //     if (complete.Checked()){
-    //         try {
-    //             dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
-    //             dbConnection.Open();
-    //             sqlString = "SELECT * FROM mainRecords WHERE id > 0";
-    //             dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
-    //             dbDataSet = new DataSet();
-    //             dbAdapter.Fill(dbDataSet, "sponsor");
-    //             // Executes the SQL
-    //             // Binds the photographer data to the dropdown so it can be displayed
-    //             drpSponsorList.DataSource = dbDataSet.Tables["sponsor"];
-    //             drpSponsorList.DataValueField = "business_name";
-    //             drpSponsorList.DataTextField = "business_name";
-    //             //drpAssignPhotographer.DataBind();
-    //             Cache["dbDataSet"] = dbDataSet;
-    //         } finally {
-    //             dbConnection.Close();
-    //         }
-     //  }
-        
+    lblName.InnerHtml="TEST!";
             try {
-                dbConnection = new SqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id='useraccount';Password='userpassword'");
+                lblName.InnerHtml="TEST!";
+                dbConnection = new SqlConnection("Database='rotaryyearbook';Data Source='localhost';User Id='useraccount';Password='userpassword'");
                 dbConnection.Open();
-                sqlString = "SELECT sponsorName FROM mainRecords WHERE id > 0 ORDER BY ASC";
+                sqlString = "SELECT sponsorName, id FROM mainrecords WHERE id > 0";
                 dbAdapter = new SqlDataAdapter(sqlString, dbConnection);
                 dbDataSet = new DataSet();
-                dbAdapter.Fill(dbDataSet, "admin");
+                dbAdapter.Fill(dbDataSet, "sponsor");
                 // Executes the SQL
                 // Binds the photographer data to the dropdown so it can be displayed
-                drpSponsorList.DataSource = dbDataSet.Tables["admin"];
-                drpSponsorList.DataValueField = "sponsorName";
+                drpSponsorList.DataSource = dbDataSet.Tables["sponsor"];
+                drpSponsorList.DataValueField = "id";
                 drpSponsorList.DataTextField = "sponsorName";
                 drpSponsorList.DataBind();
                 Cache["dbDataSet"] = dbDataSet;
             } finally {
                 dbConnection.Close();
-            }       
-        drpSponsorList.Text = "test";
+            }               
+        drpSponsorList.Items.Insert(0, new ListItem("-- Select Sponsor--", "0"));
         loadSponsorData();
     }
 

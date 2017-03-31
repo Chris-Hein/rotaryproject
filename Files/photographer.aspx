@@ -12,7 +12,9 @@
             <div class="row">
                  <form class="navbar-form" role="search" runat="server">
                     <div class="input-group add-on">                       
-                        <asp:DropDownList id="drpSponsorList" runat="server" class="form-control"/>
+                        <asp:DropDownList id="drpSponsorList" runat="server" class="form-control" placeholder="Please Select a Sponsor">
+                            <asp:ListItem Text="-- Select Sponsor--" Value="0"></asp:ListItem>
+                        </asp:DropDownList>                     
                         <div class="input-group-btn">
                             <button id="btnSearch" class="btn btn-default" type="submit" runat="server"><i class="glyphicon glyphicon-search"></i></button>
                             <!-- =======================RADIO BUTTONS========================-->
@@ -87,7 +89,6 @@
             </div>
         </div>
     </section>
-    <!--// END Sponsor information -->
-    <script src="resources/photographer.js" type="text/javascript"></script>
+    <!--// END Sponsor information -->    
 
 </asp:Content>

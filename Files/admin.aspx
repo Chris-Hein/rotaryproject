@@ -13,6 +13,7 @@
     string sqlString;
     MySqlDataAdapter dbAdapter;
     DataSet dbDataSet;
+    DataSet dataSet;
     // Used to handle updating fields
     UpdateAdmin update;
 
@@ -53,19 +54,19 @@
     // Handles population of the photographer dropdown
     protected void populatePhotographers() {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id='useraccount';Password='userpassword'");
+            dbConnection = new MySqlConnection("Database='rotaryyearbook';Data Source='localhost';User Id='useraccount';Password='userpassword'");
             dbConnection.Open();
-            sqlString = "SELECT photographer FROM mainRecords WHERE id > 0";
+            sqlString = "SELECT photographer FROM mainrecords WHERE id > 0";
             dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
-            dbDataSet = new DataSet();
-            dbAdapter.Fill(dbDataSet, "admin");
+            dataSet = new DataSet();
+            dbAdapter.Fill(dataSet, "photo");
             // Executes the SQL
             // Binds the photographer data to the dropdown so it can be displayed
-            drpAssignPhotographer.DataSource = dbDataSet.Tables["admin"];
-            drpAssignPhotographer.DataValueField = "assigned_photographer_name";
-            drpAssignPhotographer.DataTextField = "assigned_photographer_name";
+            drpAssignPhotographer.DataSource = dataSet.Tables["photo"];
+            drpAssignPhotographer.DataValueField = "photographer";
+            drpAssignPhotographer.DataTextField = "photographer";
             //drpAssignPhotographer.DataBind();
-            Cache["dbDataSet"] = dbDataSet;
+            Cache["dataSet"] = dataSet;
         } finally {
             dbConnection.Close();
         }
@@ -76,7 +77,7 @@
         try {
             dbConnection = new MySqlConnection("Database='rotaryyearbook';Data Source='localhost';User Id='useraccount';Password='userpassword'");
             dbConnection.Open();
-            sqlString = "SELECT sponsorName FROM mainRecords WHERE id > 0";
+            sqlString = "SELECT sponsorName FROM mainrecords WHERE id > 0";
             dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
             dbDataSet = new DataSet();
             dbAdapter.Fill(dbDataSet, "admin");
