@@ -245,6 +245,7 @@ public class UpdateAdmin {
 
     public string getSponsorName(string id) {
         try {
+            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT sponsorName FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -808,4 +809,52 @@ public class UpdateAdmin {
             dbConnection.Close();
         }
     }
+// ============================================ AD DATA
+    public string getFrontRow(string id) {
+        try {            
+            dbConnection.Open();
+            sqlString = "SELECT captionFront FROM addata WHERE id = '" + id + "'";
+            dbCommand = new MySqlCommand(sqlString, dbConnection);
+            // Uses executescalar because there is only one thing that needs to be returned
+            return dbCommand.ExecuteScalar().ToString();
+        } finally {
+            dbConnection.Close();
+        }
+    }
+
+    public string getMiddleRow(string id) {
+        try {            
+            dbConnection.Open();
+            sqlString = "SELECT captionMiddle FROM addata WHERE id = '" + id + "'";
+            dbCommand = new MySqlCommand(sqlString, dbConnection);
+            // Uses executescalar because there is only one thing that needs to be returned
+            return dbCommand.ExecuteScalar().ToString();
+        } finally {
+            dbConnection.Close();
+        }
+    }
+    public string getBackRow(string id) {
+        try {            
+            dbConnection.Open();
+            sqlString = "SELECT captionBack FROM addata WHERE id = '" + id + "'";
+            dbCommand = new MySqlCommand(sqlString, dbConnection);
+            // Uses executescalar because there is only one thing that needs to be returned
+            return dbCommand.ExecuteScalar().ToString();
+        } finally {
+            dbConnection.Close();
+        }
+    }
+
+    public string getImage(string id) {
+        try {            
+            dbConnection.Open();
+            sqlString = "SELECT image FROM addata WHERE id = '" + id + "'";
+            dbCommand = new MySqlCommand(sqlString, dbConnection);
+            // Uses executescalar because there is only one thing that needs to be returned
+            return dbCommand.ExecuteScalar().ToString();
+        } finally {
+            dbConnection.Close();
+        }
+    }
+
 }

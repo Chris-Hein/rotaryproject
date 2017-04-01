@@ -10,29 +10,28 @@
 
             <!--========================= DROPDOWN =============================-->   
             <div class="row">
-                 <form class="navbar-form" role="search" runat="server">
+                 <form class="navbar-form" runat="server">
                     <div class="input-group add-on">                       
-                        <asp:DropDownList id="drpSponsorList" runat="server" class="form-control">
-                            <asp:ListItem Text="-- Select Sponsor--" Value="0"></asp:ListItem>
-                        </asp:DropDownList>                     
+                        <asp:DropDownList id="drpSponsorList" runat="server" class="form-control"/>
                         <div class="input-group-btn">
-                            <button id="btnSearch" class="btn btn-default" type="submit" runat="server"><i class="glyphicon glyphicon-search"></i></button>
+                            <button id="btnSearch" class="btn btn-default" type="submit" runat="server" onclick="loadSponsorData"><i class="glyphicon glyphicon-search"></i></button>
                             <!-- =======================RADIO BUTTONS========================-->
                             <div class="btn-group" data-toggle="buttons">
                                 <label class="btn btn-danger active">
-                                    <input type="radio" name="showall" id="pending" autocomplete="off" runat="server" checked> Show All
+                                    <input type="radio" name="showall" id="rdoShowall" autocomplete="off" runat="server" checked> Show All
                                 </label>
                                 <label class="btn btn-danger">
-                                    <input type="radio" name="pending" id="edit" runat="server" autocomplete="off"> Pending
+                                    <input type="radio" name="pending" id="rdoPending" runat="server" autocomplete="off"> Pending
                                 </label>
                                 <label class="btn btn-danger">
-                                    <input type="radio" name="complete" id="complete" runat="server" autocomplete="off"> Complete
+                                    <input type="radio" name="complete" id="rdoComplete" runat="server" autocomplete="off"> Complete
                                 </label>
                             </div>
                         </div>
                     </div>
                 </form>
             </div><!-- END SEARCH BAR -->
+
 
             <div class="row">
                 <div class="col-md-4">
@@ -48,11 +47,11 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="editContent" id="editContent">
-                        <p id="content">
+                        <p id="content" runat="server">
                             <b>Contact Name: </b> <span id="lblName" runat="server">John Smith</span><br />
                             <b>Business Name: </b> <span id="lblBus" runat="server">Business of business</span><br />
                             <b>Email: </b> <span id="lblEmail" runat="server">johnsmith@email.com</span><br />
-                            <b>Business address: </b><span id="lblAddress" runat="server">123 Fake Street</span><br/>
+                            <b>Business address: </b><span id="lblAddress" runat="server">123 Fake Street</span><br />
                             <b>Phone: </b><span id="lblPhone" runat="server">902-555-1234</span><br/>
                         </p>
                     </div>                    
@@ -79,7 +78,7 @@
                     <!-- pulling a static image for now -->
                     <img src="images/placeholder.png" class="img-responsive" id="imgView" runat="server" />
                     <br />   
-                    <p id="imgContent">
+                    <p id="imgContent" runat="server">
                         <b>Front Row: </b> Name Name Name Name Name Name<br />
                         <b>Second Row: </b> Name Name Name Name Name Name<br />
                         <b>Back Row: </b> Name Name Name Name Name Name<br />

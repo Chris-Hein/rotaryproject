@@ -34,139 +34,165 @@ public partial class new_photographer : System.Web.UI.Page {
     private string phone;
     private string image;
 
-    //front variables
-    // RadioButton complete = document.getElementById('complete').value;
-    // RadioButton showall = document.getElementById('showall').value;
-    // RadioButton pending = document.getElementById('pending').value;
+    //label variables
+    
+    // ---------------------------------------------------------------- INITAIL STARTUP 
+    protected override void OnInit(EventArgs e) {
+        Load += new EventHandler(PageLoad);
+        //base.OnInit(e);
+    }
 
-    // ---------------------------------------------------------------- initial startup
 
-    protected void PageLoad(object sender, EventArgs e) {        
-        drpSponsorList.SelectedIndex = 0;        
+    protected void PageLoad(object sender, EventArgs e) {                        
         update = new UpdateAdmin();    
-        //DB variables
-        string contact_name = dbDataSet.Tables[0].Rows[0]["sponsorContact"].ToString();
-        string business_name = dbDataSet.Tables[0].Rows[0]["SponsorName"].ToString();
-        string business_email = dbDataSet.Tables[0].Rows[0]["sponsorEmail"].ToString();        
-        string business_address = dbDataSet.Tables[0].Rows[0]["sponsorAddress"].ToString();
-        string phone = dbDataSet.Tables[0].Rows[0]["sponsorPhone"].ToString();
-        string image = dbDataSet.Tables[0].Rows[0]["image"].ToString();
 
         // event listeners
         btnSend.ServerClick += new ImageClickEventHandler(btnSendClick);
-        btnSearch.ServerClick += new EventHandler(search);
+        btnSearch.ServerClick += new EventHandler(loadSponsorData);
 
         // maintain page position after hitting edit and apply buttons
         Page.MaintainScrollPositionOnPostBack = true;
 
         // build regex objects for input validation
         regexMsg = new Regex("^[\\w\\W\\'][\\w\\W\\s\\'\\-]+$");  
-        
 
-        if (!Page.IsPostBack) {
-            loadSponsorData();
-            populateDropDown();
+         //initial run
+        if (!Page.IsPostBack) {        
+            populateSponsors();
+            
+        try {
+            dbConnection.Open();
+            sqlString = "SELECT sponsorName FROM mainrecords WHERE id > 0 ORDER BY id";
+            dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
+            dbDataSet = new DataSet();
+            dbAdapter.Fill(dbDataSet, "admin");
+            // Executes the SQL
+            // Binds the business data to the dropdown so it can be displayed
+            drpSponsorList.DataSource = dbDataSet.Tables["admin"];
+            drpSponsorList.DataValueField = "sponsorName";
+            drpSponsorList.DataTextField = "sponsorName";
+            drpSponsorList.DataBind();
+            Cache["dbDataSet"] = dbDataSet;
+        } finally {
+            dbConnection.Close();
+        }        
+                     
         }
+        
+        //---------------------------------------------------------------- CHECK LABELS
+        // check to see if the labels are empty, if so, populate them
+            Label lblName = content.FindControl("lblName") as Label;
+            if (lblName != null) {
+                lblName.Text = "No name given";
+            }
+            Label lblBus = content.FindControl("lblBus") as Label;
+            if (lblBus != null) {
+                lblBus.Text = "Anonymous";
+            }
+            Label lblEmail = content.FindControl("lblEmail") as Label;
+            if (lblEmail != null) {
+                lblEmail.Text = "No email given";
+            }
+            Label lblAddress = content.FindControl("lblAddress") as Label;
+            if (lblAddress != null) {
+                lblAddress.Text = "No address given";
+            }
+            Label lblPhone = content.FindControl("lblPhone") as Label;
+            if (lblPhone != null) {
+                lblPhone.Text = "No phone number given";
+            }                 
+    }   
+    //-----------------------------------------------------------------------POPULATE DROP DOWN
+     protected void populateSponsors() {
+
+            if (rdoShowall.Checked){
+                try {
+                    dbConnection.Open();
+                    sqlString = "SELECT sponsorName FROM mainRecords WHERE id > 0 ORDER BY id";
+                    dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
+                    dbDataSet = new DataSet();
+                    dbAdapter.Fill(dbDataSet, "admin");
+                    // Executes the SQL
+                    // Binds the photographer data to the dropdown so it can be displayed
+                    drpSponsorList.DataSource = dbDataSet.Tables["admin"];
+                    drpSponsorList.DataValueField = "sponsorName";
+                    drpSponsorList.DataTextField = "sponsorName";
+                    //drpAssignPhotographer.DataBind();
+                    Cache["dbDataSet"] = dbDataSet;
+                } finally {
+                    dbConnection.Close();
+                }
+            } else if (rdoPending.Checked){
+                try {
+                    dbConnection.Open();
+                    sqlString = "SELECT * FROM mainRecords WHERE id > 0 AND orderStatus = 'pending' ORDER BY id";
+                    dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
+                    dbDataSet = new DataSet();
+                    dbAdapter.Fill(dbDataSet, "sponsor");
+                    // Executes the SQL
+                    // Binds the photographer data to the dropdown so it can be displayed
+                    drpSponsorList.DataSource = dbDataSet.Tables["sponsor"];
+                    drpSponsorList.DataValueField = "sponsorName";
+                    drpSponsorList.DataTextField = "sponsorName";
+                    //drpAssignPhotographer.DataBind();
+                    Cache["dbDataSet"] = dbDataSet;
+                 } finally {
+                     dbConnection.Close();
+                 }
+            } else if (rdoComplete.Checked){
+                try {               
+                    dbConnection.Open();
+                    sqlString = "SELECT * FROM mainRecords WHERE id > 0 ORDER BY id";
+                    dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
+                    dbDataSet = new DataSet();
+                    dbAdapter.Fill(dbDataSet, "sponsor");
+                    // Executes the SQL
+                    // Binds the photographer data to the dropdown so it can be displayed
+                    drpSponsorList.DataSource = dbDataSet.Tables["sponsor"];
+                    drpSponsorList.DataValueField = "sponsorName";
+                    drpSponsorList.DataTextField = "sponsorName";
+                    //drpAssignPhotographer.DataBind();
+                    Cache["dbDataSet"] = dbDataSet;
+                } finally {
+                 dbConnection.Close();
+                }
+            }
+     
     }
-
-
-    //     protected void populateSponsors() {
-    //     try {
-    //         dbConnection = new MySqlConnection("Database='rotaryyearbook';Data Source='localhost';User Id='useraccount';Password='userpassword'");
-    //         dbConnection.Open();
-    //         sqlString = "SELECT sponsorName FROM mainrecords WHERE id > 0";
-    //         dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
-    //         dbDataSet = new DataSet();
-    //         dbAdapter.Fill(dbDataSet, "admin");
-    //         // Executes the SQL
-    //         // Binds the business data to the dropdown so it can be displayed
-    //         drpAssignSponsor.DataSource = dbDataSet.Tables["admin"];
-    //         drpAssignSponsor.DataValueField = "sponsorName";
-    //         drpAssignSponsor.DataTextField = "sponsorName";
-    //         drpAssignSponsor.DataBind();
-    //         Cache["dbDataSet"] = dbDataSet;
-    //     } finally {
-    //         dbConnection.Close();
-    //     }
-    // }
-
-    protected void populateDropDown() {
-    
-            try {                          
-                dbConnection.Open();
-                sqlString = "SELECT sponsorName, id FROM mainrecords WHERE id > 0";
-                dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
-                dbDataSet = new DataSet();
-                dbAdapter.Fill(dbDataSet, "sponsor");
-                // Executes the SQL
-                // Binds the photographer data to the dropdown so it can be displayed
-                drpSponsorList.DataSource = dbDataSet.Tables["sponsor"];
-                drpSponsorList.DataValueField = "sponsorName";
-                drpSponsorList.DataTextField = "sponsorName";
-                drpSponsorList.DataBind();
-                Cache["dbDataSet"] = dbDataSet;
-            } finally {
-                dbConnection.Close();
-            }                            
-    }
-
+  
+    //------------------------------------------------------------------------------POPULATE LABELS FROM DROP DOWN SELECTION
     //loads the drop down data
-    protected void loadSponsorData () {
+    protected void loadSponsorData (object sender, EventArgs e) {
 
+        lblName.InnerHtml = update.getSponsorContact(drpSponsorList.ToString());  
         lblBus.InnerHtml = update.getSponsorName(drpSponsorList.ToString());
         lblEmail.InnerHtml = update.getSponsorEmail(drpSponsorList.ToString());
-        lblPhone.InnerHtml = update.getSponsorPhone(drpSponsorList.ToString());
         lblAddress.InnerHtml = update.getSponsorAddress(drpSponsorList.ToString());
-        lblName.InnerHtml = update.getSponsorContact(drpSponsorList.ToString());        
+        lblPhone.InnerHtml = update.getSponsorPhone(drpSponsorList.ToString());                
+        imgView.Src = update.getImage(drpSponsorList.ToString());        
+        imgContent.InnerHtml = update.getFrontRow(drpSponsorList.ToString()) + "<br /> " + update.getMiddleRow(drpSponsorList.ToString()) + "<br />" + update.getBackRow(drpSponsorList.ToString());
     }
 
-    private void search(object sender, EventArgs e) {
-        //getData();      
-            dbConnection.Open();
-            int i = 0;
-            MySqlCommand cmd0 = new MySqlCommand("SELECT sponsorName FROM addata WHERE sponsorName ='" + drpSponsorList.SelectedItem.Value.ToString() + "'", dbConnection);
-            i = int.Parse(cmd0.ExecuteScalar().ToString());
-            if (i > 0) {
-                MySqlCommand cmd1 = new MySqlCommand("SELECT approved FROM addata WHERE sponsorName ='" + drpSponsorList.SelectedItem.Value.ToString() + "'", dbConnection);
-                string name = cmd1.ExecuteScalar().ToString();
-                lblName.InnerHtml = contact_name;
-                lblBus.InnerHtml = business_name;
-                lblEmail.InnerHtml = business_email;
-                lblAddress.InnerHtml = business_address;
-                lblPhone.InnerHtml = phone;
-                imgView.Src = image;
-                dbConnection.Close();
-            } else {
-                //lblError.Visible = true;
-                dbConnection.Close();
-            }
+    // private void searchSponsor(object sender, EventArgs e) {
+        //getData();            
+        //loadSponsorData();
+        //dbConnection.Open();
+        // int i = 0;            
+        // MySqlCommand cmd0 = new MySqlCommand("SELECT sponsorName FROM addata WHERE sponsorName ='" + drpSponsorList.SelectedItem.Value.ToString() + "' ORDER BY id", dbConnection);
+        // i = int.Parse(cmd0.ExecuteScalar().ToString());
+        // if (i > 0) {
+        //     MySqlCommand cmd1 = new MySqlCommand("SELECT image FROM addata WHERE sponsorName ='" + drpSponsorList.SelectedItem.Value.ToString() + "' ORDER BY id", dbConnection);
+        //     string image = cmd1.ExecuteScalar().ToString();                
+        //     imgView.Src = image;
+        //     dbConnection.Close();
+        // } else {
+        //     //lblError.Visible = true;
+        //     dbConnection.Close();
+        // }
         
 
-    }
-
-    //private void getData() {
-    //    try {
-    //        // Create DataSet and fill with Products table
-    //        dbConnection = new SqlConnection("Database=./Database/rotary tables/rotaryyearbook.sql; Data Source=localhost; User Id=useraccount; Password=userpassword");
-    //        dbConnection.Open();
-    //        sqlString = "SELECT * FROM adawaitingapproval ORDER BY business_name DESC";
-    //        dbCommand = new SqlCommand(sqlString, dbConnection);
-
-    //        dbAdapter = new SqlDataAdapter(sqlString, dbConnection);
-    //        dbDataSet = new DataSet();
-    //        dbAdapter.Fill(dbDataSet, "adawaitingapproval");
-        
-    //        sqlString = "SELECT * FROM adawaitingapproval";
-    //        dbCommand.CommandText = sqlString;
-    //        Cache["dbDataSet"] = dbDataSet;
-    //    } catch (Exception e) {
-    //        Response.Write("AN ERROR HAS OCCURED: <br/>");
-    //        Response.Write(e.Message);
-    //    } finally {
-    //        dbConnection.Close();
-    //    }
-    //}    
-
+    // }
+//------------------------------------------------------------------------------------------EMAIL SEND BUTTON CLICK
     private void btnSendClick(object sender, EventArgs e) {
 
     //    bool pass = true;
