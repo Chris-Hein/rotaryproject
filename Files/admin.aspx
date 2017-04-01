@@ -53,18 +53,18 @@
     // Handles population of the photographer dropdown
     protected void populatePhotographers() {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id='useraccount';Password='userpassword'");
+            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
-            sqlString = "SELECT photographer FROM mainRecords WHERE id > 0";
+            sqlString = "SELECT photographer FROM mainrecords WHERE id > 0";
             dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
             dbDataSet = new DataSet();
-            dbAdapter.Fill(dbDataSet, "admin");
+            dbAdapter.Fill(dbDataSet, "mainrecords");
             // Executes the SQL
             // Binds the photographer data to the dropdown so it can be displayed
-            drpAssignPhotographer.DataSource = dbDataSet.Tables["admin"];
-            drpAssignPhotographer.DataValueField = "assigned_photographer_name";
-            drpAssignPhotographer.DataTextField = "assigned_photographer_name";
-            //drpAssignPhotographer.DataBind();
+            drpAssignPhotographer.DataSource = dbDataSet.Tables["mainrecords"];
+            drpAssignPhotographer.DataValueField = "photographer";
+            drpAssignPhotographer.DataTextField = "photographer";
+            drpAssignPhotographer.DataBind();
             Cache["dbDataSet"] = dbDataSet;
         } finally {
             dbConnection.Close();
@@ -76,15 +76,15 @@
         try {
             dbConnection = new MySqlConnection("Database='rotaryyearbook';Data Source='localhost';User Id='useraccount';Password='userpassword'");
             dbConnection.Open();
-            sqlString = "SELECT sponsorName FROM mainRecords WHERE id > 0";
+            sqlString = "SELECT sponsorName FROM mainrecords WHERE id > 0";
             dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
             dbDataSet = new DataSet();
-            dbAdapter.Fill(dbDataSet, "admin");
+            dbAdapter.Fill(dbDataSet, "mainrecords");
             // Executes the SQL
             // Binds the business data to the dropdown so it can be displayed
-            drpAssignSponsor.DataSource = dbDataSet.Tables["admin"];
-            drpAssignSponsor.DataValueField = "sponsorName";
-            drpAssignSponsor.DataTextField = "sponsorName";
+            drpAssignSponsor.DataSource = dbDataSet.Tables["mainrecords"];
+            drpAssignSponsor.DataValueField = "SponsorName";
+            drpAssignSponsor.DataTextField = "SponsorName";
             drpAssignSponsor.DataBind();
             Cache["dbDataSet"] = dbDataSet;
         } finally {
@@ -94,22 +94,22 @@
 
     // Handles assigning a photographer to a business
     protected void assignPhotographer(Object src, EventArgs args) {
-        update.updateAssignedSponsorName(drpAssignPhotographer.SelectedItem.Value.ToString(), drpAssignSponsor.SelectedItem.Value.ToString());
-        update.updateAssignedPhotographerName(drpAssignSponsor.SelectedItem.Value.ToString(), drpAssignPhotographer.SelectedItem.Value.ToString());
+       // update.updateAssignedSponsorName1(drpAssignPhotographer.SelectedItem.Value.ToString(), drpAssignSponsor.SelectedItem.Value.ToString());
+        update.updateAssignedPhotographerName1(drpAssignSponsor.SelectedItem.Value.ToString(), drpAssignPhotographer.SelectedItem.Value.ToString());
     }
 
     // Handles admin selection of a user to view in greater detail
     protected void businessSelected (Object src, CommandEventArgs args) {
         // Uses the text of the command argument (which is the name of the business) to determine what data to load
-        Session["selectedSponsor"] = args.CommandArgument;
+        Session["selectedSponsor"] = args.CommandArgument.ToString();
         selectedSponsor = Session["selectedSponsor"].ToString();
         loadSponsorData();
+        Console.Write(selectedSponsor);
     }
 
     // Handles display of in-depth data when user clicks the business name in the initial repeater
     // Uses custom paging bind the displayed data to the display repeater
     protected void loadSponsorData () {
-
         txtSponsorName.Text = update.setSponsorName(selectedSponsor.ToString());
         txtSponsorEmail.Text = update.setSponsorEmail(selectedSponsor.ToString());
         txtSponsorPhone.Text = update.setSponsorPhone(selectedSponsor.ToString());
@@ -218,26 +218,38 @@
 
     // Handles updating user details
     protected void updateSponsor(Object src, EventArgs args) {
-        // Updates business name
-        update.upSponsorName(Convert.ToString(selectedSponsor),Convert.ToString(Server.HtmlEncode(txtSponsorName.Text)));
-        // Updates business email
-        update.upSponsorEmail(Convert.ToString(selectedSponsor), Convert.ToString(Server.HtmlEncode(txtSponsorEmail.Text)));
-        // Updates business phone
-        update.upSponsorPhone(Convert.ToString(selectedSponsor), Convert.ToString(Server.HtmlEncode(txtSponsorPhone.Text)));
-        // Updates business address
-        update.upSponsorAddress(Convert.ToString(selectedSponsor), Convert.ToString(Server.HtmlEncode(txtSponsorAddress.Text)));
-        // Updates contact name
-        update.upSponsorContact(Convert.ToString(selectedSponsor), Convert.ToString(Server.HtmlEncode(txtContactName.Text)));
-        // Updates ad size
-        update.upAdSize(Convert.ToString(selectedSponsor), Convert.ToString(Server.HtmlEncode(txtAdSize.Text)));
-        // Updates payment status
-        update.upPaymentStatus(Convert.ToString(selectedSponsor), Convert.ToString(Server.HtmlEncode(txtPaid.Text)));
-        // Updates approval status
-        update.upAdStatus(Convert.ToString(selectedSponsor), Convert.ToString(Server.HtmlEncode(txtAdStatus.Text)));
-        // Updates payment method
-        update.upPaymentMethod(Convert.ToString(selectedSponsor), Convert.ToString(Server.HtmlEncode(txtPaymentMethod.Text)));
-        // Updates whether user was contacted
-        update.upContactStatus(Convert.ToString(selectedSponsor), Convert.ToString(Server.HtmlEncode(txtContacted.Text)));
+        bool test = emailIsValid(txtSponsorEmail.Text);
+
+        // Checks for a valid email format when the sponsor is updated manually
+        if (test == true) {
+            // Updates business name
+            update.upSponsorName(Convert.ToString(selectedSponsor),Convert.ToString(Server.HtmlEncode(txtSponsorName.Text)));
+            Console.Write("sponsor: " + selectedSponsor);
+            // Updates business email
+            update.upSponsorEmail(Convert.ToString(Server.HtmlEncode(txtSponsorName.Text)), Convert.ToString(Server.HtmlEncode(txtSponsorEmail.Text)));
+            // Updates business phone
+            update.upSponsorPhone(Convert.ToString(Server.HtmlEncode(txtSponsorName.Text)), Convert.ToString(Server.HtmlEncode(txtSponsorPhone.Text)));
+            // Updates business address
+            update.upSponsorAddress(Convert.ToString(Server.HtmlEncode(txtSponsorName.Text)), Convert.ToString(Server.HtmlEncode(txtSponsorAddress.Text)));
+            // Updates contact name
+            update.upSponsorContact(Convert.ToString(Server.HtmlEncode(txtSponsorName.Text)), Convert.ToString(Server.HtmlEncode(txtContactName.Text)));
+            // Updates ad size
+            update.upAdSize(Convert.ToString(Server.HtmlEncode(txtSponsorName.Text)), Convert.ToString(Server.HtmlEncode(txtAdSize.Text)));
+            // Updates payment status
+            update.upPaymentStatus(Convert.ToString(Server.HtmlEncode(txtSponsorName.Text)), Convert.ToString(Server.HtmlEncode(txtPaid.Text)));
+            // Updates approval status
+            update.upAdStatus(Convert.ToString(Server.HtmlEncode(txtSponsorName.Text)), Convert.ToString(Server.HtmlEncode(txtAdStatus.Text)));
+            // Updates payment method
+            update.upPaymentMethod(Convert.ToString(Server.HtmlEncode(txtSponsorName.Text)), Convert.ToString(Server.HtmlEncode(txtPaymentMethod.Text)));
+            // Updates whether user was contacted
+            update.upContactStatus(Convert.ToString(Server.HtmlEncode(txtSponsorName.Text)), Convert.ToString(Server.HtmlEncode(txtContacted.Text)));
+
+             lblUpdateFeedbeck.Text = "Sponsor data updated successfully";
+        } else {
+            lblUpdateFeedbeck.Text = "Error: the sponsor email is not in a valid format";
+        }
+        
+        
     }
 
     protected void loadAdPrices() {
@@ -286,8 +298,8 @@
             dbCommand.CommandText = sqlString;
             dbReader = dbCommand.ExecuteReader();
             // Binds the data to the repeater so it can be displayed
-            repSearch.DataSource = dbReader;
-            repSearch.DataBind();
+            repMainDisplay.DataSource = dbReader;
+            repMainDisplay.DataBind();
         } finally {
             dbConnection.Close();
         }
@@ -473,6 +485,7 @@
                     <br />
                 </div>
                     <asp:Button ID="btnUpdate" CssClass="btn btn-danger" OnClick="updateSponsor" Text="Update" runat="server" />
+                    <asp:Label ID="lblUpdateFeedbeck" Text="" runat="server" />
                     <br />                                
                 </div>  <!-- Secondary Data Display -->
 
@@ -508,8 +521,8 @@
                     <asp:Button ID="btnUpdateAdPrices" Text="Set Ad Price" OnClick="updateAdPrices" CssClass="btn btn-danger" runat="server" /><br />
                 </div>
 
-                <div class="col-sm-4" style="text-align:right;">
-                    <asp:Label ID="Label1" Text="Here you can view and set the current price of each ad size" runat="server" />  <br /><br />
+                <div class="col-sm-4" style="text-align:center;">
+                    <asp:Label ID="Label1" Text="Here you can view and set the current price of each ad size. To update a price enter a new one in the text box and click update" runat="server" />  <br /><br />
                 </div>
                 </div>
 

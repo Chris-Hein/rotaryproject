@@ -53,6 +53,9 @@
         update = new UpdateAdmin();
         review = new Review();
 
+        txtSearch.AutoCompleteType = AutoCompleteType.Company;
+
+
         if (!Page.IsPostBack) {
             // ListItem photographer;
             // ListItem business;
@@ -276,6 +279,7 @@
         }
     }
 
+    // Called when the approval checkbox is clicked
     protected void onApproveChecked(Object src, EventArgs args) {
         foreach (RepeaterItem item in repMainDisplay.Items) {
             // Gets the state of the checkbox
@@ -291,6 +295,7 @@
         }
     }
 
+    // Handles email processing and retrieval when an invoice box is checked
     protected void onSendInvoiceChecked(Object src, EventArgs args) {
         foreach (RepeaterItem item1 in repMainDisplay.Items) {
             // Gets the state of the checkbox
@@ -306,6 +311,7 @@
         }
     }
 
+    // Handles email processing adn retrieval when a send message textbox is checked
     protected void onSendMessageChecked(Object src, EventArgs args) {
         foreach (RepeaterItem item2 in repMainDisplay.Items) {
             // Gets the state of the checkbox
@@ -420,21 +426,40 @@
         }
     }
 
+    /*
+    protected void autoComplete() {
+        string sponsors = update.autoComplete();
+        string[] options;
+
+        options = new string[] {sponsors};
+        //txtSearch.Text = options;
+    }*/
+
 </script>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="headBox" Runat="Server">
     <title>Rotary Club Yearbook 15th Edition Ad Invoice Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="resources/easy-autocomplete.min.css">
      <!-- jQuery library -->
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> 
      <!-- Latest compiled JavaScript -->
      <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="resources/jquery.easy-autocomplete.min.js"></script>
     <script type="text/javascript">
          $(document).ready(function () {
+
              // Toggles sliding the input panel open and closed
              $("#btnSearch").click(function () {
                  $("#SearchPanel").slideToggle("fast");
              }); 
+            
+            // setup autocomplete for city textbox using EasyAutoComplete JQuery plugin
+            //var sponsors = update.autoComplete();
+           // var options = {
+            //    data: ["Dartmouth", "Halifax", "Fall River", "Sackville", "Bedford", "Elmsdale", "Wellington", "Enfield", "Truro", "Bible Hill"]
+           // };
+           // $("#txtSearch").easyAutocomplete(options);
          });
      </script>
 </asp:Content>
@@ -484,7 +509,6 @@
                                         <th scope="col">Email</th>
                                         <th scope="col">Send Invoice</th>
                                         <th scope="col">Send Message</th>
-                                        <th scope="col">Approve</th>
                                         <th scope="col">Approved</th>
                                         <th scope="col">Image</th>
                                         <th scope="col">Notes</th>
@@ -503,7 +527,6 @@
                                 <td><asp:CheckBox ID="chkSendInvoice" OnCheckedChanged="onSendInvoiceChecked" AutoPostBack="true" Text='<%# Eval("id") %>' runat="server" /></td>
                                 <td><asp:CheckBox ID="chkSendMessage" OnCheckedChanged="onSendMessageChecked" AutoPostBack="true" Text='<%# Eval("id") %>' runat="server" /></td>
                                 <td><asp:CheckBox ID="chkApprove" OnCheckedChanged="onApproveChecked" AutoPostBack="true" Text='<%# Eval("id") %>' runat="server" /></td>
-                                <td><%# Eval("approved") %></td>
                                 <td><img src="http://localhost:63275/adImages/<%# Eval("image")%>" alt="image" height="150" width="150" /></td>
                                 <td><%# Eval("adNotes") %></td>
                             <br />
@@ -533,7 +556,6 @@
                                         <th scope="col">Email</th>
                                         <th scope="col">Send Invoice</th>
                                         <th scope="col">Send Message</th>
-                                        <th scope="col">Approve</th>
                                         <th scope="col">Approved</th>
                                         <th scope="col">Image</th>
                                         <th scope="col">Notes</th>
@@ -552,8 +574,7 @@
                                 <td><%# Eval("captionEmail") %></td>
                                 <td><asp:CheckBox ID="chkSendInvoice" OnCheckedChanged="onSendInvoiceChecked" AutoPostBack="true" Text='<%# Eval("id") %>' runat="server" /></td>
                                 <td><asp:CheckBox ID="chkSendMessage" OnCheckedChanged="onSendMessageChecked" AutoPostBack="true" Text='<%# Eval("id") %>' runat="server" /></td>
-                                <td><asp:CheckBox ID="chkApprove" OnCheckedChanged="onApproveChecked" AutoPostBack="true" Text='<%# Eval("id") %>' runat="server" /></td>
-                                <td><%# Eval("approved") %></td>
+                                <td><asp:CheckBox ID="chkApprove" OnCheckedChanged="onApproveChecked" AutoPostBack="true" Text='<%# Eval("id") %>' checked='<%# Eval("approved").ToString().Equals("yes",StringComparison.CurrentCultureIgnoreCase) %>' runat="server" /></td>
                                 <td><img src="http://localhost:63275/adImages/<%# Eval("image")%>" alt="image" height="75" width="75" /></td>
                                 <td><%# Eval("adNotes") %></td>
                                 <br />
@@ -601,7 +622,7 @@
                     <asp:DropDownList ID="drpUsername" CssClass="form form-control" runat="server" />
                 </div>
                 <div id="approva1" class="container col-sm-6 well" style="text-align:right;">
-                    <asp:TextBox ID="txtPassword" CssClass="form form-control" runat="server" />
+                    <asp:TextBox ID="txtPassword" CssClass="form form-control" TextMode="Password" runat="server" />
                 </div>
                 <asp:Button ID="btnResetPassword" Text="Reset Password" OnClick="resetPassword" CssClass="btn btn-danger" runat="server" />
             </div>
