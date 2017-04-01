@@ -17,7 +17,8 @@ public partial class new_photographer : System.Web.UI.Page {
     // regex variable - sanitizing inputs
     private Regex regexMsg;
 
-    MySqlConnection dbConnection;
+    //MySqlConnection dbConnection = new MySqlConnection("Database='rehberga_php';Data Source='mysql.nscctruro.ca';User Id='rehberga_nsccweb';Password='Normandy2492*'");
+    MySqlConnection dbConnection = new MySqlConnection("Database='rotaryyearbook';Data Source='localhost';User Id='useraccount';Password='userpassword'");
     MySqlDataAdapter dbAdapter;
     MySqlCommand dbCommand;
     DataSet dbDataSet;
@@ -59,14 +60,12 @@ public partial class new_photographer : System.Web.UI.Page {
         Page.MaintainScrollPositionOnPostBack = true;
 
         // build regex objects for input validation
-        regexMsg = new Regex("^[\\w\\W\\'][\\w\\W\\s\\'\\-]+$");
-        drpSponsorList.Items.Add("test");
-        populateDropDown();
-        loadSponsorData();
+        regexMsg = new Regex("^[\\w\\W\\'][\\w\\W\\s\\'\\-]+$");  
+        
 
         if (!Page.IsPostBack) {
-            drpSponsorList.Items.Add("test");
-        
+            loadSponsorData();
+            populateDropDown();
         }
     }
 
@@ -93,9 +92,7 @@ public partial class new_photographer : System.Web.UI.Page {
 
     protected void populateDropDown() {
     
-            try {
-                lblName.InnerHtml="TEST!";
-                dbConnection = new MySqlConnection("Database='rotaryyearbook';Data Source='localhost';User Id='useraccount';Password='userpassword'");
+            try {                          
                 dbConnection.Open();
                 sqlString = "SELECT sponsorName, id FROM mainrecords WHERE id > 0";
                 dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
@@ -104,7 +101,7 @@ public partial class new_photographer : System.Web.UI.Page {
                 // Executes the SQL
                 // Binds the photographer data to the dropdown so it can be displayed
                 drpSponsorList.DataSource = dbDataSet.Tables["sponsor"];
-                drpSponsorList.DataValueField = "id";
+                drpSponsorList.DataValueField = "sponsorName";
                 drpSponsorList.DataTextField = "sponsorName";
                 drpSponsorList.DataBind();
                 Cache["dbDataSet"] = dbDataSet;
@@ -125,7 +122,6 @@ public partial class new_photographer : System.Web.UI.Page {
 
     private void search(object sender, EventArgs e) {
         //getData();      
-        
             dbConnection.Open();
             int i = 0;
             MySqlCommand cmd0 = new MySqlCommand("SELECT sponsorName FROM addata WHERE sponsorName ='" + drpSponsorList.SelectedItem.Value.ToString() + "'", dbConnection);

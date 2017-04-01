@@ -1,13 +1,13 @@
 ﻿<%@ Page Title="Rotary Club Yearbook 15th Edition - Admin Page" Language="C#" MasterPageFile="MasterPage.master" Debug="true" ClientTarget="uplevel" EnableEventValidation="false" validateRequest="false" EnableViewState="true" %>
 <%@ Import Namespace="MySql.Data.MySqlClient" %>
 <%@ Import Namespace="System.Data" %>
-<%@ Import Namespace="System.Windows.Forms" %>
 <%@ Import Namespace="System.Text" %>
 <%@ Import Namespace="System.Web" %>
 <%@ Import Namespace="System.Web.UI" %>
 
 <script runat="server">
-    MySqlConnection dbConnection;
+    //MySqlConnection dbConnection = new MySqlConnection("Database='rehberga_php';Data Source='mysql.nscctruro.ca';User Id='rehberga_nsccweb';Password='Normandy2492*'");
+    MySqlConnection dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
     MySqlCommand dbCommand;
     MySqlDataReader dbReader;
     string sqlString;
@@ -16,11 +16,10 @@
     DataSet dataSet;
     // Used to handle updating fields
     UpdateAdmin update;
-
+    string dbname;
     string selectedSponsor;
 
-    protected void page_load() {
-
+    protected void page_load() {        
         // Constructing update object
         update = new UpdateAdmin();
 
@@ -44,7 +43,7 @@
             //loadSponsorData();
             // Handles loading of the businesses basic data
             mainDisplayDataLoad();
-            loadAdPrices();
+            //loadAdPrices(); 
         }
 
         // Constructing update object
@@ -53,19 +52,18 @@
 
     // Handles population of the photographer dropdown
     protected void populatePhotographers() {
-        try {
-            dbConnection = new MySqlConnection("Database='rotaryyearbook';Data Source='localhost';User Id='useraccount';Password='userpassword'");
+        try {            
             dbConnection.Open();
-            sqlString = "SELECT photographer FROM mainrecords WHERE id > 0";
+            sqlString = "SELECT DISTINCT solicitor FROM mainrecords WHERE id > 0 AND solicitor IS NOT NULL";
             dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
             dataSet = new DataSet();
             dbAdapter.Fill(dataSet, "photo");
             // Executes the SQL
             // Binds the photographer data to the dropdown so it can be displayed
             drpAssignPhotographer.DataSource = dataSet.Tables["photo"];
-            drpAssignPhotographer.DataValueField = "photographer";
-            drpAssignPhotographer.DataTextField = "photographer";
-            //drpAssignPhotographer.DataBind();
+            drpAssignPhotographer.DataValueField = "solicitor";
+            drpAssignPhotographer.DataTextField = "solicitor";
+            drpAssignPhotographer.DataBind();
             Cache["dataSet"] = dataSet;
         } finally {
             dbConnection.Close();
@@ -75,7 +73,6 @@
     // Handles population of the business dropdown
     protected void populateSponsors() {
         try {
-            dbConnection = new MySqlConnection("Database='rotaryyearbook';Data Source='localhost';User Id='useraccount';Password='userpassword'");
             dbConnection.Open();
             sqlString = "SELECT sponsorName FROM mainrecords WHERE id > 0";
             dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
@@ -102,7 +99,7 @@
     // Handles admin selection of a user to view in greater detail
     protected void businessSelected (Object src, CommandEventArgs args) {
         // Uses the text of the command argument (which is the name of the business) to determine what data to load
-        Session["selectedSponsor"] = args.CommandArgument;
+        Session["selectedSponsor"] = args;
         selectedSponsor = Session["selectedSponsor"].ToString();
         loadSponsorData();
     }
@@ -142,7 +139,6 @@
     // Displays the data based on a selected business
     protected void mainDisplayDataLoad() {
         // user and password have not yet been set up in the database, needs to be fixed to get this working, except for on my local phpmyadmin installation
-        dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
         sqlString = "SELECT * FROM mainrecords WHERE id > 0";
         dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
         DataTable table = new DataTable();
@@ -243,10 +239,10 @@
 
     protected void loadAdPrices() {
         // Displays the current prices for ads so they can be changed
-        txtOneSixthPrice.Text = update.get16AdPrice(Convert.ToString(1));
-        txtOneThirdPrice.Text = update.get13AdPrice(Convert.ToString(1));
-        txtTwoThirdPrice.Text = update.get23AdPrice(Convert.ToString(1));
-        txtFullPrice.Text = update.getFullAdPrice(Convert.ToString(1));
+        txtOneSixthPrice.Text = update.get16AdPrice("1");
+        txtOneThirdPrice.Text = update.get13AdPrice("1");
+        txtTwoThirdPrice.Text = update.get23AdPrice("1");
+        txtFullPrice.Text = update.getFullAdPrice("1");
     }
 
     protected void updateAdPrices (Object src, EventArgs args) {
@@ -278,7 +274,6 @@
     // Handles search functionality (currently searches are based on business name)
     protected void search(Object src, EventArgs args) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             dbCommand = new MySqlCommand("", dbConnection);
             sqlString = "SELECT * FROM mainrecords WHERE sponsorName = '" + Convert.ToString(Server.HtmlEncode(txtSearch.Text)) + "'";
@@ -489,9 +484,8 @@
                 </div>
 
                 <div class="col-sm-4" style="text-align:center;">
-                    <asp:Label ID="lblAssignInstructions" Text="Assign a photographer to a business by selecting each in the drop downs and clicking the assign button" runat="server" />  <br /><br />
+                    <asp:Label ID="lblAssignInstructions" Text="Assign a solicitor to a sponsor by selecting each in the drop downs and clicking the assign button" runat="server" />  <br /><br />
                 </div>
-                <!-- -->
                 
 
             </div> <!-- /row-->
@@ -506,7 +500,7 @@
                     <asp:TextBox ID="txtTwoThirdPrice" CssClass="form-control" runat="server" /><br />
                     <asp:Label ID="lblAd4" CssClass="label label-danger" Text="Full Page: " runat="server" />
                     <asp:TextBox ID="txtFullPrice" CssClass="form-control" runat="server" /> <br /><br />
-                    <asp:Button ID="btnUpdateAdPrices" Text="Set Ad Price" OnClick="updateAdPrices" CssClass="btn btn-danger" runat="server" /><br />
+                    
                 </div>
 
                 <div class="col-sm-4" style="text-align:right;">

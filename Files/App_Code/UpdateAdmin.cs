@@ -7,7 +7,7 @@ using System.Data;
 using MySql.Data.MySqlClient;
 
 public class UpdateAdmin {
-
+    string dbname = "";
     // Connection objects
     MySqlConnection dbConnection;
     MySqlCommand dbCommand;
@@ -15,16 +15,18 @@ public class UpdateAdmin {
 
     public UpdateAdmin() {
         // Initialization
+        string dbname = "Database='rehberga_php'; Datasource='mysql.nscctruro.ca'; User Id='rehberga_nsccweb'; Password='Normandy2492*'";
+    // Connection objects
+    MySqlConnection dbConnection = new MySqlConnection(dbname);
     }
 
     // Method to update the business name via the admin page
     public void updateSponsorName(string id, string sponsorName) {
-        try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+        try {            
             dbConnection.Open();
             sqlString = "UPDATE mainrecords SET sponsorName = @sponsorName WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@sponsorName", sponsorName);
+            dbCommand.Parameters.Add("@sponsorName", sponsorName);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -34,11 +36,10 @@ public class UpdateAdmin {
     // Method to update the business email via the admin page
     public void updateSponsorEmail(string id, string sponsorEmail) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE mainRecords SET sponsorEmail = @sponsorEmail WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@sponsorEmail", sponsorEmail);
+            dbCommand.Parameters.Add("@sponsorEmail", sponsorEmail);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -48,11 +49,10 @@ public class UpdateAdmin {
     // Method to update the business phone via the admin page
     public void updatePhone(string id, string sponsorPhone) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE mainrecords SET sponsorPhone = @sponsorPhone WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@sponsorPhone", sponsorPhone);
+            dbCommand.Parameters.Add("@sponsorPhone", sponsorPhone);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -62,11 +62,10 @@ public class UpdateAdmin {
     // Method to update the business address via the admin page
     public void updateAddress(string id, string sponsorAddress) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE mainrecords SET sponsorAddress = @sponsorAddress WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@sponsorAddress", sponsorAddress);
+            dbCommand.Parameters.Add("@sponsorAddress", sponsorAddress);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -76,11 +75,10 @@ public class UpdateAdmin {
     // Method to update the first name via the admin page
     public void updateFirstName(string id, string firstName) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE admin SET first_name = @first_name WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@first_name", firstName);
+            dbCommand.Parameters.Add("@first_name", firstName);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -90,11 +88,10 @@ public class UpdateAdmin {
     // Method to update the middle name via the admin page
     public void updateMiddleName(string id, string middleName) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE admin SET middle_name = @middle_name WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@middle_name", middleName);
+            dbCommand.Parameters.Add("@middle_name", middleName);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -104,11 +101,10 @@ public class UpdateAdmin {
     // Method to update the last name via the admin page
     public void updateLastName(string id, string lastName) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE admin SET last_name = @last_name WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@last_name", lastName);
+            dbCommand.Parameters.Add("@last_name", lastName);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -118,11 +114,10 @@ public class UpdateAdmin {
     // Method to update the assigned photographer name via the admin page
     public void updateAssignedPhotographer(string id, string photographer) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE mainrecords SET photographer = @photographer WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@photographer", photographer);
+            dbCommand.Parameters.Add("@photographer", photographer);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -132,11 +127,10 @@ public class UpdateAdmin {
     // Method to update the ad size via the admin page
     public void updateAdSize(string id, string adSize) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE mainrecords SET adSize = @adSize WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@aSize", adSize);
+            dbCommand.Parameters.Add("@aSize", adSize);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -146,11 +140,10 @@ public class UpdateAdmin {
     // Method to update the haspaid via the admin page
     public void updateHasPaid(string id, string hasPaid) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE mainrecords SET paid = @paid WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@paid", hasPaid);
+            dbCommand.Parameters.Add("@paid", hasPaid);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -160,11 +153,10 @@ public class UpdateAdmin {
     // Method to update the ordered via the admin page
     public void updateOrdered(string id, string ordered) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE mainrecords SET orderStatus = @ordered WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@ordered", ordered);
+            dbCommand.Parameters.Add("@ordered", ordered);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -174,11 +166,10 @@ public class UpdateAdmin {
     // Method to update the ad approved via the admin page
     public void updateAdApproved(string id, string adapproved) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE addata SET approved = @ad_approved WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@ad_approved", adapproved);
+            dbCommand.Parameters.Add("@ad_approved", adapproved);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -188,11 +179,10 @@ public class UpdateAdmin {
     // Method to update the payment type via the admin page
     public void updatePaymentType(string id, string paymentType) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE mainrecords SET paymentMethod = @pay_type WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@pay_type", paymentType);
+            dbCommand.Parameters.Add("@pay_type", paymentType);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -202,11 +192,10 @@ public class UpdateAdmin {
     // Method to update the contacted via the admin page
     public void updateContacted(string id, string contacted) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE admin SET contacted = @contacted WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@contacted", contacted);
+            dbCommand.Parameters.Add("@contacted", contacted);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -216,11 +205,10 @@ public class UpdateAdmin {
     // Method to update the assigned business name via the admin page
     public void updateAssignedSponsorName(string photographer, string assignedSponsorName) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE mainrecords SET assigned_business_name = @assigned_business_name WHERE assigned_photographer_name = '" + photographer + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@assigned_business_name", assignedSponsorName);
+            dbCommand.Parameters.Add("@assigned_business_name", assignedSponsorName);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -230,11 +218,10 @@ public class UpdateAdmin {
     // Method to update the assigned photographer via the admin page
     public void updateAssignedPhotographerName(string business, string assignedPhotographerName) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE mainrecords SET photographer = @photographer WHERE sponsorName = '" + business + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@photographer", assignedPhotographerName);
+            dbCommand.Parameters.Add("@photographer", assignedPhotographerName);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -246,7 +233,6 @@ public class UpdateAdmin {
 
     public string getId(string id) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT id FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -259,7 +245,6 @@ public class UpdateAdmin {
 
     public string getSponsorName(string id) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT sponsorName FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -272,7 +257,6 @@ public class UpdateAdmin {
 
     public string getSponsorEmail(string id){
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT sponsorEmail FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -285,7 +269,6 @@ public class UpdateAdmin {
 
     public string getSponsorPhone(string id) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT sponsorPhone FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -298,7 +281,6 @@ public class UpdateAdmin {
 
     public string getSponsorAddress(string id) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT sponsorAddress FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -311,7 +293,6 @@ public class UpdateAdmin {
 
     public string getFirstName(string id) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT first_name FROM admin WHERE business_name = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -324,7 +305,6 @@ public class UpdateAdmin {
 
     public string getMiddleName(string id) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT middle_name FROM admin WHERE business_name = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -337,7 +317,6 @@ public class UpdateAdmin {
 
     public string getLastName(string id) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT last_name FROM admin WHERE business_name = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -350,7 +329,6 @@ public class UpdateAdmin {
 
     public string getAssignedPhotographerName(string id) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT photographer FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -363,7 +341,6 @@ public class UpdateAdmin {
 
     public string getAdSize(string id) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT adSize FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -376,7 +353,6 @@ public class UpdateAdmin {
 
     public string getHasPaid(string id) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT paid FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -389,7 +365,6 @@ public class UpdateAdmin {
 
     public string getOrdered(string id) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT order FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -402,7 +377,6 @@ public class UpdateAdmin {
 
     public string getAdApproved(string id) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT approved FROM addara WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -415,7 +389,6 @@ public class UpdateAdmin {
 
     public string getPayType(string id) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT paymentMethod FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -428,7 +401,6 @@ public class UpdateAdmin {
 
     public string getContacted(string id) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT orderStatus FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -441,7 +413,6 @@ public class UpdateAdmin {
 
     public string getSponsorContact(string id) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT sponsorContact FROM mainrecords WHERE sponsorName = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -455,7 +426,6 @@ public class UpdateAdmin {
 
     public string getPhotographers() {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT photographer FROM mainrecords WHERE id > 0";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -468,7 +438,6 @@ public class UpdateAdmin {
 
     public string getSponsors() {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT sponsorName FROM mainrecords WHERE id > 0";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -481,7 +450,6 @@ public class UpdateAdmin {
 
     public string getCheckID(int id) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT captionEmail FROM addata WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -495,11 +463,10 @@ public class UpdateAdmin {
     // Method to update the approved status of an ad via the invoice page
     public void updateApprovedStatus(string id, string approvedstatus) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE addata SET approved = @approved WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@approved", "approved");
+            dbCommand.Parameters.Add("@approved", "approved");
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -508,7 +475,6 @@ public class UpdateAdmin {
     //-------------------------------------------------------- new
     public string setSponsorName(string name) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT sponsorName FROM mainrecords WHERE sponsorName = '" + name + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -521,7 +487,6 @@ public class UpdateAdmin {
 
     public string setSponsorEmail(string name) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT sponsorEmail FROM mainrecords WHERE sponsorName = '" + name + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -534,7 +499,6 @@ public class UpdateAdmin {
 
     public string setSponsorPhone(string name) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT sponsorPhone FROM mainrecords WHERE sponsorName = '" + name + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -547,7 +511,6 @@ public class UpdateAdmin {
 
     public string setSponsorAddress(string name) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT sponsorAddress FROM mainrecords WHERE sponsorName = '" + name + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -560,7 +523,6 @@ public class UpdateAdmin {
 
     public string setSponsorContact(string name) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT sponsorContact FROM mainrecords WHERE sponsorName = '" + name + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -573,7 +535,6 @@ public class UpdateAdmin {
 
     public string setAdSize(string name) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT adSize FROM mainrecords WHERE sponsorName = '" + name + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -586,7 +547,6 @@ public class UpdateAdmin {
 
     public string setPaymentStatus(string name) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT paid FROM mainrecords WHERE sponsorName = '" + name + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -599,7 +559,6 @@ public class UpdateAdmin {
 
     public string setAdStatus(string name) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT orderStatus FROM mainrecords WHERE sponsorName = '" + name + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -612,7 +571,6 @@ public class UpdateAdmin {
 
     public string setPaymentMethod(string name) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT paymentMethod FROM mainrecords WHERE sponsorName = '" + name + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -625,7 +583,6 @@ public class UpdateAdmin {
 
     public string setContactStatus(string name) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT adminMsg FROM mainrecords WHERE sponsorName = '" + name + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -638,11 +595,10 @@ public class UpdateAdmin {
 
     public void upSponsorName(string name, string sponsorName) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE mainrecords SET sponsorName = @sponsorName WHERE sponsorName = '" + name + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@sponsorName", sponsorName);
+            dbCommand.Parameters.Add("@sponsorName", sponsorName);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -651,11 +607,10 @@ public class UpdateAdmin {
 
     public void upSponsorAddress(string name, string sponsorAddress) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE mainrecords SET sponsorAddress = @sponsorAddress WHERE sponsorName = '" + name + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@sponsorAddress", sponsorAddress);
+            dbCommand.Parameters.Add("@sponsorAddress", sponsorAddress);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -664,11 +619,10 @@ public class UpdateAdmin {
 
     public void upSponsorContact(string name, string sponsorContact) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE mainrecords SET sponsorContact = @sponsorContact WHERE sponsorName = '" + name + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@sponsorContact", sponsorContact);
+            dbCommand.Parameters.Add("@sponsorContact", sponsorContact);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -677,11 +631,10 @@ public class UpdateAdmin {
 
     public void upSponsorPhone(string name, string sponsorPhone) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE mainrecords SET sponsorPhone = @sponsorPhone WHERE sponsorName = '" + name + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@sponsorPhone", sponsorPhone);
+            dbCommand.Parameters.Add("@sponsorPhone", sponsorPhone);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -690,11 +643,10 @@ public class UpdateAdmin {
 
     public void upSponsorEmail(string name, string sponsorEmail) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE mainrecords SET sponsorEmail = @sponsorEmail WHERE sponsorName = '" + name + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@sponsorEmail", sponsorEmail);
+            dbCommand.Parameters.Add("@sponsorEmail", sponsorEmail);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -703,11 +655,10 @@ public class UpdateAdmin {
 
     public void upAdSize(string name, string adSize) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE mainrecords SET adSize = @adSize WHERE sponsorName = '" + name + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@adSize", adSize);
+            dbCommand.Parameters.Add("@adSize", adSize);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -716,11 +667,10 @@ public class UpdateAdmin {
 
     public void upPaymentStatus(string name, string paymentStatus) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE mainrecords SET paid = @paid WHERE sponsorName = '" + name + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@paid", paymentStatus);
+            dbCommand.Parameters.Add("@paid", paymentStatus);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -729,11 +679,10 @@ public class UpdateAdmin {
 
     public void upAdStatus(string name, string adStatus) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE mainrecords SET orderStatus = @orderStatus WHERE sponsorName = '" + name + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@orderStatus", adStatus);
+            dbCommand.Parameters.Add("@orderStatus", adStatus);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -742,11 +691,10 @@ public class UpdateAdmin {
 
     public void upPaymentMethod(string name, string paymentMethod) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE mainrecords SET paymentMethod = @paymentMethod WHERE sponsorName = '" + name + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@paymentMethod", paymentMethod);
+            dbCommand.Parameters.Add("@paymentMethod", paymentMethod);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -755,11 +703,10 @@ public class UpdateAdmin {
 
     public void upContactStatus(string name, string contactStatus) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "UPDATE mainrecords SET adminMsg = @adminMsg WHERE sponsorName = '" + name + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@adminMsg", contactStatus);
+            dbCommand.Parameters.Add("@adminMsg", contactStatus);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -768,7 +715,6 @@ public class UpdateAdmin {
 
     public string get16AdPrice(string id) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT 16adprice FROM adprices WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -781,7 +727,6 @@ public class UpdateAdmin {
 
     public string get13AdPrice(string id) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT 13adprice FROM adprices WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -794,7 +739,6 @@ public class UpdateAdmin {
 
     public string get23AdPrice(string id) {
         try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
             dbConnection.Open();
             sqlString = "SELECT 23adprice FROM adprices WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -806,8 +750,7 @@ public class UpdateAdmin {
     }
 
     public string getFullAdPrice(string id) {
-        try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+        try {            
             dbConnection.Open();
             sqlString = "SELECT fulladprice FROM adprices WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
@@ -819,12 +762,11 @@ public class UpdateAdmin {
     }
 
     public void up16adPrice(string id, string price) {
-        try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+        try {            
             dbConnection.Open();
             sqlString = "UPDATE adprices SET 16adprice = @16adprice WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@16adprice", price);
+            dbCommand.Parameters.Add("@16adprice", price);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -832,12 +774,11 @@ public class UpdateAdmin {
     }
 
     public void up13adPrice(string id, string price) {
-        try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+        try {            
             dbConnection.Open();
             sqlString = "UPDATE adprices SET 13adprice = @13adprice WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@13adprice", price);
+            dbCommand.Parameters.Add("@13adprice", price);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -845,12 +786,11 @@ public class UpdateAdmin {
     }
 
     public void up23adPrice(string id, string price) {
-        try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+        try {            
             dbConnection.Open();
             sqlString = "UPDATE adprices SET 23adprice = @23adprice WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@23adprice", price);
+            dbCommand.Parameters.Add("@23adprice", price);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
@@ -858,12 +798,11 @@ public class UpdateAdmin {
     }
 
     public void upFulladPrice(string id, string price) {
-        try {
-            dbConnection = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+        try {            
             dbConnection.Open();
             sqlString = "UPDATE adprices SET fulladprice = @fulladprice WHERE id = '" + id + "'";
             dbCommand = new MySqlCommand(sqlString, dbConnection);
-            dbCommand.Parameters.AddWithValue("@fulladprice", price);
+            dbCommand.Parameters.Add("@fulladprice", price);
             dbCommand.ExecuteNonQuery();
         } finally {
             dbConnection.Close();
