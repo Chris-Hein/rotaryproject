@@ -77,25 +77,64 @@
                     </div>
                     <br/>
                     <div class="row">
-                        <div class="col-lg-4">
+
+                        <div class="col-lg-6">
+                             <table style="text-align:left;">
+                                <tr>
+                                    <td><b>Page Size</b></td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td><b>Price</b></td>
+                                </tr>
+                                <tr>
+                                    <td>1/6 of a Page</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>$<span id="lblSixth" runat="server">test</span></td>
+                                </tr>
+                                <tr>
+                                    <td>1/3 of a Page</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>$<span id="lblThird" runat="server">test</span></td>
+                                </tr>
+                                <tr>
+                                    <td>2/3 of a Page</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>$<span id="lblTwoThirds" runat="server">test</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Full Page</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>$<span id="lblFull" runat="server">test</span></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="col-lg-6">
                             <div style="font-size:16px;">Ad Size: </div>
                             <select id="sizeList" ClientIDMode="Static" runat="server">
                                 <option value="0" selected="selected">Select a size...</option>
-                                <option value="1">1/6 page: $415</option> 
-                                <option value="2">1/3 page: $690</option> 
-                                <option value="3">2/3 page: $1150</option> 
-                                <option value="4">Full Page: $1725</option> 
+                                <option value="1">1/6 page</option> 
+                                <option value="2">1/3 page</option> 
+                                <option value="3">2/3 page</option> 
+                                <option value="4">Full Page</option> 
                                 <option value="5">Special Option</option>
                             </select>
                         </div>
 
-                        <div class="col-lg-8">
-                            <div style="font-size:16px;">Price: </div>
-                            <div class="btn-group" style="text-align:center;" data-toggle="buttons">
-                                <asp:RadioButton ID="radNorm" Text="Normal" GroupName="group" CssClass="btn btn-success" runat="server" />
-                                <asp:RadioButton ID="radSpec" Text="Special" GroupName="group" CssClass="btn btn-success" runat="server" />
-                            </div>
-                        </div>
                     </div>
                 </div> <!-- /agree -->
 

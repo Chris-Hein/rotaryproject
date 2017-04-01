@@ -8,11 +8,11 @@
     <section class="content-block">
         <div class="container">
 
-            <!--========================= SEARCH BAR =============================-->   
+            <!--========================= DROPDOWN =============================-->   
             <div class="row">
                  <form class="navbar-form" role="search" runat="server">
                     <div class="input-group add-on">                       
-                        <asp:DropDownList id="drpSponsorList" runat="server" class="form-control" placeholder="Please Select a Sponsor">
+                        <asp:DropDownList id="drpSponsorList" runat="server" class="form-control">
                             <asp:ListItem Text="-- Select Sponsor--" Value="0"></asp:ListItem>
                         </asp:DropDownList>                     
                         <div class="input-group-btn">

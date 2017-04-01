@@ -16,10 +16,16 @@ public partial class new_solicitor : System.Web.UI.Page {
     private string sqlString;
     private MySqlDataAdapter dbAdapter;
     private DataSet dbDataSet;
-    private WebData webdata;
+    private WebLogin login = null;
+
+    // prices
+    private int sixthPagePrice;
+    private int thirdPagePrice;
+    private int twothirdsPagePrice;
+    private int fullPagePrice;
+
     // prevent event from firing twice
     private bool bug = false;
-    private WebLogin login = null;
 
     // ---------------------------------------------------------------- initial startup
 
@@ -56,7 +62,10 @@ public partial class new_solicitor : System.Web.UI.Page {
             //btnPending.Click -= new EventHandler(onClick);
             //btnDeclined.Click -= new EventHandler(onClick);
         }
-        
+
+        // populate other data
+        getPrices();
+
     }
 
     // ---------------------------------------------------------------- private methods
@@ -78,6 +87,36 @@ public partial class new_solicitor : System.Web.UI.Page {
             sponsorList.DataTextField = "SponsorName";
             sponsorList.DataBind();
             Cache["dbDataSet"] = dbDataSet;
+        } finally {
+            dbConnect.Close();
+        }
+    }
+
+    private void getPrices() {
+        try {
+            // get connection to the database
+            dbConnect = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+            dbConnect.Open();
+
+            // get all the data!
+            sqlString = "SELECT * FROM adprices";
+            dbCommand = new MySqlCommand(sqlString, dbConnect);
+            dbReader = dbCommand.ExecuteReader();
+
+            // populate the price information
+            while (dbReader.Read()) {
+                sixthPagePrice = Int16.Parse(dbReader["sixth"].ToString());
+                thirdPagePrice = Int16.Parse(dbReader["third"].ToString());
+                twothirdsPagePrice = Int16.Parse(dbReader["twothirds"].ToString());
+                fullPagePrice = Int16.Parse(dbReader["full"].ToString());
+            }
+            dbReader.Close();
+
+            lblSixth.InnerHtml = sixthPagePrice.ToString();
+            lblThird.InnerHtml = thirdPagePrice.ToString();
+            lblTwoThirds.InnerHtml = twothirdsPagePrice.ToString();
+            lblFull.InnerHtml = fullPagePrice.ToString();
+
         } finally {
             dbConnect.Close();
         }
@@ -106,35 +145,19 @@ public partial class new_solicitor : System.Web.UI.Page {
             switch (sizeList.SelectedIndex) {
                 case 1:
                     size = "one sixth of a page";
-                    if (radSpec.Checked == true) {
-                        price = null;
-                    } else {
-                        price = 415;
-                    }
+                    price = sixthPagePrice;
                     break;
                 case 2:
                     size = "one third of a page";
-                    if (radSpec.Checked == true) {
-                        price = null;
-                    } else {
-                        price = 690;
-                    }
+                    price = thirdPagePrice;
                     break;
                 case 3:
                     size = "two thirds of a page";
-                    if (radSpec.Checked == true) {
-                        price = null;
-                    } else {
-                        price = 1150;
-                    }
+                    price = twothirdsPagePrice;
                     break;
                 case 4:
                     size = "full page";
-                    if (radSpec.Checked == true) {
-                        price = null;
-                    } else {
-                        price = 1725;
-                    }
+                    price = fullPagePrice;
                     break;
                 case 5:
                     size = "special";

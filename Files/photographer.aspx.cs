@@ -9,15 +9,17 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Net.Mail;
 using System.Net;
+using MySql.Data;
+using MySql.Data.MySqlClient;
 
 public partial class new_photographer : System.Web.UI.Page {
 
     // regex variable - sanitizing inputs
     private Regex regexMsg;
 
-    SqlConnection dbConnection;
-    SqlDataAdapter dbAdapter;
-    SqlCommand dbCommand;
+    MySqlConnection dbConnection;
+    MySqlDataAdapter dbAdapter;
+    MySqlCommand dbCommand;
     DataSet dbDataSet;
     string sqlString;
     DataView dbDataView;
@@ -38,8 +40,7 @@ public partial class new_photographer : System.Web.UI.Page {
 
     // ---------------------------------------------------------------- initial startup
 
-    protected void PageLoad(object sender, EventArgs e) {
-        lblName.InnerHtml="TEST!";
+    protected void PageLoad(object sender, EventArgs e) {        
         drpSponsorList.SelectedIndex = 0;        
         update = new UpdateAdmin();    
         //DB variables
@@ -61,6 +62,7 @@ public partial class new_photographer : System.Web.UI.Page {
         regexMsg = new Regex("^[\\w\\W\\'][\\w\\W\\s\\'\\-]+$");
         drpSponsorList.Items.Add("test");
         populateDropDown();
+        loadSponsorData();
 
         if (!Page.IsPostBack) {
             drpSponsorList.Items.Add("test");
@@ -68,14 +70,35 @@ public partial class new_photographer : System.Web.UI.Page {
         }
     }
 
+
+    //     protected void populateSponsors() {
+    //     try {
+    //         dbConnection = new MySqlConnection("Database='rotaryyearbook';Data Source='localhost';User Id='useraccount';Password='userpassword'");
+    //         dbConnection.Open();
+    //         sqlString = "SELECT sponsorName FROM mainrecords WHERE id > 0";
+    //         dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
+    //         dbDataSet = new DataSet();
+    //         dbAdapter.Fill(dbDataSet, "admin");
+    //         // Executes the SQL
+    //         // Binds the business data to the dropdown so it can be displayed
+    //         drpAssignSponsor.DataSource = dbDataSet.Tables["admin"];
+    //         drpAssignSponsor.DataValueField = "sponsorName";
+    //         drpAssignSponsor.DataTextField = "sponsorName";
+    //         drpAssignSponsor.DataBind();
+    //         Cache["dbDataSet"] = dbDataSet;
+    //     } finally {
+    //         dbConnection.Close();
+    //     }
+    // }
+
     protected void populateDropDown() {
-    lblName.InnerHtml="TEST!";
+    
             try {
                 lblName.InnerHtml="TEST!";
-                dbConnection = new SqlConnection("Database='rotaryyearbook';Data Source='localhost';User Id='useraccount';Password='userpassword'");
+                dbConnection = new MySqlConnection("Database='rotaryyearbook';Data Source='localhost';User Id='useraccount';Password='userpassword'");
                 dbConnection.Open();
                 sqlString = "SELECT sponsorName, id FROM mainrecords WHERE id > 0";
-                dbAdapter = new SqlDataAdapter(sqlString, dbConnection);
+                dbAdapter = new MySqlDataAdapter(sqlString, dbConnection);
                 dbDataSet = new DataSet();
                 dbAdapter.Fill(dbDataSet, "sponsor");
                 // Executes the SQL
@@ -87,9 +110,7 @@ public partial class new_photographer : System.Web.UI.Page {
                 Cache["dbDataSet"] = dbDataSet;
             } finally {
                 dbConnection.Close();
-            }               
-        drpSponsorList.Items.Insert(0, new ListItem("-- Select Sponsor--", "0"));
-        loadSponsorData();
+            }                            
     }
 
     //loads the drop down data
@@ -107,10 +128,10 @@ public partial class new_photographer : System.Web.UI.Page {
         
             dbConnection.Open();
             int i = 0;
-            SqlCommand cmd0 = new SqlCommand("SELECT sponsorName FROM addata WHERE sponsorName ='" + drpSponsorList.SelectedItem.Value.ToString() + "'", dbConnection);
+            MySqlCommand cmd0 = new MySqlCommand("SELECT sponsorName FROM addata WHERE sponsorName ='" + drpSponsorList.SelectedItem.Value.ToString() + "'", dbConnection);
             i = int.Parse(cmd0.ExecuteScalar().ToString());
             if (i > 0) {
-                SqlCommand cmd1 = new SqlCommand("SELECT approved FROM addata WHERE sponsorName ='" + drpSponsorList.SelectedItem.Value.ToString() + "'", dbConnection);
+                MySqlCommand cmd1 = new MySqlCommand("SELECT approved FROM addata WHERE sponsorName ='" + drpSponsorList.SelectedItem.Value.ToString() + "'", dbConnection);
                 string name = cmd1.ExecuteScalar().ToString();
                 lblName.InnerHtml = contact_name;
                 lblBus.InnerHtml = business_name;
