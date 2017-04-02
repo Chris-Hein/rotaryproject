@@ -4,9 +4,9 @@
 
 <html>
 <head runat="server">
+    <link rel="icon" href="images/rotaryYearbookLogo.png">
     <title>Rotary Club of Truro Yearbook</title>
 
-    
     <!-- Minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="resources/styles.css" />
