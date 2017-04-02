@@ -1,19 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using System.Net;
+using System.Net.Mail;
+using MySql.Data.MySqlClient;
 using System.Text.RegularExpressions;
 
 public partial class new_sponsor : System.Web.UI.Page {
 
-    // regex variable - sanitizing inputs
-    private Regex regexBusName;
-    private Regex regexAddress;
-    private Regex regexPhone;
-    // email has it's own function below
-    private Regex regexName;
+    // database variables
+    private MySqlConnection dbConnect;
+    private MySqlCommand dbCommand;
+    private MySqlDataReader dbReader;
+    private string sqlString;
+    private WebLogin login = null;
+
+    // regex variable - sanitizing input
+    private Regex regexText;
+
+    // prevent methods from firing twice
+    private bool bug = false;
 
     // ---------------------------------------------------------------- initial startup
 
@@ -23,181 +27,229 @@ public partial class new_sponsor : System.Web.UI.Page {
     }
 
     protected void Page_Load(object sender, EventArgs e) {
+        
+        // login check
+        if (Session["login"] == null) {
+            // redirect
+            Response.Redirect("index.aspx");
+        } else if (((WebLogin)Session["login"]).access == "no") {
+            // redirect
+            Response.Redirect("index.aspx");
+        } else {
+            login = (WebLogin)Session["login"];
+        }
 
         // maintain page position after hitting edit and apply buttons
-        Page.MaintainScrollPositionOnPostBack = true;
+        //Page.MaintainScrollPositionOnPostBack = true;
 
         // build regex objects for input validation
-        regexBusName = new Regex("^[\\w\\W\\'][\\w\\W\\s\\'\\-]+$");
-        regexAddress = new Regex("^[\\w\\W][\\w\\W\\s\\'\\-]+$");
-        // http://stackoverflow.com/questions/123559/a-comprehensive-regex-for-phone-number-validation
-        regexPhone = new Regex("^(?:(?:\\+?1\\s*(?:[.-]\\s*)?)?(?:\\(\\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\\s*\\)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\\s*(?:[.-]\\s*)?)?([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\\s*(?:[.-]\\s*)?([0-9]{4})(?:\\s*(?:#|x\\.?|ext\\.?|extension)\\s*(\\d+))?$");
-        regexName = new Regex("^[A-Z\\'][a-zA-Z\\s\\'\\-\\,\\.]+$");
+        regexText = new Regex("^[A-Z\\'][a-zA-Z\\s\\'\\-\\,\\.]+$");
 
-        // hide and disable elements that aren't meant to be displayed until edit is click
-        hideEdit();
+        // hide and disable elements that aren't meant to be displayed until accept or decline is click
         divApprove.Visible = false;
         divDenied.Visible = false;
 
-        // populate labels with data from database
-        
+        // populate textboxes and labels with data from database
+        getData();
 
         // event listeners
-        btnEdit.Click += new EventHandler(btnEdit_Click);
-        btnApply.Click += new EventHandler(btnApply_Click);
         btnAccept.Click += new EventHandler(btnApprove_Click);
-        btnDeny.Click += new EventHandler(btnDeny_Click);
+        btnDecline.Click += new EventHandler(btnDeny_Click);
+        btnLogout.Click += new EventHandler(logout);
 
     }
 
     // ---------------------------------------------------------------- private functions
-
-    private bool validEmail(string email) {
-        // try to build the string as a valid email; returns true if valid
+    
+    private void getData() {
         try {
-            System.Net.Mail.MailAddress m = new System.Net.Mail.MailAddress(email);
-            return true;
-        } catch (FormatException) {
-            return false;
+
+            // get connection to the database
+            dbConnect = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+            dbConnect.Open();
+
+            // get all the data!
+            sqlString = "SELECT * FROM addata WHERE sponsorName=@sponsor";
+            dbCommand = new MySqlCommand(sqlString, dbConnect);
+            dbCommand.Prepare();
+            dbCommand.Parameters.AddWithValue("@sponsor", ((WebLogin)Session["login"]).access);
+            dbReader = dbCommand.ExecuteReader();
+
+            // temp variables
+            string add = "";
+            string phone = "";
+            string email = "";
+            string front = "";
+            string middle = "";
+            string back = "";
+            string missing = "";
+            string img = "";
+
+            // grab the information
+            while (dbReader.Read()) {
+                add = dbReader["captionAddress"].ToString();
+                phone = dbReader["captionPhone"].ToString();
+                email = dbReader["captionEmail"].ToString();
+                front = dbReader["captionFront"].ToString();
+                middle = dbReader["captionMiddle"].ToString();
+                back = dbReader["captionBack"].ToString();
+                missing = dbReader["captionMissing"].ToString();
+                img = dbReader["image"].ToString();
+            }
+            dbReader.Close();
+
+            // place picture
+            imgView.Src = "images/photo/" + img;
+
+            // populate the page with data
+            lblBusName.InnerText = login.access;
+            lblBusAddress.InnerHtml = add;
+            txtBusAddress.Text = add;
+            lblPhone.InnerHtml = phone;
+            txtPhone.Text = phone;
+            lblEmail.InnerHtml = email;
+            txtEmail.Text = email;
+
+            lblFrontRow.InnerHtml = front;
+            txtFrontRow.Text = front;
+            lblMiddleRow.InnerHtml = middle;
+            txtMiddleRow.Text = middle;
+            lblBackRow.InnerHtml = back;
+            txtBackRow.Text = back;
+            lblMissing.InnerHtml = missing;
+            txtMissing.Text = missing;
+
+            // get ad size
+            sqlString = "SELECT adSize FROM mainrecords WHERE sponsorName=@sponsor";
+            dbCommand = new MySqlCommand(sqlString, dbConnect);
+            dbCommand.Prepare();
+            dbCommand.Parameters.AddWithValue("@sponsor", ((WebLogin)Session["login"]).access);
+            dbReader = dbCommand.ExecuteReader();
+
+            while (dbReader.Read()) {
+                lblSize.InnerHtml = dbReader["adSize"].ToString();
+            }
+            dbReader.Close();
+            
+        } finally {
+            dbConnect.Close();
         }
     }
+    
+    protected void sendInvoice() {
 
-    private void hideEdit() {
+        // variable for later
+        string sendemail = null;
+        bool paid = false;
+        
+        try {
 
-        // display labels
-        lblBusName.Visible = true;
-        lblBusAddress.Visible = true;
-        lblPhone.Visible = true;
-        lblEmail.Visible = true;
-        divSize.Visible = true;
+            // get connection to the database
+            dbConnect = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+            dbConnect.Open();
 
-        lblFrontRow.Visible = true;
-        lblMiddleRow.Visible = true;
-        lblBackRow.Visible = true;
-        lblMissing.Visible = true;
+            // first thing - did they pay already?
+            sqlString = "SELECT paid FROM mainrecords WHERE sponsorName=@sponsor";
+            dbCommand = new MySqlCommand(sqlString, dbConnect);
+            dbCommand.Prepare();
+            dbCommand.Parameters.AddWithValue("@sponsor", ((WebLogin)Session["login"]).access);
+            dbReader = dbCommand.ExecuteReader();
 
-        // display and enable approve, edit and deny buttons
-        divButtons.Visible = true;
+            // grab the info
+            while (dbReader.Read()) {
+                if (dbReader["sponsorEmail"] == null) {
+                    paid = false;
+                } else if (dbReader["sponsorEmail"].ToString() != "no") {
+                    paid = true;
+                }
+            }
+            dbReader.Close();
 
-        // hide and disable elements 
-        txtBusName.Visible = false;
-        txtBusAddress.Visible = false;
-        txtPhone.Visible = false;
-        txtEmail.Visible = false;
-        divSize.Visible = false;
+            // if they paid, we're not sending an invoice
+            if (!paid) {
 
-        txtFrontRow.Visible = false;
-        txtMiddleRow.Visible = false;
-        txtBackRow.Visible = false;
-        txtMissing.Visible = false;
+                // get the email
+                sqlString = "SELECT sponsorEmail FROM mainrecords WHERE sponsorName=@sponsor";
+                dbCommand.CommandText = sqlString;
+                dbCommand.Prepare();
+                dbCommand.Parameters.AddWithValue("@sponsor", ((WebLogin)Session["login"]).access);
+                dbReader = dbCommand.ExecuteReader();
 
-        // hide and disable apply button
-        divApply.Visible = false;
+                // grab the info
+                while (dbReader.Read()) {
+                    if (dbReader["sponsorEmail"] != null) {
+                        sendemail = dbReader["sponsorEmail"].ToString();
+                    } else {
+                        sendemail = null;
+                    }
+                }
+                dbReader.Close();
 
-    }
+                // check to see if an email address was posted in the contact form
+                if (sendemail == null) {
 
-    private void showEdit() {
+                    // try the addata table
+                    sqlString = "SELECT sponsorEmail FROM addata WHERE sponsorName=@sponsor";
+                    dbCommand.CommandText = sqlString;
+                    dbCommand.Prepare();
+                    dbCommand.Parameters.AddWithValue("@sponsor", ((WebLogin)Session["login"]).access);
+                    dbReader = dbCommand.ExecuteReader();
 
-        // hide and disable labels
-        lblBusName.Visible = false;
-        lblBusAddress.Visible = false;
-        lblPhone.Visible = false;
-        lblEmail.Visible = false;
-        divSize.Visible = false;
+                    // grab the info
+                    while (dbReader.Read()) {
+                        if (dbReader["sponsorEmail"] != null) {
+                            sendemail = dbReader["sponsorEmail"].ToString();
+                        } else {
+                            sendemail = null;
+                        }
+                    }
+                    dbReader.Close();
+                }
 
-        lblFrontRow.Visible = false;
-        lblMiddleRow.Visible = false;
-        lblBackRow.Visible = false;
-        lblMissing.Visible = false;
+            } // paid check
 
-        // hide approve, edit and deny buttons
-        divButtons.Visible = false;
+        } finally {
+            dbConnect.Close();
+        }
 
-        // display and enable elements 
-        txtBusName.Visible = true;
-        txtBusAddress.Visible = true;
-        txtPhone.Visible = true;
-        txtEmail.Visible = true;
+        if (!paid) {
+            // is there an email to send to?
+            if (sendemail != null) {
 
-        txtFrontRow.Visible = true;
-        txtMiddleRow.Visible = true;
-        txtBackRow.Visible = true;
-        txtMissing.Visible = true;
+                // Note: Server.MapPath refers to the location on the server where the invoice file is located. Must be accurate
+                Attachment invoiceAttachment = new Attachment(Server.MapPath("~/invoice.docx"));
 
-        // display and enable apply button
-        divApply.Visible = true;
+                string message = "This is an automated message from The Rotary Club of Truro. A payment invoice regarding your ad has been attached to this message. Please review it and arrange payment at your convenience. If you have any questions please contact the Rotary Club directly, as this account is not monitored for replies";
 
-        // place label info in textbox - should be safe since we sanitize any input from the user
-        txtBusName.Text = lblBusName.InnerText;
-        txtBusAddress.Text = lblBusAddress.InnerText;
-        txtPhone.Text = lblPhone.InnerText;
-        txtEmail.Text = lblEmail.InnerText;
+                //MailMessage o = new MailMessage("From", "To","Subject", "Body");
+                MailMessage letter = new MailMessage("rotariansample@hotmail.com", sendemail, "Rotary Club of Truro Yearbook Ad Invoice", message);
+                // Attaches the invoice attachment file to the email message
+                letter.Attachments.Add(invoiceAttachment);
+                //NetworkCredential netCred= new NetworkCredential("Sender Email","Sender Password");
+                NetworkCredential netCred = new NetworkCredential("rotariansample@hotmail.com", "It$tudents");
+                SmtpClient smtpobj = new SmtpClient("smtp.live.com", 587);
+                smtpobj.EnableSsl = true;
+                smtpobj.Credentials = netCred;
+                smtpobj.Send(letter);
 
-        txtFrontRow.Text = lblFrontRow.InnerText;
-        txtMiddleRow.Text = lblMiddleRow.InnerText;
-        txtBackRow.Text = lblBackRow.InnerText;
-        txtMissing.Text = lblMissing.InnerText;
+                // feedback of message sent
+                lblApprovedFeed.InnerHtml = "An automated invoice has been sent to the email address that's assigned to this account.";
 
+            } else {
+                // feedback of no email assigned to account
+                lblApprovedFeed.InnerHtml = "We were unable to find an email attached to this account to send an invoice to. To ensure that your ad gets placed, please contact The Rotary Club of Truro for payment options.";
+
+            } // email check
+
+        } // paid check again
     }
 
     // ---------------------------------------------------------------- event handlers
 
-    private void btnEdit_Click(object sender, EventArgs e) {
-
-        // switch to edit mode
-        showEdit();
-
-    }
-
-    private void btnApply_Click(object sender, EventArgs e) {
-
-        /*
-        bool good = true;
-
-        // regex check
-        if (!regexBusName.IsMatch(txtBusName.Text)) { good = false; }
-        if (!regexAddress.IsMatch(txtBusAddress.Text)) { good = false; }
-        if (!regexPhone.IsMatch(txtPhone.Text)) { good = false; }
-        if (!validEmail(txtEmail.Text)) { good = false; }
-        if (!regexName.IsMatch(txtFrontRow.Text)) { good = false; }
-        if (!regexName.IsMatch(txtMiddleRow.Text)) { good = false; }
-        if (!regexName.IsMatch(txtBackRow.Text)) { good = false; }
-        if (!regexName.IsMatch(txtMissing.Text)) { good = false; }
-        
-        if (good) {
-            // update and display all labels with the new text
-            lblBusName.InnerText = txtBusName.Text;
-            lblBusAddress.InnerText = txtBusAddress.Text;
-            lblPhone.InnerText = txtPhone.Text;
-            lblEmail.InnerText = txtEmail.Text;
-
-            lblFrontRow.InnerText = txtFrontRow.Text;
-            lblMiddleRow.InnerText = txtMiddleRow.Text;
-            lblBackRow.InnerText = txtBackRow.Text;
-            lblMissing.InnerText = txtMissing.Text;
-
-            // back to approval mode
-            hideEdit();
-        } else {
-            // regex check failed
-
-        }
-        */
-        // WARNING - NOT SANITIZED
-        // update and display all labels with the new text
-        lblBusName.InnerText = txtBusName.Text;
-        lblBusAddress.InnerText = txtBusAddress.Text;
-        lblPhone.InnerText = txtPhone.Text;
-        lblEmail.InnerText = txtEmail.Text;
-
-        lblFrontRow.InnerText = txtFrontRow.Text;
-        lblMiddleRow.InnerText = txtMiddleRow.Text;
-        lblBackRow.InnerText = txtBackRow.Text;
-        lblMissing.InnerText = txtMissing.Text;
-
-        // back to approval mode
-        hideEdit();
-
+    private void logout(object sender, EventArgs e) {
+        login = null;
+        Session["login"] = null;
+        Response.Redirect("index.aspx");
     }
 
     private void btnApprove_Click(object sender, EventArgs e) {
@@ -209,6 +261,32 @@ public partial class new_sponsor : System.Web.UI.Page {
         divApprove.Visible = true;
 
         // send data off
+        if (!bug) {
+
+            // prevent from firing twice
+            bug = true;
+
+            // send data off
+            try {
+
+                // get connection to the database
+                dbConnect = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+                dbConnect.Open();
+
+                // send data off
+                sqlString = "UPDATE addata SET approved='yes' WHERE sponsorName=@sponsor";
+                dbCommand = new MySqlCommand(sqlString, dbConnect);
+                dbCommand.Prepare();
+                dbCommand.Parameters.AddWithValue("@sponsor", ((WebLogin)Session["login"]).access);
+                dbCommand.ExecuteNonQuery();
+
+            } finally {
+                dbConnect.Close();
+            }
+        } else {
+            // stupid bug
+            bug = false;
+        }
 
     }
 
@@ -220,7 +298,33 @@ public partial class new_sponsor : System.Web.UI.Page {
         // show confirmation of denial
         divDenied.Visible = true;
 
-        // send data off
+        // validation in textbox
+        if ((regexText.IsMatch(txtDecline.Value)) && (!bug)) {
 
+            // prevent from firing twice
+            bug = true;
+
+            // send data off
+            try {
+
+                // get connection to the database
+                dbConnect = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+                dbConnect.Open();
+
+                // send data off
+                sqlString = "UPDATE addata SET approved='no',adnotes=@notes WHERE sponsorName=@sponsor";
+                dbCommand = new MySqlCommand(sqlString, dbConnect);
+                dbCommand.Prepare();
+                dbCommand.Parameters.AddWithValue("@sponsor", ((WebLogin)Session["login"]).access);
+                dbCommand.Parameters.AddWithValue("@notes", txtDecline.Value);
+                dbCommand.ExecuteNonQuery();
+
+            } finally {
+                dbConnect.Close();
+            }
+        } else {
+            // stupid bug
+            bug = false;
+        }
     }
 }
