@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 30, 2017 at 02:09 PM
+-- Generation Time: Apr 01, 2017 at 07:35 PM
 -- Server version: 5.7.17-log
 -- PHP Version: 7.1.2
 
@@ -36,6 +36,7 @@ CREATE TABLE `addata` (
   `captionFront` text,
   `captionMiddle` text,
   `captionBack` text,
+  `captionMissing` text,
   `image` varchar(50) DEFAULT NULL,
   `adNotes` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -44,16 +45,16 @@ CREATE TABLE `addata` (
 -- Dumping data for table `addata`
 --
 
-INSERT INTO `addata` (`id`, `approved`, `sponsorName`, `captionAddress`, `captionPhone`, `captionEmail`, `captionFront`, `captionMiddle`, `captionBack`, `image`, `adNotes`) VALUES
-(1, 'no', 'Coffee Express', NULL, NULL, NULL, 'It\'s coffee!!', NULL, NULL, 'coffee1.jpg', 'Beans do not fill the screen'),
-(2, 'yes', 'Sheepdog Inc.', NULL, NULL, NULL, NULL, 'Ralph', NULL, 'sheepdog.jpg', NULL),
-(3, NULL, 'Matt\'s Bistro', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(4, NULL, 'Patches and Stitches', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(5, NULL, 'Cryptic Studios', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(6, 'yes', 'Beefy\'s Burgers', NULL, NULL, NULL, NULL, NULL, 'Burger burger', 'burger.jpg', NULL),
-(7, NULL, 'The Sandwich Master', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(8, NULL, 'Gas and Pass', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(9, 'no', 'Hugh Bigshot', NULL, NULL, NULL, 'Hugh Bigshot', NULL, NULL, 'bigshot.png', 'Looking for black-and-white photo.');
+INSERT INTO `addata` (`id`, `approved`, `sponsorName`, `captionAddress`, `captionPhone`, `captionEmail`, `captionFront`, `captionMiddle`, `captionBack`, `captionMissing`, `image`, `adNotes`) VALUES
+(1, 'no', 'Coffee Express', NULL, NULL, NULL, 'It\'s coffee!!', NULL, NULL, NULL, 'coffee1.jpg', 'Beans do not fill the screen'),
+(2, 'yes', 'Sheepdog Inc.', NULL, NULL, NULL, NULL, 'Ralph', NULL, NULL, 'sheepdog.jpg', NULL),
+(3, NULL, 'Matt\'s Bistro', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(4, NULL, 'Patches and Stitches', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(5, NULL, 'Cryptic Studios', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(6, NULL, 'Beefy\'s Burgers', NULL, NULL, NULL, NULL, NULL, 'Burger burger', NULL, 'burger.jpg', NULL),
+(7, NULL, 'The Sandwich Master', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(8, NULL, 'Gas and Pass', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(9, NULL, 'Hugh Bigshot', NULL, NULL, NULL, 'Hugh Bigshot', NULL, NULL, NULL, 'bigshot.png', NULL);
 
 -- --------------------------------------------------------
 
@@ -64,7 +65,7 @@ INSERT INTO `addata` (`id`, `approved`, `sponsorName`, `captionAddress`, `captio
 CREATE TABLE `adprices` (
   `sixth` int(11) NOT NULL DEFAULT '0',
   `third` int(11) NOT NULL DEFAULT '0',
-  `half` int(11) NOT NULL DEFAULT '0',
+  `twothirds` int(11) NOT NULL DEFAULT '0',
   `full` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -72,7 +73,7 @@ CREATE TABLE `adprices` (
 -- Dumping data for table `adprices`
 --
 
-INSERT INTO `adprices` (`sixth`, `third`, `half`, `full`) VALUES
+INSERT INTO `adprices` (`sixth`, `third`, `twothirds`, `full`) VALUES
 (415, 690, 1150, 1725);
 
 -- --------------------------------------------------------
