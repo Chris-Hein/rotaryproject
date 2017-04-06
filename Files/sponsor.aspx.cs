@@ -12,6 +12,7 @@ public partial class new_sponsor : System.Web.UI.Page {
     private MySqlDataReader dbReader;
     private string sqlString;
     private WebLogin login = null;
+    private string dbString = "Database='rehberga_php';Data Source='mysql.nscctruro.ca';User Id='rehberga_nsccweb';Password='Normandy2492*'";
 
     // regex variable - sanitizing input
     private Regex regexText;
@@ -65,7 +66,7 @@ public partial class new_sponsor : System.Web.UI.Page {
         try {
 
             // get connection to the database
-            dbConnect = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+            dbConnect = new MySqlConnection(dbString);
             dbConnect.Open();
 
             // get all the data!
@@ -145,7 +146,7 @@ public partial class new_sponsor : System.Web.UI.Page {
         try {
 
             // get connection to the database
-            dbConnect = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+            dbConnect = new MySqlConnection(dbString);
             dbConnect.Open();
 
             // first thing - did they pay already?
@@ -279,6 +280,9 @@ public partial class new_sponsor : System.Web.UI.Page {
                 dbCommand.Prepare();
                 dbCommand.Parameters.AddWithValue("@sponsor", ((WebLogin)Session["login"]).access);
                 dbCommand.ExecuteNonQuery();
+
+                // invoice check
+                sendInvoice();
 
             } finally {
                 dbConnect.Close();

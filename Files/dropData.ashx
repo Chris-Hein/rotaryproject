@@ -1,16 +1,13 @@
-﻿<%@ WebHandler Language="C#" Class="soldrop" %>
+﻿<%@ WebHandler Language="C#" Class="dropData" %>
 
-using System;
 using System.Web;
 using System.IO;
-using System.Data;
 using MySql.Data.MySqlClient;
-using System.Collections.Generic;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
 using System.Web.SessionState;
 
-public class soldrop : IHttpHandler {
+public class dropData : IHttpHandler {
 
     // declaring variables to hold my database connectivity objects
     private MySqlConnection dbConnect;

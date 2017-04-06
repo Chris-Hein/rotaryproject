@@ -4,12 +4,12 @@ using System.Windows.Forms;
 public partial class new_index : System.Web.UI.Page {
 
     private WebLogin login;
+    //private string dbString = "Database='rehberga_php';Data Source='mysql.nscctruro.ca';User Id='rehberga_nsccweb';Password='Normandy2492*'";
 
     // ---------------------------------------------------------------- initial startup
 
     protected override void OnInit(EventArgs e) {
-        Load += new EventHandler(Page_Load);
-        //base.OnInit(e);
+        Load += new EventHandler(Page_Load);        
     }
 
     protected void Page_Load(object sender, EventArgs e) {
@@ -25,7 +25,7 @@ public partial class new_index : System.Web.UI.Page {
 
         } else {
             // build object and then save in session
-            login = new WebLogin("rotaryyearbook", "useraccount", "userpassword", "login");
+            login = new WebLogin("rehberga_php", "rehberga_nsccweb", "Normandy2492*", "login");
             Session["login"] = login;
         }
 
@@ -77,10 +77,6 @@ public partial class new_index : System.Web.UI.Page {
         } else {
             // display error
             lblFeedback.InnerHtml = "Incorrect login, please try again...";
-            //Console.Write(txtUsername.Value);
-            //Console.Write(txtPassword.Value);
-            // attempt counter
-
         }
     }
 

@@ -17,6 +17,7 @@ public partial class new_solicitor : System.Web.UI.Page {
     private MySqlDataAdapter dbAdapter;
     private DataSet dbDataSet;
     private WebLogin login = null;
+    private string dbString = "Database='rehberga_php';Data Source='mysql.nscctruro.ca';User Id='rehberga_nsccweb';Password='Normandy2492*'";
 
     // prices
     private int sixthPagePrice;
@@ -49,7 +50,8 @@ public partial class new_solicitor : System.Web.UI.Page {
         // set event listeners
         btnAgreed.Click += new EventHandler(onClick);
         btnPending.Click += new EventHandler(onClick);
-        btnDeclined.Click += new EventHandler(onClick);
+        btnDecline.Click += new EventHandler(onClick);
+        btnLogout.Click += new EventHandler(logout);
 
         // first load
         if (!Page.IsPostBack) {
@@ -72,7 +74,7 @@ public partial class new_solicitor : System.Web.UI.Page {
     
     protected void populateSponsors() {
         try {
-            dbConnect = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+            dbConnect = new MySqlConnection(dbString);
             dbConnect.Open();
             //sqlString = "SELECT sponsorName FROM mainrecords WHERE id > 0"; // pull everyone
             sqlString = "SELECT sponsorName FROM mainrecords WHERE orderStatus='needs visit' OR orderStatus='pending'"; // pull everyone who needs a visit
@@ -95,7 +97,7 @@ public partial class new_solicitor : System.Web.UI.Page {
     private void getPrices() {
         try {
             // get connection to the database
-            dbConnect = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+            dbConnect = new MySqlConnection(dbString);
             dbConnect.Open();
 
             // get all the data!
@@ -123,6 +125,12 @@ public partial class new_solicitor : System.Web.UI.Page {
     }
 
     // ---------------------------------------------------------------- event handlers
+
+    private void logout(object sender, EventArgs e) {
+        login = null;
+        Session["login"] = null;
+        Response.Redirect("index.aspx");
+    }
 
     private void onClick(object sender, EventArgs e) {
 
@@ -168,7 +176,7 @@ public partial class new_solicitor : System.Web.UI.Page {
             bool fail = false;
             try {
                 // connect to database
-                dbConnect = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+                dbConnect = new MySqlConnection(dbString);
                 dbConnect.Open();
 
                 // construct command object, write the SQL to use with the database and do appropriate parameterized queries

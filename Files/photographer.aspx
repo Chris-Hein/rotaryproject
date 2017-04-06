@@ -1,93 +1,128 @@
-<%@ Page Language="C#" MasterPageFile="MasterPage.master" AutoEventWireup="true" CodeFile="photographer.aspx.cs" Inherits="new_photographer" %>
+﻿<%@ Page Language="C#" MasterPageFile="MasterPage.master" debug="true" AutoEventWireup="true" CodeFile="photographer.aspx.cs" Inherits="new_photographer" %>
 
 <asp:Content ID="headCon" ContentPlaceHolderID="headBox" Runat="Server">
     
 </asp:Content>
-<asp:Content ID="bodyCon" ContentPlaceHolderID="bodyBox" Runat="Server">         
-    <!-- Sponsor information -->
-    <section class="content-block">
+<asp:Content ID="bodyCon" ContentPlaceHolderID="bodyBox" Runat="Server"> 
+        
+    <form runat="server">
+
         <div class="container">
 
-            <!--========================= SEARCH BAR =============================-->   
-            <div class="row">
-                 <form class="navbar-form" role="search" runat="server">
-                    <div class="input-group add-on">                       
-                        <asp:DropDownList id="drpSponsorList" runat="server" class="form-control"/>
-                        <div class="input-group-btn">
-                            <button id="btnSearch" class="btn btn-default" type="submit" runat="server"><i class="glyphicon glyphicon-search"></i></button>
-                            <!-- =======================RADIO BUTTONS========================-->
-                            <div class="btn-group" data-toggle="buttons">
-                                <label class="btn btn-danger active">
-                                    <input type="radio" name="showall" id="pending" autocomplete="off" runat="server" checked> Show All
-                                </label>
-                                <label class="btn btn-danger">
-                                    <input type="radio" name="pending" id="edit" runat="server" autocomplete="off"> Pending
-                                </label>
-                                <label class="btn btn-danger">
-                                    <input type="radio" name="complete" id="complete" runat="server" autocomplete="off"> Complete
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div><!-- END SEARCH BAR -->
+            <h1 class="tablet-cell-center">Welcome, Photographer!</h1>
+            <hr />
 
             <div class="row">
-                <div class="col-md-4">
-                    <h3>Sponsor Info:</h3>
+                <div class="col-sm-3 btn-group" data-toggle="buttons">
+                    <label class="btn btn-danger active">
+                        <input type="radio" name="showall" id="rdoShowall" checked ClientIDMode="Static" runat="server"> Show All
+                    </label>
+                    <label class="btn btn-danger">
+                        <input type="radio" name="pending" id="rdoPending" ClientIDMode="Static" runat="server"> Pending
+                    </label>
+                    <label class="btn btn-danger">
+                        <input type="radio" name="complete" id="rdoComplete" ClientIDMode="Static" runat="server"> Complete
+                    </label>
                 </div>
-                <!--
-                <div class="col-md-8">
-                    <label for="textArea">Message</label>
-                </div> 
-                -->
+                <div class="col-sm-5">
+                    <asp:DropDownList id="sponsorList" width="400" class="form-control" ClientIDMode="Static" runat="server"/>
+                </div>
+                <div class="col-sm-4">
+                    <asp:Button id="btnLogout" text="Logout" class="btn btn-danger pull-right" ClientIDMode="Static" runat="server"/>
+                </div>
+            </div> <!-- top bar -->
+
+            <hr />
+
+            <div class="row col-sm-12">
+                <h3 id="lblSponsor" ClientIDMode="Static" runat="server">Sponsor Info:</h3>
             </div>
 
             <div class="row">
                 <div class="col-md-4">
                     <div class="editContent" id="editContent">
                         <p id="content">
-                            <b>Contact Name: </b> <span id="lblName" runat="server">John Smith</span><br />
-                            <b>Business Name: </b> <span id="lblBus" runat="server">Business of business</span><br />
-                            <b>Email: </b> <span id="lblEmail" runat="server">johnsmith@email.com</span><br />
-                            <b>Business address: </b><span id="lblAddress" runat="server">123 Fake Street</span><br/>
-                            <b>Phone: </b><span id="lblPhone" runat="server">902-555-1234</span><br/>
+                            <b>Contact: </b><span id="lblContact" ClientIDMode="Static" runat="server">John Smith</span><br />
+                            <b>Address: </b><span id="lblAddress" ClientIDMode="Static" runat="server">123 Fake Street</span><br/>
+                            <b>Phone: </b><span id="lblPhone" ClientIDMode="Static" runat="server">902-555-1234</span><br/>
+                            <b>Email: </b><span id="lblEmail" ClientIDMode="Static" runat="server">johnsmith@email.com</span><br />
+                            <b>Notes: </b><span id="lblNotes" ClientIDMode="Static" runat="server">Notes</span><br/>
                         </p>
-                    </div>                    
+                    </div>
                 </div>
 
                 <div class="col-md-8">
-                    <!-- MESSAGE BOX -->
-                    <form role="form">                           
-                        <div class="form-group">
-                            <textarea class="form-control" rows="3" id="txtMessage" placeholder="Email Message. . . "></textarea>                                
-                        </div>
-                        <input id="btnSend" type="image" src="images/sendemail.svg" alt="Send Email" ClientIDMode="Static" runat="server" value="Send Email"/>                        
-                    </form>
+                    <div class="form-group">
+                        <textarea class="form-control" rows="3" id="txtMessage" placeholder="Write email message to the selected client here..."></textarea>
+                    </div>
+                    <label id="lblFeedback" class="center" ClientIDMode="static" runat="server"></label>
+                    <asp:Button id="btnSend" text="Send Email" class="btn btn-danger pull-right" ClientIDMode="Static" runat="server"/>
                 </div>
 
             </div><!-- // row -->
-        </div><!-- // container -->
-
-        <br />
+        </div><!-- // top container --> 
 
         <div class="container">
-            <div class="row">                
-                <div class="col-sm-10 col-sm-offset-1" style="text-align: center;">
-                    <!-- pulling a static image for now -->
-                    <img src="images/placeholder.png" class="img-responsive" id="imgView" runat="server" />
-                    <br />   
-                    <p id="imgContent">
-                        <b>Front Row: </b> Name Name Name Name Name Name<br />
-                        <b>Second Row: </b> Name Name Name Name Name Name<br />
-                        <b>Back Row: </b> Name Name Name Name Name Name<br />
-                        <b>Missing: </b> Name Name Name Name Name Name<br />
-                    </p>
-                </div>
-            </div>
+            <hr />
         </div>
-    </section>
-    <!--// END Sponsor information -->
-    <script src="resources/photographer.js" type="text/javascript"></script>
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-sm-5" style="text-align: center;">
+                    <!-- pulling a static image for now -->
+                    <img src="images/placeholder.png" class="img-responsive" id="imgView" ClientIDMode="static" runat="server" />
+                    
+                </div>
+
+                <div class="col-sm-7">
+                    <div class="row">
+
+                        <table style="margin:auto;">
+                            <tr>
+                                <td><b>Image File to Upload (this can be blank if you are just updating the fields below): </b></td>
+                                <td>&nbsp;&nbsp;</td>
+                                <td><input id="fileUpload" type="file" ClientIDMode="static" runat="server" /></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <table style="margin:auto;">
+                            <tr>
+                                <td><b>People in the Front Row: </b></td>
+                                <td>&nbsp;&nbsp;</td>
+                                <td><input id="txtFrontRow" type="text" size="75" maxlength="400" ClientIDMode="static" runat="server" /></td>
+                            </tr>
+                            <tr>
+                                <td><b>People in the Middle Row: </b></td>
+                                <td>&nbsp;&nbsp;</td>
+                                <td><input id="txtMiddleRow" type="text" size="75" maxlength="400" ClientIDMode="static" runat="server" /></td>
+                            </tr>
+                            <tr>
+                                <td><b>People in the Back Row: </b></td>
+                                <td>&nbsp;&nbsp;</td>
+                                <td><input id="txtBackRow" type="text" size="75" maxlength="400" ClientIDMode="static" runat="server" /></td>
+                            </tr>
+                            <tr>
+                                <td><b>People who are missing: </b></td>
+                                <td>&nbsp;&nbsp;</td>
+                                <td><input id="txtMissing" type="text" size="75" maxlength="400" ClientIDMode="static" runat="server" /></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <br />
+                    <div class="row center">
+                        <asp:Button id="btnSubmit" text="Submit database entry" class="btn btn-danger" ClientIDMode="Static" runat="server"/>
+                    </div>
+                </div> <!-- /column -->
+
+            </div> <!-- /outer row -->
+
+        </div> <!-- /end container -->
+    </form>
+
+    <script src="resources/photo.js" type="text/javascript"></script>
 
 </asp:Content>

@@ -18,6 +18,7 @@ public class spon : IHttpHandler, IRequiresSessionState {
     private MySqlCommand dbCommand;
     private MySqlDataReader dbReader;
     private WebLogin login = null;
+    private string dbString = "Database='rehberga_php';Data Source='mysql.nscctruro.ca';User Id='rehberga_nsccweb';Password='Normandy2492*'";
 
     internal class ResponseData {
         public bool success { get; set; }
@@ -56,7 +57,7 @@ public class spon : IHttpHandler, IRequiresSessionState {
 
             try {
                 // connect to database
-                dbConnect = new MySqlConnection("Database=rotaryyearbook;Data Source=localhost;User Id=useraccount;Password=userpassword");
+                dbConnect = new MySqlConnection(dbString);
                 dbConnect.Open();
 
                 // construct command object, write the SQL to use with the database and do appropriate parameterized queries

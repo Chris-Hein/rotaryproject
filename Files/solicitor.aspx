@@ -7,27 +7,30 @@
 <asp:Content ID="bodyCon" ContentPlaceHolderID="bodyBox" Runat="Server">
 
     <form runat="server">
+
         <div class="container">
+
             <!-- Welcome message -->
             <div class="row">
                 <h1 class="tablet-cell-center">Welcome, Rotarian!</h1>
+            </div>
+            <div class="row">
                 <hr />
             </div>
-        </div> <!-- /container -->
-
-        <!-- Solicitor
-            Needs a place to confirm visit and enter details. -->
-
-        <div class="container"> <!-- dropdown and feedback bar -->
             <div class="row tablet-cell-center">
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                     <span style="font-size:16px;">Select the Sponsor to view: </span><asp:DropDownList id="sponsorList" ClientIDMode="static" runat="server"/>
                 </div>
-                <div class="col-sm-6">
-                    <label id="lblFeedback" class="pull-right" ClientIDMode="static" runat="server"></label>
+                <div class="col-sm-5">
+                    <label id="lblFeedback" class="center" ClientIDMode="static" runat="server"></label>
                 </div>
-                <hr />
+                <div class="col-sm-2">
+                    <asp:Button id="btnLogout" text="Logout" class="btn btn-danger pull-right" ClientIDMode="Static" runat="server"/>
+                </div>
             </div> <!-- /row -->
+            <div class="row">
+                <hr />
+            </div>
         </div> <!-- /container -->
     
         <div id="sponsorInfo" class="container">
@@ -162,7 +165,7 @@
                     <br />
                     <div class="row">
                         <div class="col-sm-12 center">
-                            <asp:Button id="btnDeclined" text="Declined" class="btn btn-danger" ClientIDMode="Static" runat="server"/>
+                            <asp:Button id="btnDecline" text="Declined" class="btn btn-danger" ClientIDMode="Static" runat="server"/>
                         </div>
                     </div>
                 </div> <!-- /declined -->
