@@ -2,7 +2,7 @@
     "use strict";
 	
     // retrieve data
-    var dropScript = "soldrop.ashx";
+    var dropData = "dropData.ashx"; // this script gets data from a selection in a dropdown menu
     var script = "sol.ashx"
     // XMLHttpRequest object
     var xmlhttp = null;
@@ -39,7 +39,7 @@
         // send string to the server handler
 		xmlhttp = new XMLHttpRequest();
 		xmlhttp.addEventListener("readystatechange", onResponse);
-		xmlhttp.open("POST", dropScript, true);
+		xmlhttp.open("POST", dropData, true);
         // tell the server what you're doing
 		xmlhttp.setRequestHeader("Content-type", "application/json");
         // send it

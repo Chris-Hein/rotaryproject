@@ -14,6 +14,10 @@ body {
 	text-align:center;
 }
 
+.container {
+	padding:0px;
+}
+
 /* most monitors */
 @media (min-width:768px){
 	.tablet-cell-center {
@@ -35,6 +39,16 @@ body {
 
 /* anything above phone size */
 @media (min-width:469px) {
+
+    #loadingOverlay {
+        position:absolute;
+        left:0px;
+        top:75px;
+        right:0px;
+        bottom:0px;
+        display:block;
+    }
+
     .nocell {
         display:;
     }
@@ -48,6 +62,16 @@ body {
 
 /* phone size */
 @media (max-width:468px) {
+
+    #loadingOverlay {
+        position:absolute;
+        left:0px;
+        top:51px;
+        right:0px;
+        bottom:0px;
+        display:block;
+    }
+
     .nocell {
         display:none;
     }
